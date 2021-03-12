@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<railml xmlns="http://www.railml.org/schemas/2016"
+        xmlns:dc="http://purl.org/dc/elements/1.1/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:schemaLocation="http://www.railml.org/schemas/2016 http://www.railml.org/schemas/2016/railML-2.3/schema/railML.xsd" 
+        version="2.3">
+  
+  <metadata>
+    <dc:format>2.3</dc:format>
+    <dc:identifier>1</dc:identifier>
+    <dc:source>railML.org</dc:source>
+    <dc:title xml:lang="en">Simple Example railML 2.4 (infrastructure)</dc:title>
+    <dc:language>en</dc:language>
+    <dc:date>2018-09-17T09:57:00+01:00</dc:date>
+    <dc:creator xml:lang="de">Christian Rahmig</dc:creator>
+    <dc:description>This example file has been coded manually and therefore may not be free of errors.</dc:description>
+    <dc:rights>Copyright (c) railML.org, Dresden, Germany. All Rights Reserved.
+      For more information, visit https://www.railml.org/en/user/licence.html.
+      Content of this file: railML 2.3 Simple Example</dc:rights>
+    <organizationalUnits>
+      <infrastructureManager id="ima01" code="SZDC"/>
+    </organizationalUnits>
+  </metadata>
+  
+  <infrastructure id="inf01">  
+    <tracks>
+      <track id="tr01" name="track a02" type="secondaryTrack" mainDir="none">
+        <trackTopology>
+          <trackBegin pos="0" id="tr01_tb">
+            <bufferStop id="tr01_bs01"/>
+          </trackBegin>
+          <trackEnd pos="500" id="tr01_te">
+            <connection ref="tr03_c03" id="tr01_c01"/>
+          </trackEnd>
+          <crossSections>
+            <crossSection id="tr01_cs01" name="Gleis 1" xml:lang="de" ocpRef="ocp02" 
+                          pos="300.0" absPos="300.0" type="station"/>
+          </crossSections>
+        </trackTopology>
+        <trackElements>
+          <platformEdges>
+            <platformEdge id="tr01_pe01" name="Gleis 2" xml:lang="de"
+                          pos="200" dir="up" absPos="200" side="left"
+                          height="550" length="200"/>
+          </platformEdges>
+        </trackElements>
+        <ocsElements>
+          <signals>
+            <signal id="tr01_si01" code="68N1"
+                    pos="450" absPos="450" dir="up"
+                    function="exit" type="main" ocpStationRef="ocp02">
+              <etcs switchable="false" level_2="true"/>
+            </signal>
+          </signals>
+          <trainDetectionElements>
+            <trainDetector id="tr01_td01" pos="475" absPos="475" 
+                           axleCounting="true" directionDetection="true" medium="inductive"/>
+          </trainDetectionElements>
+        </ocsElements>
+      </track>
+      <track id="tr02" name="track a01" type="mainTrack" mainDir="none">
+        <trackTopology>
+          <trackBegin pos="0" id="tr02_tb">
+            <bufferStop id="tr02_bs01"/>
+          </trackBegin>
+          <trackEnd pos="500" id="tr02_te">
+            <connection ref="tr03_c01" id="tr02_c01"/>
+          </trackEnd>
+          <crossSections>
+            <crossSection id="tr02_cs01" name="Gleis 2" xml:lang="de" ocpRef="ocp02" 
+                          pos="300.0" absPos="300.0" type="station"/>
+          </crossSections>
+        </trackTopology>
+        <trackElements>
+          <platformEdges>
+            <platformEdge id="tr02_pe01" name="Gleis 3" xml:lang="de"
+                          pos="200" dir="up" absPos="200" side="right"
+                          height="550" length="200"/>
+          </platformEdges>
+        </trackElements>
+        <ocsElements>
+          <signals>
+            <signal id="tr02_si01" code="68N2"
+                    pos="450" absPos="450" dir="up"
+                    function="exit" type="main" ocpStationRef="ocp02">
+              <etcs switchable="false" level_2="true"/>
+            </signal>
+          </signals>
+          <trainDetectionElements>
+            <trainDetector id="tr02_td01" pos="475" absPos="475" 
+                           axleCounting="true" directionDetection="true" medium="inductive"/>
+          </trainDetectionElements>
+        </ocsElements>
+      </track>
+      <track id="tr03" name="track a03 x01 b03" type="mainTrack" mainDir="none">
+        <trackTopology>
+          <trackBegin pos="0" id="tr03_tb">
+            <connection ref="tr02_c01" id="tr03_c01"/>
+          </trackBegin>
+          <trackEnd pos="4000" id="tr03_te">
+            <connection ref="tr07_c01" id="tr03_c02"/>
+          </trackEnd>
+          <connections>
+            <switch id="tr03_sw01" pos="0" code="68W02">
+              <connection orientation="incoming" course="right" ref="tr01_c01" id="tr03_c03"/>
+            </switch>
+            <switch id="tr03_sw02" pos="4000" code="69W03">
+              <connection orientation="outgoing" course="right" ref="tr05_c01" id="tr03_c04"/>
+            </switch>
+          </connections>
+        </trackTopology>
+        <trackElements>
+          <speedChanges>
+            <speedChange id="tr03_sc01" pos="100" absPos="600" dir="up" 
+                         vMax="80" signalised="true"/>
+            <speedChange id="tr03_sc02" pos="1900" absPos="2400" dir="up" 
+                         vMax="20" signalised="true"/>
+            <speedChange id="tr03_sc03" pos="2050" absPos="2550" dir="up"
+                         vMax="end" signalised="true"/>
+            <speedChange id="tr03_sc04" pos="3900" absPos="4400" dir="down" 
+                         vMax="80" signalised="true"/>
+          </speedChanges>
+          <levelCrossings>
+            <levelCrossing id="tr03_lc01" protection="barriers" angle="90"
+                           pos="2000" absPos="2500"/>
+          </levelCrossings>
+        </trackElements>
+        <ocsElements>
+          <signals>
+            <signal id="tr03_si01" pos="100" absPos="600" dir="up">
+              <speed kind="execution" trainRelation="headOfTrain" switchable="false">
+                <speedChangeRef ref="tr03_sc01"/>
+              </speed>
+            </signal>
+            <signal id="tr03_si02" pos="200" absPos="700" dir="down"
+                    name="68F" xml:lang="de"
+                    function="home" type="main" ocpStationRef="ocp02">
+              <etcs switchable="false" level_2="true"/>
+            </signal>
+            <signal id="tr03_si03" pos="1500" absPos="2000" dir="up">
+              <speed kind="announcement" switchable="false">
+                <speedChangeRef ref="tr03_sc02"/>
+              </speed>
+            </signal>
+            <signal id="tr03_si04" pos="1900" absPos="2400" dir="up">
+              <speed kind="execution" trainRelation="headOfTrain" switchable="false">
+                <speedChangeRef ref="tr03_sc02"/>
+              </speed>
+            </signal>
+            <signal id="tr03_si05" pos="2050" absPos="2550" dir="up">
+              <speed kind="execution" trainRelation="endOfTrain" switchable="false">
+                <speedChangeRef ref="tr03_sc03"/>
+              </speed>
+            </signal>
+            <signal id="tr03_si06" pos="3100" absPos="3600" dir="up"
+                    name="69Va" xml:lang="de"
+                    function="home" type="distant" ocpStationRef="ocp01"/>
+            <signal id="tr03_si07" pos="3800" absPos="4300" dir="up"
+                    name="69A" xml:lang="de"
+                    function="home" type="combined" ocpStationRef="ocp01">
+              <trainProtectionElementGroupRef ref="tr03_tpeg01"/>
+            </signal>
+            <signal id="tr03_si08" pos="3900" absPos="4400" dir="down">
+              <speed kind="execution" trainRelation="headOfTrain" switchable="false">
+                <speedChangeRef ref="tr03_sc04"/>
+              </speed>
+            </signal>
+          </signals>
+          <trainDetectionElements>
+            <trackCircuitBorder id="tr03_tcb01" pos="3800" absPos="4300" 
+                                insulatedRail="left"/>
+            <trackCircuitBorder id="tr03_tcb02" pos="3950" absPos="4450"
+                                insulatedRail="none"/>
+            <trainDetector id="tr03_td01" pos="25" absPos="525" 
+                           axleCounting="true" directionDetection="true" medium="inductive"/>
+            <trainDetector id="tr03_td02" pos="200" absPos="700" 
+                           axleCounting="true" directionDetection="true" medium="inductive"/>
+            <trainDetector id="tr03_td03" pos="1900" absPos="2400" 
+                           axleCounting="true" directionDetection="true" medium="inductive"/>
+            <trainDetector id="tr03_td04" pos="2050" absPos="2550" 
+                           axleCounting="true" directionDetection="true" medium="inductive"/>
+            <trainDetector id="tr03_td05" pos="3800" absPos="4300" 
+                           axleCounting="true" directionDetection="true" medium="inductive"/>
+          </trainDetectionElements>
+          <trainProtectionElements>
+            <trainProtectionElement id="tr03_tpe01" pos="3800" absPos="4300" dir="up" 
+                                    medium="magnetic" trainProtectionSystem="Indusi"/>
+            <trainProtectionElementGroup id="tr03_tpeg01">
+              <trainProtectionElementRef ref="tr03_tpe01"/>
+            </trainProtectionElementGroup>
+          </trainProtectionElements>
+        </ocsElements>
+      </track>
+      <track id="tr04" name="track b05" type="sidingTrack" mainDir="none">
+        <trackTopology>
+          <trackBegin pos="0" id="tr04_tb">
+            <bufferStop id="tr04_bs01"/>
+          </trackBegin>
+          <trackEnd pos="200" id="tr04_te">
+            <connection ref="tr06_c01" id="tr04_c01"/>
+          </trackEnd>
+        </trackTopology>
+        <ocsElements>
+          <signals>
+            <signal id="tr04_si01" code="69W04Y"
+                    pos="100" absPos="4450" dir="up"
+                    type="shunting" ocpStationRef="ocp01"/>
+          </signals>
+          <trainDetectionElements>
+            <trackCircuitBorder id="tr04_tcb01" pos="150" absPos="4450" 
+                                insulatedRail="left"/>
+          </trainDetectionElements>
+          <derailers>
+            <derailer id="tr04_dr01" pos="150" absPos="4500" dir="up" 
+                      derailSide="right" code="69GS04"/>
+          </derailers>
+        </ocsElements>
+      </track>
+      <track id="tr05" name="track b04" type="secondaryTrack" mainDir="none">
+        <trackTopology>
+          <trackBegin pos="0" id="tr05_tb">
+            <connection ref="tr03_c04" id="tr05_c01"/>
+          </trackBegin>
+          <trackEnd pos="50" id="tr05_te">
+            <connection ref="tr06_c02" id="tr05_c02"/>
+          </trackEnd>
+        </trackTopology>
+        <ocsElements>
+          <trainDetectionElements>
+            <trackCircuitBorder id="tr05_tcb01" pos="25" absPos="4525" 
+                                insulatedRail="none"/>
+          </trainDetectionElements>
+        </ocsElements>
+      </track>
+      <track id="tr06" name="track b02" type="secondaryTrack" mainDir="none">
+        <trackTopology>
+          <trackBegin pos="0" id="tr06_tb">
+            <connection ref="tr04_c01" id="tr06_c01"/>
+          </trackBegin>
+          <trackEnd pos="450" id="tr06_te">
+            <bufferStop id="tr06_bs01"/>
+          </trackEnd>
+          <connections>
+            <switch id="tr06_sw01" pos="0" code="69W04">
+              <connection orientation="incoming" course="left" ref="tr05_c02" id="tr06_c02"/>
+            </switch>
+          </connections>
+          <crossSections>
+            <crossSection id="tr06_cs01" name="Gleis 1" xml:lang="de" ocpRef="ocp01" 
+                          pos="150.0" absPos="4700.0" type="station"/>
+          </crossSections>
+        </trackTopology>
+        <trackElements>
+          <platformEdges>
+            <platformEdge id="tr06_pe01" name="Gleis 1" xml:lang="de"
+                          pos="100" dir="up" absPos="4650" side="right"
+                          height="380" length="250"/>
+          </platformEdges>
+        </trackElements>
+        <ocsElements>
+          <signals>
+            <signal id="tr06_si01" code="69P1"
+                    pos="50" absPos="4600" dir="down"
+                    function="exit" type="main" ocpStationRef="ocp01">
+              <speed switchable="true" kind="execution" trainRelation="headOfTrain"/>
+            </signal>
+          </signals>
+          <trainDetectionElements>
+            <trackCircuitBorder id="tr06_tcb01" pos="25" absPos="4575" 
+                                insulatedRail="none"/>
+          </trainDetectionElements>
+        </ocsElements>
+      </track>
+      <track id="tr07" name="track b01" type="mainTrack" mainDir="none">
+        <trackTopology>
+          <trackBegin pos="0" id="tr07_tb">
+            <connection ref="tr03_c02" id="tr07_c01"/>
+          </trackBegin>
+          <trackEnd pos="500" id="tr07_te">
+            <bufferStop id="tr07_bs01"/>
+          </trackEnd>
+          <crossSections>
+            <crossSection id="tr07_cs01" name="Gleis 2" xml:lang="de" ocpRef="ocp01" 
+                          pos="200.0" absPos="4700.0" type="station"/>
+          </crossSections>
+        </trackTopology>
+        <trackElements>
+          <platformEdges>
+            <platformEdge id="tr07_pe01" name="Gleis 2" xml:lang="de"
+                          pos="150" dir="up" absPos="4650" side="left"
+                          height="550" length="200"/>
+          </platformEdges>
+        </trackElements>
+        <ocsElements>
+          <signals>
+            <signal id="tr07_si01" code="69P2"
+                    pos="100" absPos="4600" dir="down" 
+                    function="exit" type="main" ocpStationRef="ocp01">
+              <speed switchable="true" kind="execution" trainRelation="headOfTrain"/>
+            </signal>
+          </signals>
+          <trainDetectionElements>
+            <trackCircuitBorder id="tr07_tcb01" pos="75" absPos="4575" 
+                                insulatedRail="none"/>
+          </trainDetectionElements>
+        </ocsElements>
+      </track>
+    </tracks>
+    
+    <trackGroups>
+      <line id="li01" code="6869" infrastructureManagerRef="ima01" 
+            lineCategory="other:CE" type="mainLine"
+            name="Simple Example railway line">
+        <additionalName name="Malý příklad železniční tratě" xml:lang="cz"/>
+        <additionalName name="Kleine Beispielstrecke" xml:lang="de"/>
+        <additionalName name="Petit Exemple Ligne Ferroviaire" xml:lang="fr"/>
+        <additionalName name="Små eksempel på jernbanelinjen" xml:lang="no"/>
+        <trackRef ref="tr02" sequence="1"/>
+        <trackRef ref="tr03" sequence="2"/>
+        <trackRef ref="tr07" sequence="3"/>
+      </line>
+    </trackGroups>
+    
+    <operationControlPoints>
+      <ocp id="ocp01" code="CS" name="Bf Cstadt" xml:lang="de" type="operationalName">
+        <additionalName name="Bouzov" xml:lang="cz" type="localName"/>
+        <propOperational ensuresTrainSequence="true" orderChangeable="true" 
+                         operationalType="station" trafficType="passenger"/>
+        <propEquipment>
+          <summary hasHomeSignals="true" hasStarterSignals="true" 
+                   hasSwitches="true" signalBox="mechanical"/>
+        </propEquipment>
+        <geoCoord coord="51.0000 16.0000" epsgCode="urn:ogc:def:crs:EPSG::4326"/>
+        <designator register="RL100" entry="OCS"/>
+      </ocp>
+      <ocp id="ocp02" code="AR" name="Bf Arnau" xml:lang="de" type="operationalName">
+        <additionalName name="Adamov" xml:lang="cz" type="localName"/>
+        <propOperational operationalType="station"/>
+        <propService passenger="true" service="true" goodsSiding="true"/>
+        <propEquipment>
+          <trackRef ref="tr01"/>
+          <trackRef ref="tr02"/>
+        </propEquipment>
+        <geoCoord coord="52.0000 15.0000" epsgCode="urn:ogc:def:crs:EPSG::4326"/>
+        <designator register="RL100" entry="OAR"/>
+      </ocp>
+    </operationControlPoints>
+  </infrastructure>
+        
+</railml>

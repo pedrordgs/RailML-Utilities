@@ -1,0 +1,76 @@
+===============================================================
+ railML Simple Example (Visualization Germany)
+===============================================================
+ updated:   03.09.2018
+ author:    Christian Rahmig (railML.org)
+===============================================================
+
+Changelog for railML Simple Example (Visualization Germany)
+
+---------------------------------------------------------------
+ v11 (03.09.2018)
+---------------------------------------------------------------
+
+ (1) adding positions for platform begin and end in Bf Arnau
+     (km 0.200 to km 0.400)
+ 
+ (2) adding positions for axle counters in Bf Arnau (km 0.475)
+ 
+ (3) moving axle counter at begin of switch 68W02 from
+     km 0.550 to km 0.525
+ 
+ (4) adding missing axle counter at entry signal 68F
+ 
+ (5) adding speed signalling to signals in Bf Cstadt
+     * 69Va
+     * 69A
+     * 69P1
+
+
+---------------------------------------------------------------
+ v10 (11.06.2018)
+---------------------------------------------------------------
+
+ (1) rename switches in Bf Cstadt:
+     * 03 --> 69W03
+     * 04 --> 69W04
+ 
+ (2) name derailer in Bf Cstadt as "69GS04"
+
+
+---------------------------------------------------------------
+ v09 (08.03.2018)
+---------------------------------------------------------------
+
+ (1) adding axle counter before the level crossing at km 2.400
+ 
+ (2) adding axle counter behind the level crossing at km 2.550
+ 
+
+---------------------------------------------------------------
+ v08 (22.01.2018)
+---------------------------------------------------------------
+
+ (1) changing platforms in Bf Arnau:
+     * adding platform numbers
+     * adding old platform "1" (without connection to track)
+
+ (2) adding kilometer values
+     * station building Bf Arnau
+     * station building Bf Cstadt
+
+ (3) adding branching speed at switches
+     * 68W02 in Bf Arnau
+     * 03/04 in Bf Cstadt
+ 
+ (4) adding platform numbers and track numbers in Bf Cstadt
+
+
+---------------------------------------------------------------
+ v07 (23.10.2017)
+---------------------------------------------------------------
+
+ (1) correcting mileage values of operational points
+     * Bf Arnau: km 0,0 --> km 0,3
+     * Bf Cstadt: km 5,0 --> km 4,7
+ 

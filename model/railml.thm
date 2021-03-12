@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<alloy>
+
+<view nodetheme="Martha">
+
+<defaultnode/>
+
+<defaultedge/>
+
+<node>
+   <type name="Element"/>
+   <type name="Int"/>
+   <type name="isDangerSignal"/>
+   <type name="isInformationSignal"/>
+   <type name="isMilePost"/>
+   <type name="isSpeedSignal"/>
+   <type name="Left"/>
+   <type name="Right"/>
+   <type name="String"/>
+   <type name="univ"/>
+   <type name="seq/Int"/>
+   <type name="topology/AB"/>
+   <type name="topology/BA"/>
+   <type name="topology/Both"/>
+   <type name="topology/Macro"/>
+   <type name="topology/Meso"/>
+   <type name="topology/Micro"/>
+   <type name="topology/None"/>
+   <type name="nat/ord/Ord"/>
+   <type name="topology/ordering/Ord"/>
+   <set name="this/isSwitchable" type="SignalIS"/>
+   <set name="$racket_a1" type="topology/NetElement"/>
+   <set name="$racket_a1a20" type="topology/NetRelation"/>
+   <set name="$racket_a1a21" type="topology/NetRelation"/>
+   <set name="$racket_a2" type="topology/NetElement"/>
+   <set name="$racket_a20a21" type="topology/NetRelation"/>
+   <set name="$racket_b" type="BufferStop"/>
+   <set name="$racket_s" type="SignalIS"/>
+   <set name="$racket_w" type="SwitchIS"/>
+   <set name="nat/One" type="nat/Natural"/>
+   <set name="nat/Zero" type="nat/Natural"/>
+</node>
+
+<node numberatoms="no" color="Gray" label="NetRelation">
+   <type name="topology/NetRelation"/>
+</node>
+
+<node numberatoms="no" label="NetElement">
+   <type name="topology/NetElement"/>
+</node>
+
+<node numberatoms="no" shape="Ellipse" color="Red">
+   <type name="SignalIS"/>
+</node>
+
+<node numberatoms="no" shape="Parallelogram" color="Green">
+   <type name="BufferStop"/>
+</node>
+
+<node numberatoms="no" shape="Trapezoid" color="Blue">
+   <type name="SwitchIS"/>
+</node>
+
+<node visible="no">
+   <type name="Branch"/>
+   <type name="Direction"/>
+   <type name="SpotLocation"/>
+   <type name="topology/DescriptionLevel"/>
+   <type name="topology/Level"/>
+</node>
+
+<node visible="no" label="">
+   <type name="nat/Natural"/>
+</node>
+
+<node visible="no" label="Navigability">
+   <type name="topology/Navigability"/>
+</node>
+
+<node visible="no" label="Network">
+   <type name="topology/Network"/>
+</node>
+
+<edge layout="yes">
+   <relation name="$position"> <type name="Element"/> <type name="nat/Natural"/> <type name="topology/NetElement"/> </relation>
+</edge>
+
+<edge visible="no">
+   <relation name="$adjacent"> <type name="Element"/> <type name="nat/Natural"/> <type name="Element"/> </relation>
+   <relation name="$location"> <type name="Element"/> <type name="topology/NetElement"/> </relation>
+   <relation name="$prox"> <type name="Element"/> <type name="Element"/> </relation>
+   <relation name="distance"> <type name="Element"/> <type name="nat/Natural"/> <type name="Element"/> </relation>
+   <relation name="relation"> <type name="topology/NetElement"/> <type name="topology/NetRelation"/> </relation>
+</edge>
+
+<edge visible="no" attribute="yes">
+   <relation name="branchCourse"> <type name="SwitchIS"/> <type name="Direction"/> </relation>
+   <relation name="continueCourse"> <type name="SwitchIS"/> <type name="Direction"/> </relation>
+   <relation name="length"> <type name="topology/NetElement"/> <type name="nat/Natural"/> </relation>
+   <relation name="navigability"> <type name="topology/NetRelation"/> <type name="topology/Navigability"/> </relation>
+   <relation name="pos"> <type name="SpotLocation"/> <type name="nat/Natural"/> </relation>
+   <relation name="positionOnA"> <type name="topology/NetRelation"/> <type name="nat/Natural"/> </relation>
+   <relation name="positionOnB"> <type name="topology/NetRelation"/> <type name="nat/Natural"/> </relation>
+</edge>
+
+</view>
+
+</alloy>
