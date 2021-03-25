@@ -1,7 +1,7 @@
 module topology
 
-/** 
-	RailML topology 
+/**
+	RailML topology
 **/
 
 
@@ -33,7 +33,7 @@ sig NetRelation {
 	positionOnA: lone Positioning,
 	positionOnB: lone Positioning,
 	-- id: one Id
-	
+
 	// Children
 	elementA: one NetElement,
 	elementB: one NetElement
@@ -62,11 +62,11 @@ fun elementOn: NetElement -> Positioning -> NetElement {
 sig Network {
 	// Atributes
 	-- id: one Id
-	
+
 	// Children
 	-- level: some Level
 	-- name: set Name,
-	-- networkResource: set NetElement+NetRelation 
+	-- networkResource: set NetElement+NetRelation
 }
 
 
