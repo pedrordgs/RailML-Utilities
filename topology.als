@@ -25,13 +25,12 @@ fact NetElement {
 	relation = ~(elementA+elementB)
 }
 
-
 // https://wiki3.railml.org/wiki/IS:netRelation
 sig NetRelation {
 	// Atributes
-	navigability: lone Navigability,
-	positionOnA: lone Positioning,
-	positionOnB: lone Positioning,
+	navigability: one Navigability,
+	positionOnA: one Positioning,
+	positionOnB: one Positioning,
 	-- id: one Id
 
 	// Children

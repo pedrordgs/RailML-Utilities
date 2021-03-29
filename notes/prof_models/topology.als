@@ -101,3 +101,6 @@ fact Network {
 	Network.level.descriptionLevel = Micro
 	Network.level.networkResource = NetElement+NetRelation
 }
+
+run{
+} for exactly 4 NetElement, exactly 5 NetRelation, exactly 1 Network, exactly 1 Level, exactly 10 Natural

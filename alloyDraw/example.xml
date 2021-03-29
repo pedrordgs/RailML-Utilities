@@ -1,0 +1,254 @@
+<alloy builddate="2021-02-23T10:54:30.238Z">
+
+<instance bitwidth="4" maxseq="4" mintrace="-1" maxtrace="-1" command="Run run$1 for exactly 4 NetElement, exactly 5 NetRelation, exactly 1 Network, exactly 1 Level, exactly 10 Natural" filename="/home/pbr/railML/notes/prof_models/topology.als" tracelength="1" backloop="0">
+
+<sig label="seq/Int" ID="0" parentID="1" builtin="yes">
+</sig>
+
+<sig label="Int" ID="1" parentID="2" builtin="yes">
+</sig>
+
+<sig label="String" ID="3" parentID="2" builtin="yes">
+</sig>
+
+<sig label="this/NetElement" ID="4" parentID="2" some="yes">
+   <atom label="NetElement$0"/>
+   <atom label="NetElement$1"/>
+   <atom label="NetElement$2"/>
+   <atom label="NetElement$3"/>
+</sig>
+
+<field label="length" ID="5" parentID="4">
+   <tuple> <atom label="NetElement$0"/> <atom label="nat/Natural$9"/> </tuple>
+   <tuple> <atom label="NetElement$1"/> <atom label="nat/Natural$9"/> </tuple>
+   <tuple> <atom label="NetElement$2"/> <atom label="nat/Natural$9"/> </tuple>
+   <tuple> <atom label="NetElement$3"/> <atom label="nat/Natural$8"/> </tuple>
+   <types> <type ID="4"/> <type ID="6"/> </types>
+</field>
+
+<field label="relation" ID="7" parentID="4">
+   <tuple> <atom label="NetElement$0"/> <atom label="NetRelation$3"/> </tuple>
+   <tuple> <atom label="NetElement$0"/> <atom label="NetRelation$4"/> </tuple>
+   <tuple> <atom label="NetElement$1"/> <atom label="NetRelation$2"/> </tuple>
+   <tuple> <atom label="NetElement$2"/> <atom label="NetRelation$0"/> </tuple>
+   <tuple> <atom label="NetElement$2"/> <atom label="NetRelation$1"/> </tuple>
+   <tuple> <atom label="NetElement$2"/> <atom label="NetRelation$2"/> </tuple>
+   <tuple> <atom label="NetElement$2"/> <atom label="NetRelation$4"/> </tuple>
+   <tuple> <atom label="NetElement$3"/> <atom label="NetRelation$0"/> </tuple>
+   <tuple> <atom label="NetElement$3"/> <atom label="NetRelation$1"/> </tuple>
+   <tuple> <atom label="NetElement$3"/> <atom label="NetRelation$3"/> </tuple>
+   <types> <type ID="4"/> <type ID="8"/> </types>
+</field>
+
+<sig label="this/NetRelation" ID="8" parentID="2">
+   <atom label="NetRelation$0"/>
+   <atom label="NetRelation$1"/>
+   <atom label="NetRelation$2"/>
+   <atom label="NetRelation$3"/>
+   <atom label="NetRelation$4"/>
+</sig>
+
+<field label="navigability" ID="9" parentID="8">
+   <tuple> <atom label="NetRelation$1"/> <atom label="AB$0"/> </tuple>
+   <tuple> <atom label="NetRelation$2"/> <atom label="Both$0"/> </tuple>
+   <tuple> <atom label="NetRelation$3"/> <atom label="BA$0"/> </tuple>
+   <tuple> <atom label="NetRelation$4"/> <atom label="AB$0"/> </tuple>
+   <types> <type ID="8"/> <type ID="10"/> </types>
+</field>
+
+<field label="positionOnA" ID="11" parentID="8">
+   <tuple> <atom label="NetRelation$0"/> <atom label="nat/Natural$1"/> </tuple>
+   <tuple> <atom label="NetRelation$1"/> <atom label="nat/Natural$1"/> </tuple>
+   <tuple> <atom label="NetRelation$2"/> <atom label="nat/Natural$0"/> </tuple>
+   <tuple> <atom label="NetRelation$3"/> <atom label="nat/Natural$1"/> </tuple>
+   <tuple> <atom label="NetRelation$4"/> <atom label="nat/Natural$1"/> </tuple>
+   <types> <type ID="8"/> <type ID="6"/> </types>
+</field>
+
+<field label="positionOnB" ID="12" parentID="8">
+   <tuple> <atom label="NetRelation$0"/> <atom label="nat/Natural$1"/> </tuple>
+   <tuple> <atom label="NetRelation$1"/> <atom label="nat/Natural$1"/> </tuple>
+   <tuple> <atom label="NetRelation$2"/> <atom label="nat/Natural$0"/> </tuple>
+   <tuple> <atom label="NetRelation$3"/> <atom label="nat/Natural$1"/> </tuple>
+   <tuple> <atom label="NetRelation$4"/> <atom label="nat/Natural$1"/> </tuple>
+   <types> <type ID="8"/> <type ID="6"/> </types>
+</field>
+
+<field label="elementA" ID="13" parentID="8">
+   <tuple> <atom label="NetRelation$0"/> <atom label="NetElement$3"/> </tuple>
+   <tuple> <atom label="NetRelation$1"/> <atom label="NetElement$3"/> </tuple>
+   <tuple> <atom label="NetRelation$2"/> <atom label="NetElement$2"/> </tuple>
+   <tuple> <atom label="NetRelation$3"/> <atom label="NetElement$3"/> </tuple>
+   <tuple> <atom label="NetRelation$4"/> <atom label="NetElement$2"/> </tuple>
+   <types> <type ID="8"/> <type ID="4"/> </types>
+</field>
+
+<field label="elementB" ID="14" parentID="8">
+   <tuple> <atom label="NetRelation$0"/> <atom label="NetElement$2"/> </tuple>
+   <tuple> <atom label="NetRelation$1"/> <atom label="NetElement$2"/> </tuple>
+   <tuple> <atom label="NetRelation$2"/> <atom label="NetElement$1"/> </tuple>
+   <tuple> <atom label="NetRelation$3"/> <atom label="NetElement$0"/> </tuple>
+   <tuple> <atom label="NetRelation$4"/> <atom label="NetElement$0"/> </tuple>
+   <types> <type ID="8"/> <type ID="4"/> </types>
+</field>
+
+<sig label="this/None" ID="15" parentID="10" one="yes">
+   <atom label="None$0"/>
+</sig>
+
+<sig label="this/Both" ID="16" parentID="10" one="yes">
+   <atom label="Both$0"/>
+</sig>
+
+<sig label="this/AB" ID="17" parentID="10" one="yes">
+   <atom label="AB$0"/>
+</sig>
+
+<sig label="this/BA" ID="18" parentID="10" one="yes">
+   <atom label="BA$0"/>
+</sig>
+
+<sig label="this/Navigability" ID="10" parentID="2" abstract="yes">
+</sig>
+
+<sig label="this/Network" ID="19" parentID="2" some="yes">
+   <atom label="Network$0"/>
+</sig>
+
+<field label="level" ID="20" parentID="19">
+   <tuple> <atom label="Network$0"/> <atom label="Level$0"/> </tuple>
+   <types> <type ID="19"/> <type ID="21"/> </types>
+</field>
+
+<sig label="this/Level" ID="21" parentID="2">
+   <atom label="Level$0"/>
+</sig>
+
+<field label="descriptionLevel" ID="22" parentID="21">
+   <tuple> <atom label="Level$0"/> <atom label="Micro$0"/> </tuple>
+   <types> <type ID="21"/> <type ID="23"/> </types>
+</field>
+
+<field label="networkResource" ID="24" parentID="21">
+   <tuple> <atom label="Level$0"/> <atom label="NetElement$0"/> </tuple>
+   <tuple> <atom label="Level$0"/> <atom label="NetElement$1"/> </tuple>
+   <tuple> <atom label="Level$0"/> <atom label="NetElement$2"/> </tuple>
+   <tuple> <atom label="Level$0"/> <atom label="NetElement$3"/> </tuple>
+   <tuple> <atom label="Level$0"/> <atom label="NetRelation$0"/> </tuple>
+   <tuple> <atom label="Level$0"/> <atom label="NetRelation$1"/> </tuple>
+   <tuple> <atom label="Level$0"/> <atom label="NetRelation$2"/> </tuple>
+   <tuple> <atom label="Level$0"/> <atom label="NetRelation$3"/> </tuple>
+   <tuple> <atom label="Level$0"/> <atom label="NetRelation$4"/> </tuple>
+   <types> <type ID="21"/> <type ID="4"/> </types>
+   <types> <type ID="21"/> <type ID="8"/> </types>
+</field>
+
+<sig label="this/Micro" ID="25" parentID="23" one="yes">
+   <atom label="Micro$0"/>
+</sig>
+
+<sig label="this/Meso" ID="26" parentID="23" one="yes">
+   <atom label="Meso$0"/>
+</sig>
+
+<sig label="this/Macro" ID="27" parentID="23" one="yes">
+   <atom label="Macro$0"/>
+</sig>
+
+<sig label="this/DescriptionLevel" ID="23" parentID="2" abstract="yes" enum="yes">
+</sig>
+
+<sig label="nat/Natural" ID="6" parentID="2">
+   <atom label="nat/Natural$0"/>
+   <atom label="nat/Natural$1"/>
+   <atom label="nat/Natural$2"/>
+   <atom label="nat/Natural$3"/>
+   <atom label="nat/Natural$4"/>
+   <atom label="nat/Natural$5"/>
+   <atom label="nat/Natural$6"/>
+   <atom label="nat/Natural$7"/>
+   <atom label="nat/Natural$8"/>
+   <atom label="nat/Natural$9"/>
+</sig>
+
+<sig label="nat/ord/Ord" ID="28" parentID="2" one="yes" private="yes">
+   <atom label="nat/ord/Ord$0"/>
+</sig>
+
+<field label="First" ID="29" parentID="28" private="yes">
+   <tuple> <atom label="nat/ord/Ord$0"/> <atom label="nat/Natural$0"/> </tuple>
+   <types> <type ID="28"/> <type ID="6"/> </types>
+</field>
+
+<field label="Next" ID="30" parentID="28" private="yes">
+   <tuple> <atom label="nat/ord/Ord$0"/> <atom label="nat/Natural$0"/> <atom label="nat/Natural$1"/> </tuple>
+   <tuple> <atom label="nat/ord/Ord$0"/> <atom label="nat/Natural$1"/> <atom label="nat/Natural$2"/> </tuple>
+   <tuple> <atom label="nat/ord/Ord$0"/> <atom label="nat/Natural$2"/> <atom label="nat/Natural$3"/> </tuple>
+   <tuple> <atom label="nat/ord/Ord$0"/> <atom label="nat/Natural$3"/> <atom label="nat/Natural$4"/> </tuple>
+   <tuple> <atom label="nat/ord/Ord$0"/> <atom label="nat/Natural$4"/> <atom label="nat/Natural$5"/> </tuple>
+   <tuple> <atom label="nat/ord/Ord$0"/> <atom label="nat/Natural$5"/> <atom label="nat/Natural$6"/> </tuple>
+   <tuple> <atom label="nat/ord/Ord$0"/> <atom label="nat/Natural$6"/> <atom label="nat/Natural$7"/> </tuple>
+   <tuple> <atom label="nat/ord/Ord$0"/> <atom label="nat/Natural$7"/> <atom label="nat/Natural$8"/> </tuple>
+   <tuple> <atom label="nat/ord/Ord$0"/> <atom label="nat/Natural$8"/> <atom label="nat/Natural$9"/> </tuple>
+   <types> <type ID="28"/> <type ID="6"/> <type ID="6"/> </types>
+</field>
+
+<sig label="ordering/Ord" ID="31" parentID="2" one="yes" private="yes">
+   <atom label="ordering/Ord$0"/>
+</sig>
+
+<field label="First" ID="32" parentID="31" private="yes">
+   <tuple> <atom label="ordering/Ord$0"/> <atom label="Micro$0"/> </tuple>
+   <types> <type ID="31"/> <type ID="23"/> </types>
+</field>
+
+<field label="Next" ID="33" parentID="31" private="yes">
+   <tuple> <atom label="ordering/Ord$0"/> <atom label="Micro$0"/> <atom label="Meso$0"/> </tuple>
+   <tuple> <atom label="ordering/Ord$0"/> <atom label="Meso$0"/> <atom label="Macro$0"/> </tuple>
+   <types> <type ID="31"/> <type ID="23"/> <type ID="23"/> </types>
+</field>
+
+<sig label="univ" ID="2" builtin="yes" var="yes">
+</sig>
+
+<sig label="nat/Zero" ID="34" one="yes">
+   <atom label="nat/Natural$0"/>
+   <type ID="6"/>
+</sig>
+
+<sig label="nat/One" ID="35" lone="yes">
+   <atom label="nat/Natural$1"/>
+   <type ID="6"/>
+</sig>
+
+<skolem label="$this/elementOn" ID="m0">
+   <tuple> <atom label="NetElement$1"/> <atom label="nat/Natural$0"/> <atom label="NetElement$2"/> </tuple>
+   <tuple> <atom label="NetElement$2"/> <atom label="nat/Natural$0"/> <atom label="NetElement$1"/> </tuple>
+   <types> <type ID="4"/> <type ID="6"/> <type ID="4"/> </types>
+</skolem>
+
+<skolem label="$this/adjacent" ID="m1">
+   <tuple> <atom label="NetElement$0"/> <atom label="NetElement$2"/> </tuple>
+   <tuple> <atom label="NetElement$0"/> <atom label="NetElement$3"/> </tuple>
+   <tuple> <atom label="NetElement$1"/> <atom label="NetElement$2"/> </tuple>
+   <tuple> <atom label="NetElement$2"/> <atom label="NetElement$0"/> </tuple>
+   <tuple> <atom label="NetElement$2"/> <atom label="NetElement$1"/> </tuple>
+   <tuple> <atom label="NetElement$2"/> <atom label="NetElement$3"/> </tuple>
+   <tuple> <atom label="NetElement$3"/> <atom label="NetElement$0"/> </tuple>
+   <tuple> <atom label="NetElement$3"/> <atom label="NetElement$2"/> </tuple>
+   <types> <type ID="4"/> <type ID="4"/> </types>
+</skolem>
+
+</instance>
+
+<source filename="/home/pbr/railML/notes/prof_models/topology.als" content="/*****&#x000a;&#x0009;Topology model for the rule validation tool&#x000a;&#x000a;&#x0009;Ids and Refs factored out&#x000a;&#x0009;We assume the XML obbeys referential integrity&#x000a;*****/&#x000a;&#x000a;module topology&#x000a;open common&#x000a;open util/natural as nat&#x000a;&#x000a;// https://wiki3.railml.org/wiki/IS:netElement&#x000a;some sig NetElement {&#x000a;&#x0009;// Attributes &#x000a;&#x0009;length : lone Natural, &#x0009;// length of the NetElement in metres&#x000a;&#x0009;// Children&#x000a;&#x0009;relation : set NetRelation // NetRelations of a NetElement&#x000a;&#x0009;// Irrelevant children&#x000a;&#x0009;-- associatedPositioningSystem : one AssociatedPositioningSystem,&#x000a;&#x0009;-- elementCollectionOrdered : seq NetElement,&#x000a;&#x0009;-- elementCollectionUnordered : set NetElement,&#x000a;&#x0009;-- isValid : set IsValid,&#x000a;&#x0009;-- name : set Name&#x0009;&#x000a;}&#x000a;&#x000a;fact NetElement {&#x000a;&#x0009;// Assumptions&#x000a;&#x0009;-- All NetLengths must have length&#x000a;&#x0009;all n : NetElement | some n.length&#x000a;&#x0009;-- Relation is redundant&#x000a;&#x0009;relation = ~(elementA+elementB)&#x000a;}&#x000a;&#x000a;// https://wiki3.railml.org/wiki/IS:netRelation&#x000a;sig NetRelation {&#x000a;&#x0009;// Attributes&#x000a;&#x0009;navigability : lone Navigability,&#x0009;// Navigability&#x000a;&#x0009;positionOnA : one Zero+One, &#x0009;&#x0009;// position on element A&#x000a;&#x0009;positionOnB : one Zero+One,&#x0009;&#x0009;// position on element B&#x000a;&#x0009;// Children&#x000a;&#x0009;elementA : one NetElement,&#x0009;&#x0009;// NetElement A&#x000a;&#x0009;elementB : one NetElement,&#x0009;&#x0009;// NetElement B&#x000a;&#x0009;// Irrelevant children&#x000a;&#x0009;-- isValid : set IsValid&#x000a;&#x0009;-- name : set Name&#x0009;&#x000a;}&#x000a;&#x000a;// Navigability options&#x000a;abstract sig Navigability {}&#x000a;one sig None, Both, AB, BA extends Navigability {}&#x000a;&#x000a;// View relation&#x000a;// Elements connected to end positions&#x000a;fun elementOn : NetElement -&gt; Natural -&gt; NetElement {&#x000a;&#x0009;{ a : NetElement, p : Natural, b : NetElement | &#x000a;&#x0009;&#x0009;some r : NetRelation {&#x000a;&#x0009;&#x0009;&#x0009;r.elementA = a and p = mul[r.positionOnA,a.length] and r.elementB = b or&#x000a;&#x0009;&#x0009;&#x0009;r.elementB = a and p = mul[r.positionOnB,a.length] and r.elementA = b&#x000a;&#x0009;&#x0009;}&#x000a;&#x0009;}&#x000a;}&#x000a;&#x000a;// View relation&#x000a;// Adjacent elements&#x000a;fun adjacent : NetElement -&gt; NetElement {&#x000a;&#x0009;relation.~relation - iden&#x000a;}&#x000a;&#x000a;fact Topology {&#x000a;&#x0009;// Assumptions&#x000a;&#x0009;-- If a NetElement is connected to two different NetElements in same endpoint, those must also be connected&#x000a;&#x0009;all a : NetElement, disj c,b : a.elementOn[Natural] | c in b.elementOn[b.elementOn.a]&#x000a;}&#x000a;&#x000a;// https://wiki3.railml.org/wiki/IS:network&#x000a;some sig Network {&#x000a;&#x0009;// Attributes&#x000a;&#x0009;// Children&#x000a;&#x0009;level : some Level,&#x0009;&#x0009;&#x0009;&#x0009;&#x0009;&#x0009;&#x0009;&#x0009;// views of the newtwork at different abstraction levels&#x000a;&#x0009;// Irrelevant children&#x000a;&#x0009;-- networkResource : set NetElement+NetRelation,&#x0009;// resources common to all views&#x000a;&#x0009;-- name : set Name&#x0009;&#x0009;&#x0009;&#x0009;&#x0009;&#x0009;&#x0009;&#x0009;// option set of names&#x000a;}&#x000a;&#x000a;// https://wiki3.railml.org/wiki/RTM:level&#x000a;sig Level {&#x000a;&#x0009;// Attributes&#x000a;&#x0009;descriptionLevel : lone DescriptionLevel,&#x0009;&#x0009;&#x0009;// level of the network&#x000a;&#x0009;// Children&#x000a;&#x0009;networkResource : set NetElement+NetRelation&#x0009;// resources at the level&#x000a;}&#x000a;&#x000a;// Possible description levels&#x000a;enum DescriptionLevel {Micro, Meso, Macro}&#x000a;&#x000a;fact Network {&#x000a;&#x0009;// Assumptions&#x000a;&#x0009;one Network&#x000a;&#x0009;one Level&#x000a;&#x0009;one Network.level&#x000a;&#x0009;Network.level.descriptionLevel = Micro&#x000a;&#x0009;Network.level.networkResource = NetElement+NetRelation&#x000a;}&#x000a;&#x000a;run{&#x000a;} for exactly 4 NetElement, exactly 5 NetRelation, exactly 1 Network, exactly 1 Level, exactly 10 Natural&#x000a;"/>
+
+<source filename="/$alloy4$/models/util/integer.als" content="module util/integer&#x000a;&#x000a;/*&#x000a; * A collection of utility functions for using Integers in Alloy.&#x000a; * Note that integer overflows are silently truncated to the current bitwidth&#x000a; * using the 2&apos;s complement arithmetic, unless the &quot;forbid overfows&quot; option is&#x000a; * turned on, in which case only models that don&apos;t have any overflows are &#x000a; * analyzed. &#x000a; */&#x000a;&#x000a;fun add  [n1, n2: Int] : Int { this/plus[n1, n2] }&#x000a;fun plus [n1, n2: Int] : Int { n1 fun/add n2 }&#x000a;&#x000a;fun sub   [n1, n2: Int] : Int { this/minus[n1, n2] }&#x000a;fun minus [n1, n2: Int] : Int { n1 fun/sub n2 }&#x000a;&#x000a;fun mul [n1, n2: Int] : Int { n1 fun/mul n2 }&#x000a;&#x000a;/**&#x000a; * Performs the division with &quot;round to zero&quot; semantics, except the following 3 cases&#x000a; * 1) if a is 0, then it returns 0&#x000a; * 2) else if b is 0, then it returns 1 if a is negative and -1 if a is positive&#x000a; * 3) else if a is the smallest negative integer, and b is -1, then it returns a&#x000a; */&#x000a;fun div [n1, n2: Int] : Int { n1 fun/div n2 }&#x000a;&#x000a;/** answer is defined to be the unique integer that satisfies &quot;a = ((a/b)*b) + remainder&quot; */&#x000a;fun rem [n1, n2: Int] : Int { n1 fun/rem n2 }&#x000a;&#x000a;/** negate */&#x000a;fun negate [n: Int] : Int { 0 fun/sub n }&#x000a;&#x000a;/** equal to */&#x000a;pred eq [n1, n2: Int] { int[n1] = int[n2] }&#x000a;&#x000a;/** greater than */&#x000a;pred gt [n1, n2: Int] { n1 &gt; n2 }&#x000a;&#x000a;/** less then */&#x000a;pred lt [n1, n2: Int] { n1 &lt; n2 }&#x000a;&#x000a;/** greater than or equal */&#x000a;pred gte [n1, n2: Int] { n1 &gt;= n2 }&#x000a;&#x000a;/** less than or equal */&#x000a;pred lte [n1, n2: Int] { n1 &lt;= n2 }&#x000a;&#x000a;/** integer is zero */&#x000a;pred zero [n: Int] { n = 0 }&#x000a;&#x000a;/** positive */&#x000a;pred pos  [n: Int] { n &gt; 0 }&#x000a;&#x000a;/** negative */&#x000a;pred neg  [n: Int] { n &lt; 0 }&#x000a;&#x000a;/** non-positive */&#x000a;pred nonpos [n: Int] { n &lt;= 0 }&#x000a;&#x000a;/** non-negative */&#x000a;pred nonneg [n: Int] { n &gt;= 0 }&#x000a;&#x000a;/** signum (aka sign or sgn) */&#x000a;fun signum [n: Int] : Int { n&lt;0 =&gt; (0 fun/sub 1) else (n&gt;0 =&gt; 1 else 0) }&#x000a;&#x000a;/**&#x000a; * returns the ith element (zero-based) from the set s&#x000a; * in the ordering of &apos;next&apos;, which is a linear ordering&#x000a; * relation like that provided by util/ordering&#x000a; */&#x000a;fun int2elem[i: Int, next: univ-&gt;univ, s: set univ] : lone s {&#x000a;  {e: s | #^next.e = int i }&#x000a;}&#x000a;&#x000a;/**&#x000a; * returns the index of the element (zero-based) in the&#x000a; * ordering of next, which is a linear ordering relation&#x000a; * like that provided by util/ordering&#x000a; */&#x000a;fun elem2int[e: univ, next: univ-&gt;univ] : lone Int {&#x000a;  Int[#^next.e]&#x000a;}&#x000a;&#x000a;/** returns the largest integer in the current bitwidth */&#x000a;fun max:one Int { fun/max }&#x000a;&#x000a;/** returns the smallest integer in the current bitwidth */&#x000a;fun min:one Int { fun/min }&#x000a;&#x000a;/** maps each integer (except max) to the integer after it */&#x000a;fun next:Int-&gt;Int { fun/next }&#x000a;&#x000a;/** maps each integer (except min) to the integer before it */&#x000a;fun prev:Int-&gt;Int { ~next }&#x000a;&#x000a;/** given a set of integers, return the largest element */&#x000a;fun max [es: set Int]: lone Int { es - es.^prev }&#x000a;&#x000a;/** given a set of integers, return the smallest element */&#x000a;fun min [es: set Int]: lone Int { es - es.^next }&#x000a;&#x000a;/** given an integer, return all integers prior to it */&#x000a;fun prevs [e: Int]: set Int { e.^prev }&#x000a;&#x000a;/** given an integer, return all integers following it */&#x000a;fun nexts [e: Int]: set Int { e.^next }&#x000a;&#x000a;/** returns the larger of the two integers */&#x000a;fun larger [e1, e2: Int]: Int { let a=int[e1], b=int[e2] | (a&lt;b =&gt; b else a) }&#x000a;&#x000a;/** returns the smaller of the two integers */&#x000a;fun smaller [e1, e2: Int]: Int { let a=int[e1], b=int[e2] | (a&lt;b =&gt; a else b) }&#x000a;"/>
+
+<source filename="/home/pbr/railML/notes/prof_models/common.als" content="module common&#x000a;"/>
+
+<source filename="/$alloy4$/models/util/natural.als" content="module util/natural&#x000a;&#x000a;/*&#x000a; * Utility function and predicates for using the set of&#x000a; * nonnegative integers (0, 1, 2, . . .). The number of&#x000a; * naturals present in an analysis will be equal to the&#x000a; * scope on Natural. Specifically, if the scope on Natural&#x000a; * is N, then the naturals 0 through N-1 will be present.&#x000a; *&#x000a; * Note that the functions that return Naturals, such as&#x000a; * &apos;add&apos; and &apos;div&apos;, may return an empty set if no such&#x000a; * Natural exists for that integer value.&#x000a; *&#x000a; * To write an Alloy model that makes use of negative&#x000a; * integers, use the util/integer module instead.&#x000a; *&#x000a; * @author Greg Dennis&#x000a; */&#x000a;&#x000a;private open util/ordering[Natural] as ord&#x000a;private open util/integer as integer&#x000a;&#x000a;sig Natural {}&#x000a;&#x000a;/** the integer zero */&#x000a;one sig Zero in Natural {}&#x000a;&#x000a;/** the integer one will be the empty set if the scope on Natural is less than two */&#x000a;lone sig One in Natural {}&#x000a;&#x000a;fact {&#x000a;  first in Zero&#x000a;  next[first] in One&#x000a;}&#x000a;&#x000a;/** returns n + 1 */&#x000a;fun inc [n: Natural] : lone Natural { ord/next[n] }&#x000a;&#x000a;/** returns n - 1 */&#x000a;fun dec [n: Natural] : lone Natural { ord/prev[n] }&#x000a;&#x000a;/** returns n1 + n2 */&#x000a;fun add [n1, n2: Natural] : lone Natural {&#x000a;  {n: Natural | #ord/prevs[n] = plus[#ord/prevs[n1], #ord/prevs[n2]]}&#x000a;}&#x000a;&#x000a;/** returns n1 - n2 */&#x000a;fun sub [n1, n2: Natural] : lone Natural {&#x000a;  {n: Natural | #ord/prevs[n1] = plus[#ord/prevs[n2], #ord/prevs[n]]}&#x000a;}&#x000a;&#x000a;/** returns n1 * n2 */&#x000a;fun mul [n1, n2: Natural] : lone Natural {&#x000a;  {n: Natural | #ord/prevs[n] = #(ord/prevs[n1]-&gt;ord/prevs[n2])}&#x000a;}&#x000a;&#x000a;/** returns n1 / n2 */&#x000a;fun div [n1, n2: Natural] : lone Natural {&#x000a;  {n: Natural | #ord/prevs[n1] = #(ord/prevs[n2]-&gt;ord/prevs[n])}&#x000a;}&#x000a;&#x000a;/**  returns true iff n1 is greater than n2 */&#x000a;pred gt  [n1, n2: Natural] { ord/gt [n1, n2] }&#x000a;&#x000a;/**  returns true iff n1 is less than n2 */&#x000a;pred lt  [n1, n2: Natural] { ord/lt [n1, n2] }&#x000a;&#x000a;/**  returns true iff n1 is greater than or equal to n2 */&#x000a;pred gte [n1, n2: Natural] { ord/gte[n1, n2] }&#x000a;&#x000a;/**  returns true iff n1 is less than or equal to n2 */&#x000a;pred lte [n1, n2: Natural] { ord/lte[n1, n2] }&#x000a;&#x000a;/** returns the maximum integer in ns */&#x000a;fun max [ns: set Natural] : lone Natural { ord/max[ns] }&#x000a;&#x000a;/** returns the minimum integer in ns */&#x000a;fun min [ns: set Natural] : lone Natural { ord/min[ns] }&#x000a;"/>
+
+<source filename="/$alloy4$/models/util/ordering.als" content="module util/ordering[exactly elem]&#x000a;&#x000a;/*&#x000a; * Creates a single linear ordering over the atoms in elem. It also constrains all&#x000a; * the atoms to exist that are permitted by the scope on elem. That is, if the scope&#x000a; * on a signature S is 5, opening util/ordering[S] will force S to have 5 elements&#x000a; * and create a linear ordering over those five elements. The predicates and&#x000a; * functions below provide access to properties of the linear ordering, such as&#x000a; * which element is first in the ordering, or whether a given element precedes&#x000a; * another. You cannotcreate multiple linear orderings over the same signature with&#x000a; * this model. If you that functionality, try using the util/sequence module instead.&#x000a; *&#x000a; * Technical comment:&#x000a; * An important constraint: elem must contain all atoms permitted by the scope.&#x000a; * This is to let the analyzer optimize the analysis by setting all fields of each&#x000a; * instantiation of Ord to predefined values: e.g. by setting &apos;last&apos; to the highest&#x000a; * atom of elem and by setting &apos;next&apos; to {&lt;T0,T1&gt;,&lt;T1,T2&gt;,...&lt;Tn-1,Tn&gt;}, where n is&#x000a; * the scope of elem. Without this constraint, it might not be true that Ord.last is&#x000a; * a subset of elem, and that the domain and range of Ord.next lie inside elem.&#x000a; *&#x000a; * author: Ilya Shlyakhter&#x000a; * revisions: Daniel jackson&#x000a; */&#x000a;&#x000a;private one sig Ord {&#x000a;   First: set elem,&#x000a;   Next: elem -&gt; elem&#x000a;} {&#x000a;   pred/totalOrder[elem,First,Next]&#x000a;}&#x000a;&#x000a;/** first */&#x000a;fun first: one elem { Ord.First }&#x000a;&#x000a;/** last */&#x000a;fun last: one elem { elem - (next.elem) }&#x000a;&#x000a;/** return a mapping from each element to its predecessor */&#x000a;fun prev : elem-&gt;elem { ~(Ord.Next) }&#x000a;&#x000a;/** return a mapping from each element to its successor */&#x000a;fun next : elem-&gt;elem { Ord.Next }&#x000a;&#x000a;/** return elements prior to e in the ordering */&#x000a;fun prevs [e: elem]: set elem { e.^(~(Ord.Next)) }&#x000a;&#x000a;/** return elements following e in the ordering */&#x000a;fun nexts [e: elem]: set elem { e.^(Ord.Next) }&#x000a;&#x000a;/** e1 is less than e2 in the ordering */&#x000a;pred lt [e1, e2: elem] { e1 in prevs[e2] }&#x000a;&#x000a;/** e1 is greater than e2 in the ordering */&#x000a;pred gt [e1, e2: elem] { e1 in nexts[e2] }&#x000a;&#x000a;/** e1 is less than or equal to e2 in the ordering */&#x000a;pred lte [e1, e2: elem] { e1=e2 || lt [e1,e2] }&#x000a;&#x000a;/** e1 is greater than or equal to e2 in the ordering */&#x000a;pred gte [e1, e2: elem] { e1=e2 || gt [e1,e2] }&#x000a;&#x000a;/** returns the larger of the two elements in the ordering */&#x000a;fun larger [e1, e2: elem]: elem { lt[e1,e2] =&gt; e2 else e1 }&#x000a;&#x000a;/** returns the smaller of the two elements in the ordering */&#x000a;fun smaller [e1, e2: elem]: elem { lt[e1,e2] =&gt; e1 else e2 }&#x000a;&#x000a;/**&#x000a; * returns the largest element in es&#x000a; * or the empty set if es is empty&#x000a; */&#x000a;fun max [es: set elem]: lone elem { es - es.^(~(Ord.Next)) }&#x000a;&#x000a;/**&#x000a; * returns the smallest element in es&#x000a; * or the empty set if es is empty&#x000a; */&#x000a;fun min [es: set elem]: lone elem { es - es.^(Ord.Next) }&#x000a;&#x000a;assert correct {&#x000a;  let mynext = Ord.Next |&#x000a;  let myprev = ~mynext | {&#x000a;     ( all b:elem | (lone b.next) &amp;&amp; (lone b.prev) &amp;&amp; (b !in b.^mynext) )&#x000a;     ( (no first.prev) &amp;&amp; (no last.next) )&#x000a;     ( all b:elem | (b!=first &amp;&amp; b!=last) =&gt; (one b.prev &amp;&amp; one b.next) )&#x000a;     ( !one elem =&gt; (one first &amp;&amp; one last &amp;&amp; first!=last &amp;&amp; one first.next &amp;&amp; one last.prev) )&#x000a;     ( one elem =&gt; (first=elem &amp;&amp; last=elem &amp;&amp; no myprev &amp;&amp; no mynext) )&#x000a;     ( myprev=~mynext )&#x000a;     ( elem = first.*mynext )&#x000a;     (all disj a,b:elem | a in b.^mynext or a in b.^myprev)&#x000a;     (no disj a,b:elem | a in b.^mynext and a in b.^myprev)&#x000a;     (all disj a,b,c:elem | (b in a.^mynext and c in b.^mynext) =&gt;(c in a.^mynext))&#x000a;     (all disj a,b,c:elem | (b in a.^myprev and c in b.^myprev) =&gt;(c in a.^myprev))&#x000a;  }&#x000a;}&#x000a;run {} for exactly 0 elem expect 0&#x000a;run {} for exactly 1 elem expect 1&#x000a;run {} for exactly 2 elem expect 1&#x000a;run {} for exactly 3 elem expect 1&#x000a;run {} for exactly 4 elem expect 1&#x000a;check correct for exactly 0 elem&#x000a;check correct for exactly 1 elem&#x000a;check correct for exactly 2 elem&#x000a;check correct for exactly 3 elem&#x000a;check correct for exactly 4 elem&#x000a;check correct for exactly 5 elem&#x000a;"/>
+
+</alloy>
