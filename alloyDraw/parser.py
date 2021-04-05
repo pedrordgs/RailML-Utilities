@@ -41,7 +41,7 @@ def parsePositions(node):
     r = []
     for gchild in node:
         if gchild.tag == 'tuple':
-            nr = int(gchild[0].get('label').split('$')[1])
+            # nr = int(gchild[0].get('label').split('$')[1])
             # pos = gchild[1].get('label').split('$')[0]
             # if pos == 'Zero':
             #     r.append((nr, 0))
@@ -95,7 +95,7 @@ def parseXML (filename):
     elemsA = []
     elemsB = []
 
-    tree = ET.parse('example.xml')
+    tree = ET.parse(filename)
     instance = tree.getroot()[0]
 
     for child in instance:

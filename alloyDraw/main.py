@@ -3,7 +3,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 
-(nelems, nrels) = parseXML('example.xml')
+(nelems, nrels) = parseXML('topology.xml')
 
 g = nx.Graph()
 
@@ -42,10 +42,7 @@ for i in range(len(nelems)):
     g.add_node(node1)
     g.add_edge(node0, node1)
 
-
-draw(g)
-
-# plt.plot()
-# nx.draw(g, with_labels=True, font_weight='bold')
-# plt.show()
+plt.plot()
+nx.draw(g, with_labels=True, font_weight='bold')
+plt.show()
 
