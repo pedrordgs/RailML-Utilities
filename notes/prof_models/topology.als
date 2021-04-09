@@ -103,4 +103,4 @@ fact Network {
 }
 
 run{
-} for exactly 4 NetElement, exactly 5 NetRelation, exactly 1 Network, exactly 1 Level, exactly 10 Natural
+} for exactly 10 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 1 Level, exactly 10 Natural
