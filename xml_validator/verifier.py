@@ -4,6 +4,7 @@ import xml.etree.ElementTree as ET
 import re
 import numpy as np
 from colorama import Fore, Back, Style
+from lxml import etree
 
 tree = ET.parse('railML.xml')
 root = tree.getroot()
@@ -26,6 +27,34 @@ networks = root.find(f"./{p}infrastructure/{p}topology/{p}networks")
 
 # True if every netElement is present in its relations
 boolean = True
+
+# mudar para receber ficheiro xml como argumento o path
+# do ficheiro e o respetivo schema
+def validateXMLwithXSD():
+    schema_root = etree.parse("railml3.xsd")
+    xml_schema = etree.XMLSchema(schema_root)
+    xml_doc = etree.parse("railML.xml")
+    try:
+        xml_schema.assertValid(xml_doc)
+    except Exception as e:
+        print(Fore.RED + "ERROR:", end="")
+        print(Style.RESET_ALL, e)
+        return False
+    return True
+
+def pretty_print(str, b):
+    print(str)
+    if b:
+        print(Fore.GREEN + " True")
+    else:
+        print(Fore.RED + " False")
+    print(Style.RESET_ALL)
+
+def getPositionIds():
+    r = root.find(f"./{p}common/{p}positioning")
+    for x in r:
+        for xs in x:
+                print(xs.tag, xs.attrib)
 
 def nub(arr):
     return list(dict.fromkeys(arr))
@@ -51,21 +80,16 @@ def netRelationsFunc():
 
 netElementRel = netElementsFunc(netElements)
 netRelArray = netRelationsFunc()
+# postion_ids =
 
-def pretty_print(str, b):
-    print(str)
-    if b:
-        print(Fore.GREEN + " True")
-    else:
-        print(Fore.RED + " False")
-    print(Style.RESET_ALL)
+# getPositionIds()
 
-
-
-
-
-
-
+#####################################################################
+#                                                                   #
+#                       PRINTS TO THE USER                          #
+#                                                                   #
+#####################################################################
+pretty_print("Validating XML", validateXMLwithXSD())
 
 pretty_print("Checking if every net element relation is declared in net relations",
     np.array_equal(sorted(netRelArray), nub(sorted(netElementRel))))
