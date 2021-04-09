@@ -1,4 +1,5 @@
 module topology
+open util/natural as nat
 
 /**
 	RailML topology
@@ -8,7 +9,7 @@ module topology
 // https://wiki3.railml.org/wiki/IS:netElement
 sig NetElement {
 	// Atributes
-	-- length: lone Natural, // in meters but can be decimal (?)
+	length: lone Natural, // in meters but can be decimal (?)
 	-- id: one Id,
 
 	// Children
@@ -48,14 +49,7 @@ one sig None, Both, AB, BA extends Navigability {}
 abstract sig Positioning {}
 one sig Zero, One extends Positioning {}
 
-fun elementOn: NetElement -> Positioning -> NetElement {
-	{a: NetElement, p: Positioning, b: NetElement |
-		some r: NetRelation {
-			a = r.elementA and p = r.positionOnA and b = r.elementB or
-			a = r.elementB and p = r.positionOnB and b = r.elementB
-		}
-	}
-}
+
 
 // https://wiki3.railml.org/wiki/IS:network
 sig Network {
@@ -63,18 +57,39 @@ sig Network {
 	-- id: one Id
 
 	// Children
-	-- level: some Level
+	level: some Level
 	-- name: set Name,
 	-- networkResource: set NetElement+NetRelation
+}
+
+
+abstract sig Level {}
+one sig Micro, Meso, Macro extends Level {}
+
+fun elementOn : NetElement -> Positioning -> NetElement {
+	{ a : NetElement, p : Positioning, b : NetElement | 
+		some r : NetRelation {
+			r.elementA = a and p = r.positionOnA and r.elementB = b or
+			r.elementB = a and p = r.positionOnB and r.elementA = b
+		}
+	}
 }
 
 
 fact Topology {
 	// Assumptions
 	-- If a NetElement is connected to two different NetElements in same endpoint, those must also be connected
-	all a: NetElement, disj b,c: Positioning.(a.elementOn) | a.elementOn.b = a.elementOn.c implies some b.elementOn.c
+	all a: NetElement, disj b,c: a.elementOn[Positioning] | c in b.elementOn[b.elementOn.a]
+	
 }
 
 run{
 } for exactly 5 NetElement, 5 NetRelation, 1 Network
+
+
+
+
+
+
+
 

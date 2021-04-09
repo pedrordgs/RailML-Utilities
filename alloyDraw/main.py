@@ -1,9 +1,10 @@
 from parser import parseXML
 import networkx as nx
 import matplotlib.pyplot as plt
+import sys
 
 
-(nelems, nrels) = parseXML('topology.xml')
+(nelems, nrels) = parseXML(sys.argv[1])
 
 g = nx.Graph()
 

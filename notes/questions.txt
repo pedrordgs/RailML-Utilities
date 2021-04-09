@@ -1,0 +1,7 @@
+netRelation com (b 0, b 0) ligados, é possível?
+
+
+a topologia deve gerar um grafo ligado?
+
+
+
