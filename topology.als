@@ -37,7 +37,6 @@ one sig Zero, One extends Position {}
 // https://wiki3.railml.org/wiki/IS:netRelation
 sig NetRelation {
 	// Atributes
-	associated: set NetRelation,
 	navigability: one Navigability,
 	positionOnA: one Position,
 	positionOnB: one Position,
@@ -48,13 +47,15 @@ sig NetRelation {
 	elementB: one NetElement
 	-- isValid: set Validation,
 	-- name: set Name,
-} { #associated < 5 }
+}
 
 /* Create a set of NetRelations related to one NetRealtion */
-fun associated [n: NetRelation] : set NetRelation {
-	{ net: NetRelation |
-			(n.elementA = net.elementA and n.positionOnA = net.positionOnA) or (n.elementB = net.elementB and n.positionOnB = net.positionOnB)
-	}
+fun associated: NetRelation -> NetRelation {
+	/* Associated on element A */
+	((elementA.~elementA & positionOnA.~positionOnA) - iden)
+	+
+	/* Associated on element B */
+	((elementB.~elementB & positionOnB.~positionOnB) - iden)
 }
 
 fun elementOn: NetElement -> Position -> NetElement {
@@ -77,7 +78,7 @@ fact Topology {
 	-- If a NetElement is connected to two different NetElements in same endpoint, those must also be connected
 	all a: NetElement, disj b,c: Position.(a.elementOn) | a.elementOn.b = a.elementOn.c implies some b.elementOn.c
 
-	-- Can't exist 2 NetRelations with the same elementA and elementB.
+	-- Can't exist 2 NetRelations with the same elementA and elementB. Se for circular deve ser considerado a mesma NetRelation.
 	(elementA.~elementA & elementB.~elementB) in iden /* ker<elementA,elementB> in iden */
 
 	-- If 3 elements are connected in a endpoint, then its a switch, meaning navigability must be none in 1 out of 3.
@@ -86,11 +87,11 @@ fact Topology {
 	-- No relations with elementA = elementB.
 	/* no (elementA.~elementB & iden) → False, Raquetes (navigabilidade raquetes?) */
 
-	-- No relations with elementA = elementB and positionA = positionB.
+	-- No relations with elementA = elementB and positionA = positionB. As raquetes devem ter as positions de A e B diferentes.
 	no (elementA.~elementB & positionOnA.~positionOnB & iden)
 
-	-- All associated relations must have less than 5 relations. 4 net relations means that we have a double switch.
-	-- all n : NetRelation | #associated[n] < 5 -> Podemos definir acima??
+	-- All associated relations must have less than 4 relations with others. 4 net relations associated (associated[n] =3) means that we have a double switch.
+	all n : NetRelation | #associated[n] < 4
 }
 
 
