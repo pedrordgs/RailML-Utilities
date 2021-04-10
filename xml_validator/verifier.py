@@ -3,10 +3,13 @@
 import xml.etree.ElementTree as ET
 import re
 import numpy as np
+import sys
 from colorama import Fore, Back, Style
 from lxml import etree
 
-tree = ET.parse('railML.xml')
+filename = sys.argv[1]
+
+tree = ET.parse(filename)
 root = tree.getroot()
 
 regex = re.compile('{.*}')
@@ -30,10 +33,10 @@ boolean = True
 
 # mudar para receber ficheiro xml como argumento o path
 # do ficheiro e o respetivo schema
-def validateXMLwithXSD():
-    schema_root = etree.parse("railml3.xsd")
+def validateXMLwithXSD(filename):
+    schema_root = etree.parse("schema/railml3.xsd")
     xml_schema = etree.XMLSchema(schema_root)
-    xml_doc = etree.parse("railML.xml")
+    xml_doc = etree.parse(filename)
     try:
         xml_schema.assertValid(xml_doc)
     except Exception as e:
@@ -89,7 +92,7 @@ netRelArray = netRelationsFunc()
 #                       PRINTS TO THE USER                          #
 #                                                                   #
 #####################################################################
-pretty_print("Validating XML", validateXMLwithXSD())
+pretty_print("Validating XML", validateXMLwithXSD(filename))
 
 pretty_print("Checking if every net element relation is declared in net relations",
     np.array_equal(sorted(netRelArray), nub(sorted(netElementRel))))

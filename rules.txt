@@ -1,8 +1,12 @@
 Micro:
   - Não podem estar mais do que 4 netElements relacionados no mesmo ponto.
+  - Não podem existir relações no mesmo endpoint com o mesmo netElement em elementA e elementB
+  - Não podem haver duas relações com o mesmo elementA e elementB (??)
+  - Se existirem 3 pelo menos uma delas tem de ter navigabilidade a None, se forem 4, pelo menos 2 tem de ser None (??)
 
 Meso:
   - Todos os elementos do micro devem permanecer ligados ou pertencerem ao mesmo netElement
+  - Não podem existir relações com o mesmo netElement em elementA e elementB (??)
 
 Macro:
   - Todos os elementos do micro e meso devem permanecer ligados ou pertencerem ao mesmo netElement
@@ -11,5 +15,6 @@ Gerais:
   - Se um elemento está conectado a outros dois elementos no mesmo endpoint, então esses dois devem também estar ligados nesse mesmo endpoint.
   - regra dos triângulos (length), é possível no alloy sem ângulos ???
   - relation é redundante, ou seja, o elemento A e elemento B devem conter a relação
+
 
 
