@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import xml.etree.ElementTree as ET
-import re
 import numpy as np
 import sys
 from colorama import Fore, Back, Style
@@ -12,24 +11,13 @@ filename = sys.argv[1]
 tree = ET.parse(filename)
 root = tree.getroot()
 
-regex = re.compile('{.*}')
-
-dic = {}
-
 s = root.tag
-
-# p = '{https://wwwd.railml.org/schemas/3.1}'
 p = "{" + s[s.find("{")+1:s.find("}")] + "}"
 
-
 topology = root.find(f"./{p}infrastructure/{p}topology")
-
 netElements = root.find(f"./{p}infrastructure/{p}topology/{p}netElements")
 netRelations = root.find(f"./{p}infrastructure/{p}topology/{p}netRelations")
 networks = root.find(f"./{p}infrastructure/{p}topology/{p}networks")
-
-# True if every netElement is present in its relations
-boolean = True
 
 # mudar para receber ficheiro xml como argumento o path
 # do ficheiro e o respetivo schema
@@ -62,27 +50,32 @@ def getPositionIds():
 def nub(arr):
     return list(dict.fromkeys(arr))
 
-def netElementFunc(r, netElementRel):
-    global boolean
+def netElementFunc(r, netElementRel,boolean):
     for x in r:
         if (x.tag == f"{p}relation"):
             boolean = boolean and (r.attrib['id'][3:] in x.attrib['ref'][3:])
             netElementRel.append(x.attrib['ref'])
+    return boolean
 
 def netElementsFunc(r):
+    boolean = True
     netElementRel = []
     for x in r:
-        netElementFunc(x,netElementRel)
-    return netElementRel
+        boolean = netElementFunc(x,netElementRel,boolean)
+    return (netElementRel,boolean)
 
 def netRelationsFunc():
     netRelArray = []
+    boolean = True
     for x in netRelations:
         netRelArray.append(x.attrib['id'])
-    return netRelArray
+        for xs in x:
+            if xs.tag == f"{p}elementA" or xs.tag == f"{p}elementB":
+                boolean = boolean and (xs.attrib['ref'][3:] in x.attrib['id'][3:])
+    return (netRelArray, boolean)
 
-netElementRel = netElementsFunc(netElements)
-netRelArray = netRelationsFunc()
+(netElementRel,boolean) = netElementsFunc(netElements)
+(netRelArray, boolean2) = netRelationsFunc()
 # postion_ids =
 
 # getPositionIds()
@@ -98,3 +91,5 @@ pretty_print("Checking if every net element relation is declared in net relation
     np.array_equal(sorted(netRelArray), nub(sorted(netElementRel))))
 
 pretty_print("Checking if every relation in a netElement has that netElement", boolean)
+
+pretty_print("Checking if every relation in a netRelation has the specified elements", boolean2)
