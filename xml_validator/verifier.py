@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from jjcli import *
 import xml.etree.ElementTree as ET
 import numpy as np
 import sys
@@ -22,6 +23,28 @@ networks = root.find(f"./{p}infrastructure/{p}topology/{p}networks")
 # Estruturas auxiliares para testar redundancia entre netElements e netRelations
 dic_elements  = {}
 dic_relations = {}
+
+
+# Valida as referências de id. Se são válidas.
+def refsIds () -> bool:
+  c = clfilter()
+  list_ids  = []
+  list_refs = []
+  boolean = True
+  # for pg in c.slurp(): # Process one striped text at time. -> Vai processar uma linha apenas, porque o strip tira o \n xD
+  for line in c.input():
+
+    find_ids  = findall(r'id="(.*?)"', line)
+    find_refs = findall(r'ref="(.*?)"', line)
+
+    list_ids.append(*find_ids) if find_ids else list_ids
+    list_refs.append(*find_refs) if find_refs else list_refs
+
+  for ref in list_refs:
+    if ref not in list_ids:
+      return False
+
+  return boolean
 
 # mudar para receber ficheiro xml como argumento o path
 # do ficheiro e o respetivo schema
@@ -115,6 +138,7 @@ def check_redundancy() -> (bool, bool, str, str):
   return(b1,b2,erros1,erros2)
 
 
+boolean_ids = refsIds()
 # (netElementRel,boolean) = netElementsFunc(netElements)
 netElementsFunc(netElements) # Preenchimento das relations para cada netElement.
 netRelationsFunc()
@@ -131,8 +155,11 @@ netRelationsFunc()
 #####################################################################
 pretty_print("Validating XML", validateXMLwithXSD(filename), "")
 
-#pretty_print("Checking if every net element relation is declared in net relations",
-    #np.array_equal(sorted(netRelArray), nub(sorted(netElementRel))))
+#pretty_print("Checking if every ref is a valid id",
+#    np.array_equal(nub(sorted(list_ids)), nub(sorted(list_refs))), "")
+
+pretty_print("Checking if every ref is a valid id", boolean_ids, "")
+
 
 pretty_print("Checking if every relation in a netElement has that netElement", boolean , e1)
 
