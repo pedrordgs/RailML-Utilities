@@ -58,7 +58,7 @@
                     </associatedPositioningSystem>
                 </netElement>
                 <netElement id="ne9">
-                    <relation ref="nr_ne7ne9_swi13"/>
+                    <relation ref="ll"/>
                     <relation ref="nr_ne8ne9_swi13"/>
                     <associatedPositioningSystem id="ne9_aps01">
                         <intrinsicCoordinate id="ne9_aps01_ic01" intrinsicCoord="0">

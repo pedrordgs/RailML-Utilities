@@ -37,19 +37,19 @@ def refsIds () -> (bool,str):
   # boolean = True
   erros=""
   aux = list(c.input())
-  # for pg in c.slurp(): # Process one striped text at time. -> Vai processar uma linha apenas, porque o strip tira o \n xD
   for line in c.input():
 
     find_ids  = findall(r'id="(.*?)"', line)
     find_refs = findall(r'ref="(.*?)"', line)
 
     # Apesar de fazer o findall, só uso a primeira ocurrência visto que faço por linha. O find não existe no re.
-    list_ids.append(*find_ids) if find_ids else list_ids
+    list_ids.append((*find_ids, aux.index(line))) if find_ids else list_ids
     list_refs.append((*find_refs, aux.index(line))) if find_refs else list_refs
 
-  # Guardei a linha da referência para em caso de erro.
+  # Guardei a nmr da linha de cada referência para em caso de erro.
   for (ref,l) in list_refs:
-    if ref not in list_ids:
+    if ref not in map(lambda x : x[0], list_ids): # [x[0] for x in list_ids]
+
       erros = "  Line "+ str(l + 1) +" -> Reference " + ref + " doesn't match any id, meaning " + ref + " wasn't declared!\n"
       return (False,erros)
 
