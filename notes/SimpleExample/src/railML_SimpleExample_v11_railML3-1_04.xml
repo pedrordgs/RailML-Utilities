@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<railML xmlns="https://www.railml.org/schemas/3.1" 
+<railML xmlns="https://www.railml.org/schemas/3.1"
         xmlns:dc="http://purl.org/dc/elements/1.1/"
         xmlns:gml="http://www.opengis.net/gml/3.2/"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="https://www.railml.org/schemas/3.1 https://www.railml.org/schemas/3.1/railml3.xsd"
         version="3.1">
-        
+
   <metadata>
     <dc:format>3.1</dc:format>
     <dc:identifier>3</dc:identifier>
@@ -21,7 +21,7 @@
       For further information see: https://www.railml.org/licence
       Content of this file: railML 3.1 Simple Example</dc:rights>
   </metadata>
-  
+
   <common id="co_01">
     <organizationalUnits>
       <infrastructureManager id="im_01" code="SZDC"/>
@@ -54,7 +54,7 @@
       </screenPositioningSystems>
     </positioning>
   </common>
-  
+
   <infrastructure id="is_01">
     <topology>
       <netElements>
@@ -272,7 +272,7 @@
           <elementB ref="ne_b11"/>
         </netRelation>
       </netRelations>
-   
+
       <networks>
         <network id="nw01">
           <level id="lv0" descriptionLevel="Micro">
@@ -307,10 +307,10 @@
         </network>
       </networks>
     </topology>
-    
+
     <geometry>
     </geometry>
-    
+
     <functionalInfrastructure>
       <bufferStops>
         <bufferStop id="bus01" type="fixedBufferStop">
@@ -338,14 +338,14 @@
           </spotLocation>
         </bufferStop>
       </bufferStops>
-      
+
       <derailersIS>
         <derailerIS id="der01" derailSide="right">
           <spotLocation id="der01_sloc01" netElementRef="ne_b05" applicationDirection="normal" pos="150.0">
           </spotLocation>
         </derailerIS>
       </derailersIS>
-      
+
       <levelCrossingsIS>
         <levelCrossingIS id="lcr01" activation="infrastructureAutomatic">
           <name name="LX Arnau Cstadt" language="en"/>
@@ -355,7 +355,7 @@
           <protection barriers="singleHalfBarrier" lights="none" acoustic="none"/>
         </levelCrossingIS>
       </levelCrossingsIS>
-      
+
       <lines>
         <line id="lin01" lineCategory="other:CE" lineType="mainLine" infrastructureManagerRef="im_01">
           <name name="Malý příklad železniční tratě" language="cz"/>
@@ -388,11 +388,11 @@
           </linePerformance>
         </line>
       </lines>
-      
+
       <loadingGauges>
         <loadingGauge id="log01" code="GA"/>
       </loadingGauges>
-      
+
       <operationalPoints>
         <operationalPoint id="opp01">
           <name name="Bf Arnau" language="de"/>
@@ -410,7 +410,7 @@
           </opEquipment>
           <opOperations>
             <opOperation operationalType="station" trafficType="passenger"/>
-          </opOperations> 
+          </opOperations>
         </operationalPoint>
         <operationalPoint id="opp02">
           <name name="Bf Cstadt" language="de"/>
@@ -429,10 +429,10 @@
           </opEquipment>
           <opOperations>
             <opOperation operationalType="station" trafficType="passenger"/>
-          </opOperations> 
+          </opOperations>
         </operationalPoint>
       </operationalPoints>
-      
+
       <platforms>
         <platform id="plf01">
           <spotLocation id="plf01_sloc01" netElementRef="ne_a11" applicationDirection="both">
@@ -494,7 +494,7 @@
           <length type="physical" value="250.00" validForDirection="both"/>
         </platform>
       </platforms>
-      
+
       <signalsIS>
         <signalIS id="sig01" isSwitchable="false">
           <name name="68N2" language="en"/>
@@ -595,7 +595,7 @@
           </isSpeedSignal>
         </signalIS>
       </signalsIS>
-      
+
       <speeds>
         <speedSection id="sps01" maxSpeed="80" isTemporary="false" isSignalized="true">
           <linearLocation id="sps01_lloc01" applicationDirection="normal">
@@ -648,7 +648,7 @@
           </linearLocation>
         </speedSection>
       </speeds>
-      
+
       <switchesIS>
         <switchIS id="swi01" continueCourse="right" branchCourse="left" type="ordinarySwitch">
           <name name="68W02" language="en"/>
@@ -675,7 +675,7 @@
           <rightBranch netRelationRef="nr_b02b04" branchingSpeed="40" joiningSpeed="40" radius="300"/>
         </switchIS>
       </switchesIS>
-      
+
       <tracks>
         <track id="trc01" type="mainTrack">
           <name name="2" language="en"/>
@@ -749,7 +749,7 @@
           <length value="50.0" type="physical"/>
         </track>
       </tracks>
-      
+
       <trainDetectionElements>
         <trainDetectionElement id="tde01" type="axleCounter">
           <spotLocation id="tde01_sloc01" netElementRef="ne_a01" applicationDirection="both" pos="475.0">
@@ -807,7 +807,7 @@
         </trainDetectionElement>
       </trainDetectionElements>
     </functionalInfrastructure>
-    
+
     <infrastructureVisualizations>
       <visualization id="vis01" positioningSystemRef="scs01">
         <name name="Simple Example macroscopic screen visualization" language="en"/>
@@ -848,9 +848,9 @@
         </elementState>
       </infrastructureState>
     </infrastructureStates>
-    
+
   </infrastructure>
-  
+
   <interlocking>
 		<assetsForIL id="ass_simpex_v0.9">
 			<designator register="_SimpleRegister" entry="simple example v0.9"/>
@@ -1044,7 +1044,7 @@
 				</signalIL>
 			</signalsIL>
 			<shuntingZones>
-				<shuntingZone id="rae01"> 
+				<shuntingZone id="rae01">
 					<designator register="_SimpleRegister" entry="Cstadt RA1"/>
 					<isLimitedBy ref="bus01"/>
 					<isLimitedBy ref="bus02"/>
@@ -1142,7 +1142,7 @@
 					</routeExit>
 				</route>
 				<route id="rt_sig01_sig04" locksAutomatically="false" processingDelay="PT1S">
-					<designator register="_SimpleRegister" entry="Route_68N2_69A"/>		 
+					<designator register="_SimpleRegister" entry="Route_68N2_69A"/>
 					<handlesRouteType ref="rt_main"/>
 					<routeActivationSection id="rt_act02" delayForLock="PT2S" automaticReleaseDelay="PT5S">
 						<designator register="_SimpleRegister" entry="activation Route_68N2_69A"/>
@@ -1348,59 +1348,59 @@
 						<designator register="_SimpleRegister" entry="Signal 20A/B «Stopp"/>
 					</hasAspect>
 					<hasAspect id="sig_reducproceed_21" genericAspect="limitedProceed">
-						<designator register="_SimpleRegister" entry="Signal 21 «Kjør med redusert hastighet"/> 
-					</hasAspect> 
+						<designator register="_SimpleRegister" entry="Signal 21 «Kjør med redusert hastighet"/>
+					</hasAspect>
 					<hasAspect id="sig_fullproceed_22" genericAspect="proceed">
-						<designator register="_SimpleRegister" entry="Signal 22 «Kjør"/> 
-					</hasAspect> 
+						<designator register="_SimpleRegister" entry="Signal 22 «Kjør"/>
+					</hasAspect>
 					<hasAspect id="sig_caution_23" genericAspect="caution">
-						<designator register="_SimpleRegister" entry="Signal 23 «Forvent stopp"/> 
-					</hasAspect> 
+						<designator register="_SimpleRegister" entry="Signal 23 «Forvent stopp"/>
+					</hasAspect>
 					<hasAspect id="sig_warning_24" genericAspect="warning" >
-						<designator register="_SimpleRegister" entry="Signal 24 «Forvent kjør med redusert hastighet"/> 
-					</hasAspect> 
+						<designator register="_SimpleRegister" entry="Signal 24 «Forvent kjør med redusert hastighet"/>
+					</hasAspect>
 					<hasAspect id="sig_warning_25" genericAspect="warning">
-						<designator register="_SimpleRegister" entry="Signal 25 «Forvent kjør"/> 
-					</hasAspect> 
+						<designator register="_SimpleRegister" entry="Signal 25 «Forvent kjør"/>
+					</hasAspect>
 					<hasAspect id="isp80" genericAspect="informative">
-						<designator register="_SimpleRegister" entry="speed80"/> 
-					</hasAspect> 
+						<designator register="_SimpleRegister" entry="speed80"/>
+					</hasAspect>
 					<hasAspect id="isp60" genericAspect="informative">
-						<designator register="_SimpleRegister" entry="speed60"/> 
-					</hasAspect> 
+						<designator register="_SimpleRegister" entry="speed60"/>
+					</hasAspect>
 					<hasAspect id="isp50" genericAspect="informative">
-						<designator register="_SimpleRegister" entry="speed50"/> 
-					</hasAspect> 
+						<designator register="_SimpleRegister" entry="speed50"/>
+					</hasAspect>
 					<hasAspect id="idirL" genericAspect="informative">
-						<designator register="_SimpleRegister" entry="directionL"/> 
-					</hasAspect> 
+						<designator register="_SimpleRegister" entry="directionL"/>
+					</hasAspect>
 					<hasAspect id="idirN" genericAspect="informative">
-						<designator register="_SimpleRegister" entry="directionN"/> 
-					</hasAspect> 
+						<designator register="_SimpleRegister" entry="directionN"/>
+					</hasAspect>
 					<hasTVDresetStrategy id="rst_uc" resetStrategy="unconditionalReset">
-						<designator register="_SimpleRegister" entry="unconditional reset"/> 
-					</hasTVDresetStrategy> 
+						<designator register="_SimpleRegister" entry="unconditional reset"/>
+					</hasTVDresetStrategy>
 					<hasTVDresetStrategy id="rst_cd" resetStrategy="conditionalReset">
-						<designator register="_SimpleRegister" entry="conditional reset"/> 
-					</hasTVDresetStrategy> 
+						<designator register="_SimpleRegister" entry="conditional reset"/>
+					</hasTVDresetStrategy>
 					<hasTVDresetStrategy id="rst_swr_noconf" resetStrategy="sweepRunWithoutConfirmation">
-						<designator register="_SimpleRegister" entry="sweeprun without confirmation"/> 
-					</hasTVDresetStrategy> 
+						<designator register="_SimpleRegister" entry="sweeprun without confirmation"/>
+					</hasTVDresetStrategy>
 					<hasTVDresetStrategy id="rst_swr_conf" resetStrategy="sweepRunWithConfirmation">
-						<designator register="_SimpleRegister" entry="sweeprun with confirmation"/> 
-					</hasTVDresetStrategy> 
+						<designator register="_SimpleRegister" entry="sweeprun with confirmation"/>
+					</hasTVDresetStrategy>
 					<hasRouteType id="rt_main" genericRouteType="normal">
-						<designator register="_SimpleRegister" entry="normal main route for trains"/> 
-					</hasRouteType> 
+						<designator register="_SimpleRegister" entry="normal main route for trains"/>
+					</hasRouteType>
 					<hasRouteType id="rt_shunt" genericRouteType="shunting" >
-						<designator register="_SimpleRegister" entry="shunting route"/> 
-					</hasRouteType> 
+						<designator register="_SimpleRegister" entry="shunting route"/>
+					</hasRouteType>
 					<hasLevelCrossingType id="lxt01" controlType="fullControlled" allowsLocalOperation="true" hasBarrier="true" hasTrafficWarning="true" >
-						<designator register="_SimpleRegister" entry="both sided controlled LX"/> 
-					</hasLevelCrossingType> 
+						<designator register="_SimpleRegister" entry="both sided controlled LX"/>
+					</hasLevelCrossingType>
 					<hasElementGroupType id="estop01" elementGroupType="emergencyStop">
-						<designator register="_SimpleRegister" entry="Emergency Stop 01"/> 
-					</hasElementGroupType> 
+						<designator register="_SimpleRegister" entry="Emergency Stop 01"/>
+					</hasElementGroupType>
 				</usesTypes>
 			</specificIM>
 		</specificIMs>
