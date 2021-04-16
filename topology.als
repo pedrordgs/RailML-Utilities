@@ -6,7 +6,7 @@ module topology
 **/
 
 
-// https://wiki3.railml.org/wiki/IS:netElement
+/* https://wiki3.railml.org/wiki/IS:netElement */
 sig NetElement {
 	// Atributes
 	-- length: lone Natural, // in meters but can be decimal (?)
@@ -34,7 +34,7 @@ one sig None, Both, AB, BA extends Navigability {}
 abstract sig Position {}
 one sig Zero, One extends Position {}
 
-// https://wiki3.railml.org/wiki/IS:netRelation
+/* https://wiki3.railml.org/wiki/IS:netRelation */
 sig NetRelation {
 	// Atributes
 	navigability: one Navigability,
@@ -49,13 +49,19 @@ sig NetRelation {
 	-- name: set Name,
 }
 
-/* Create a set of NetRelations related to one NetRealtion */
+/* Create a set of NetRelations related to one NetRelation */
 fun associated: NetRelation -> NetRelation {
 	/* Associated on element A */
 	((elementA.~elementA & positionOnA.~positionOnA) - iden)
 	+
 	/* Associated on element B */
 	((elementB.~elementB & positionOnB.~positionOnB) - iden)
+	+
+	/* Element A on one, is the Element B on the other */
+	((elementA.~elementB & positionOnA.~positionOnB) - iden)
+	+
+	/* Element A on one, is the Element B on the other */
+	((elementB.~elementA & positionOnB.~positionOnA) - iden)
 }
 
 fun elementOn: NetElement -> Position -> NetElement {
@@ -90,25 +96,42 @@ fact Topology {
 	-- No relations with elementA = elementB and positionA = positionB. As raquetes devem ter as positions de A e B diferentes.
 	no (elementA.~elementB & positionOnA.~positionOnB & iden)
 
-	-- All associated relations must have less than 4 relations with others. 4 net relations associated (associated[n] =3) means that we have a double switch.
-	all n : NetRelation | #associated[n] < 4
+	-- All associated relations must have less than 6 relations with others. 6 net relations associated (associated[n] = 5) means that we have a double switch.
+	-- However, we cant have 5 or 4 netRelations associated.
+	all n : NetRelation | #associated[n] < 6 && #associated[n] != 4 && #associated[n] != 3
 }
 
 
-// https://wiki3.railml.org/wiki/IS:network
-sig Network {
-	// Atributes
-	-- id: one Id
+/* https://wiki3.railml.org/wiki/IS:network */
+some sig Network {
+	level : some Level,								// Network at different abstraction levels
+}
 
+/* https://wiki3.railml.org/wiki/RTM:level */
+sig Level {
+	// Attributes
+	descriptionLevel : lone DescriptionLevel,			// level of the network
 	// Children
-	level: some Level
-	-- name: set Name,
-	-- networkResource: set NetElement+NetRelation
+	networkResource : set NetElement+NetRelation	// resources at the level
 }
 
-abstract sig Level {}
-one sig Micro, Meso, Macro extends Level {}
+/* Possible description levels */
+enum DescriptionLevel {Micro, Meso, Macro}
+
+fact Network {
+	// Assumptions
+	one Network
+	one Level
+	one Network.level
+	Network.level.descriptionLevel = Micro
+	Network.level.networkResource = NetElement+NetRelation
+}
+
+/*
+	abstract sig Level {}
+	one sig Micro, Meso, Macro extends Level {}
+*/
 
 run{
-} for exactly 5 NetElement, 5 NetRelation, 1 Network
+} for exactly 5 NetElement, 5 NetRelation, 1 Network, 1 Level
 

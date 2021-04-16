@@ -21,6 +21,10 @@ netElements = root.find(f"./{p}infrastructure/{p}topology/{p}netElements")
 netRelations = root.find(f"./{p}infrastructure/{p}topology/{p}netRelations")
 networks = root.find(f"./{p}infrastructure/{p}topology/{p}networks")
 
+# All ids and all refs.
+ids = root.findall(f".//*[@id]")
+refs = root.findall(f".//*[@ref]")
+
 # Estruturas auxiliares para testar redundancia entre netElements e netRelations
 dic_elements  = {}
 dic_relations = {}
@@ -30,27 +34,11 @@ dic_relations = {}
 # ---
 
 # Valida as referências de id. Se são válidas.
-def refsIds () -> (bool,str):
-  c = clfilter()
-  list_ids  = []
-  list_refs = []
-  # boolean = True
-  erros=""
-  aux = list(c.input())
-  for line in c.input():
+def validaAllRefs () -> (bool,str):
 
-    find_ids  = findall(r'id="(.*?)"', line)
-    find_refs = findall(r'ref="(.*?)"', line)
-
-    # Apesar de fazer o findall, só uso a primeira ocurrência visto que faço por linha. O find não existe no re.
-    list_ids.append((*find_ids, aux.index(line))) if find_ids else list_ids
-    list_refs.append((*find_refs, aux.index(line))) if find_refs else list_refs
-
-  # Guardei a nmr da linha de cada referência para em caso de erro.
-  for (ref,l) in list_refs:
-    if ref not in map(lambda x : x[0], list_ids): # [x[0] for x in list_ids]
-
-      erros = "  Line "+ str(l + 1) +" -> Reference " + ref + " doesn't match any id, meaning " + ref + " wasn't declared!\n"
+  for ref in refs:
+    if ref.attrib['ref'] not in map(lambda x : x.attrib['id'], ids):
+      erros = "  Line "+ str(ref.sourceline) +" -> Reference " + ref.attrib['ref'] + " doesn't match any id, meaning " + ref.attrib['ref'] + " wasn't declared!\n"
       return (False,erros)
 
   return (True,"")
@@ -158,7 +146,7 @@ def check_redundancy() -> (bool, bool, str, str):
 
 
 #(xml_list,
-(boolean_ids, e_ids) = refsIds()
+(boolean_ids, e_ids) = validaAllRefs()
 # (netElementRel,boolean) = netElementsFunc(netElements)
 netElementsFunc(netElements) # Preenchimento das relations para cada netElement.
 netRelationsFunc()
