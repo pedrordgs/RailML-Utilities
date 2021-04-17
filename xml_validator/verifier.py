@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
-from jjcli import *
-# import xml.etree.ElementTree as ET --> Não precisamos das duas. Basta o lxml e tem mais metodos.
+import jjcli as jj
 import numpy as np
 import sys
 from colorama import Fore, Back, Style
@@ -22,23 +21,58 @@ netRelations = root.find(f"./{p}infrastructure/{p}topology/{p}netRelations")
 networks = root.find(f"./{p}infrastructure/{p}topology/{p}networks")
 
 # All ids and all refs.
+refs = root.findall(f"./{p}infrastructure/{p}topology//*[@ref]")
+#refs.extend(root.findall(f"./{p}infrastructure/{p}topology//*[@positioningSystemRef]"))
+
 ids = root.findall(f".//*[@id]")
-refs = root.findall(f".//*[@ref]")
+
+dic_ids_tipo = {}
+for x in ids:
+    dic_ids_tipo[x.attrib['id']] = x.tag
+
+# for k,v in dic_ids_tipo.items():
+#     print(k, v)
 
 # Estruturas auxiliares para testar redundancia entre netElements e netRelations
 dic_elements  = {}
 dic_relations = {}
+dic_positioning = {}
 
 # ---
 # - Talvez criar tags que são associadas? Do tipo id numa, vai ser ref noutra tag.
 # ---
 
+dic_temp = {
+        'associatedPositioningSystem' : ['geometricPositioningSystems', 'linearPositioningSystems'],
+        'elementPart' : ['netElement'],
+        'geometricCoordinate' : ['geometricPositioningSystem'],
+        'linearCoordinate' : ['linearPositioningSystem'],
+        'relation' : ['netRelation'],
+        'elementA' : ['netElement'],
+        'elementB' : ['netElement'],
+        'networkResource' : ['netElement', 'netRelation']
+        }
+
+def validateTopologyRefs():
+    for ref in refs:
+        if ref.attrib['ref'] in dic_ids_tipo:
+            if not dic_ids_tipo[ref.attrib['ref']].split('}')[1] in dic_temp[ref.tag.split('}')[1]]:
+                print("{}: The type of the reference {} should be {}".format(
+                    ref.sourceline,
+                    ref.attrib['ref'],
+                    dic_temp[ref.tag.split('}')[1]]
+                    ))
+    else:
+        print("{}: The reference {} does not exit".format(ref.sourceline, ref.attrib['ref']))
+
 # Valida as referências de id. Se são válidas.
 def validaAllRefs () -> (bool,str):
-
   for ref in refs:
     if ref.attrib['ref'] not in map(lambda x : x.attrib['id'], ids):
-      erros = "  Line "+ str(ref.sourceline) +" -> Reference " + ref.attrib['ref'] + " doesn't match any id, meaning " + ref.attrib['ref'] + " wasn't declared!\n"
+      erros = "{}: Reference {} doesn't match any id, meaning it wasn't declared".format(
+              ref.sourceline,
+              ref.attrib['ref'],
+              )
       return (False,erros)
 
   return (True,"")
@@ -73,7 +107,7 @@ def getPositionIds():
     r = root.find(f"./{p}common/{p}positioning")
     for x in r:
         for xs in x:
-                print(xs.tag, xs.attrib)
+            dic_positioning[xs.attrib['id']] = xs.tag
 
 def nub(arr):
     return list(dict.fromkeys(arr))
@@ -145,30 +179,29 @@ def check_redundancy() -> (bool, bool, str, str):
   return(b1,b2,erros1,erros2)
 
 
-#(xml_list,
 (boolean_ids, e_ids) = validaAllRefs()
-# (netElementRel,boolean) = netElementsFunc(netElements)
-netElementsFunc(netElements) # Preenchimento das relations para cada netElement.
-netRelationsFunc()
+## (netElementRel,boolean) = netElementsFunc(netElements)
+#netElementsFunc(netElements) # Preenchimento das relations para cada netElement.
+#netRelationsFunc()
 
-#print(xml_list)
-(boolean, boolean2, e1, e2) = check_redundancy() # Verificar se os dicionários elementos e relações é redundante.
+##print(xml_list)
+#(boolean, boolean2, e1, e2) = check_redundancy() # Verificar se os dicionários elementos e relações é redundante.
 
-# postion_ids =
-# getPositionIds()
+getPositionIds()
+# print(dic_positioning)
 
-#####################################################################
-#                                                                   #
-#                       PRINTS TO THE USER                          #
-#                                                                   #
-#####################################################################
-pretty_print("Validating XML with a predefined Schema", validateXMLwithXSD(filename), "")
+######################################################################
+##                                                                   #
+##                       PRINTS TO THE USER                          #
+##                                                                   #
+######################################################################
+#pretty_print("Validating XML with a predefined Schema", validateXMLwithXSD(filename), "")
 
-#pretty_print("Checking if every ref is a valid id",
-#    np.array_equal(nub(sorted(list_ids)), nub(sorted(list_refs))), "")
+##pretty_print("Checking if every ref is a valid id",
+##    np.array_equal(nub(sorted(list_ids)), nub(sorted(list_refs))), "")
 
-pretty_print("Checking if every ref is a valid id", boolean_ids, e_ids)
+#pretty_print("Checking if every ref is a valid id", boolean_ids, e_ids)
 
-pretty_print("Checking if every relation in a netElement has that netElement", boolean , e1)
+#pretty_print("Checking if every relation in a netElement has that netElement", boolean , e1)
 
-pretty_print("Checking if every relation in a netRelation has the specified elements", boolean2, e2)
+#pretty_print("Checking if every relation in a netRelation has the specified elements", boolean2, e2)
