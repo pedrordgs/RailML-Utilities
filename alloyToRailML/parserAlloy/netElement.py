@@ -1,7 +1,7 @@
 class NetElement:
 
-    def __init__ (self, ident):
-        self.relations = []
+    def __init__ (self, ident, rels):
+        self.relations = rels
         self.length = 0
         self.id = ident
         # self.associatedPositionSystem = []
@@ -9,6 +9,3 @@ class NetElement:
         # self.elementCollectionUnordered = []
         # self.isValid = []
         # self.name = ''
-
-    def addRelation (self, net_relation):
-        self.relations.append(net_relation)
