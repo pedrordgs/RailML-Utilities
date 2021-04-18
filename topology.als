@@ -7,16 +7,16 @@ module topology
 
 
 /* https://wiki3.railml.org/wiki/IS:netElement */
-sig NetElement {
+some sig NetElement {
 	// Atributes
 	-- length: lone Natural, // in meters but can be decimal (?)
 	-- id: one Id,
 
 	// Children
-	relation: set NetRelation
+	relation: set NetRelation,
 	-- associatedPositionSystem: set AssociatedPositionSystem,
 	-- elementCollectionOrdered: seq NetElement,
-	-- elementCollectionUnordered: set NetElement,
+	elementCollectionUnordered: set NetElement
 	-- isValid: set Validation,
 	-- name: set Name,
 }
@@ -24,6 +24,11 @@ sig NetElement {
 fact NetElement {
 	-- Relation is redundant
 	relation = ~(elementA+elementB)
+	-- An element can't be a part of itself
+	no elementCollectionUnordered & iden
+	-- An element can't be on two different elements (???)
+	-- elementCollectionUnordered.~elementCollectionUnordered in iden
+	no iden & ^elementCollectionUnordered -- there are no loops on elementCollectionUnordered
 }
 
 // Possible navigability values
@@ -73,6 +78,10 @@ fun elementOn: NetElement -> Position -> NetElement {
 	}
 }
 
+fun extend: Level -> NetElement {
+	{ l: Level, n: NetElement | n in l.networkResource or n in l.networkResource.^elementCollectionUnordered }
+}
+
 // Adjacent elements
 fun adjacent : NetElement -> NetElement {
 	relation.~relation - iden
@@ -99,6 +108,11 @@ fact Topology {
 	-- All associated relations must have less than 6 relations with others. 6 net relations associated (associated[n] = 5) means that we have a double switch.
 	-- However, we cant have 5 or 4 netRelations associated.
 	all n : NetRelation | #associated[n] < 6 && #associated[n] != 4 && #associated[n] != 3
+
+	-- Micro elements need to be on meso and macro elements, fails when there isn't a Meso or Macro level
+	all n: Network | extend[n.level & descriptionLevel.Micro] in extend[n.level & descriptionLevel.Meso]
+	all n: Network | extend[n.level & descriptionLevel.Micro] in extend[n.level & descriptionLevel.Macro]
+	all n: Network | extend[n.level & descriptionLevel.Meso] in extend[n.level & descriptionLevel.Macro]
 }
 
 
@@ -120,11 +134,13 @@ enum DescriptionLevel {Micro, Meso, Macro}
 
 fact Network {
 	// Assumptions
-	one Network
-	one Level
-	one Network.level
-	Network.level.descriptionLevel = Micro
-	Network.level.networkResource = NetElement+NetRelation
+	--one Network
+	--one Level
+	--one Network.level
+	all n:Network, l: DescriptionLevel | lone n.level & descriptionLevel.l -- foreach network, we can have at most 1 micro, 1 meso and 1 macro level
+	no Level - Network.level -- every level has a network associated
+	--Network.level.descriptionLevel = Micro
+	--Network.level.networkResource = NetElement+NetRelation
 }
 
 /*
@@ -133,5 +149,9 @@ fact Network {
 */
 
 run{
-} for exactly 5 NetElement, 5 NetRelation, 1 Network, 1 Level
+	no NetElement - Level.networkResource
+	all l: Level | one l.descriptionLevel
+} for exactly 5 NetElement, exactly 5 NetRelation, exactly 1 Network, exactly 3 Level
+
+
 
