@@ -15,6 +15,5 @@ Gerais:
   - Se um elemento está conectado a outros dois elementos no mesmo endpoint, então esses dois devem também estar ligados nesse mesmo endpoint.
   - regra dos triângulos (length), é possível no alloy sem ângulos ???
   - relation é redundante, ou seja, o elemento A e elemento B devem conter a relação
-
-
-
+  - A extensão dos membros no nível micro, deve estar contida na extensão dos membros do meso e os do meso, nos do macro
+  - Uma network não pode ter mais que um nível micro, meso e macro.
