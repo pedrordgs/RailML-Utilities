@@ -2,9 +2,10 @@
 from jjcli import *
 import tkinter as tk
 from tkinter import filedialog
+from colorama import Fore, Back, Style
 
 def main ():
-  s = """
+  s = f"""
   ╔═════════════════════════════════════════════════════════════════════════╗
   ║                                                                         ║
   ║                            Validator RailML                             ║
@@ -29,6 +30,7 @@ def main ():
   ╚═════════════════════════════════════════════════════════════════════════╝
   """
   print(s)
+  uploaded = 0
 
   while True:
     try:
@@ -40,17 +42,32 @@ def main ():
         else:
           print("OK")
           if (val == 1):
-            root = tk.Tk()
-            root.withdraw()
 
-            filename = filedialog.askopenfilename()
-            print(filename)
-            # call upload function
+            while uploaded == 1:
+              opt = input(Fore.RED + 'Are you sure you want to update another file? [y/N]').strip()
+              print(Style.RESET_ALL, end="")
+
+              if opt == "y" or opt == "Y":
+                uploaded = 0
+              elif opt == "n" or opt == "N" or opt == "":
+                break
+
+            if uploaded == 0:
+              root = tk.Tk()
+              root.withdraw()
+              filename = filedialog.askopenfilename(initialdir = ".",
+                                          title = "Select a XML File",
+                                          filetypes = [("XML files",
+                                                        "*.xml")])
+              uploaded = 1
+
             # read to xml struct
           elif (val == 2):
             # Validate file.
+            sys.exit()
           elif (val == 3):
             # visualize graph. Only after uploaded file.
+            sys.exit()
           elif (val == 4):
             sys.exit()
 

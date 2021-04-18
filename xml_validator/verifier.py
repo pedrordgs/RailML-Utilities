@@ -23,7 +23,6 @@ networks = root.find(f"./{p}infrastructure/{p}topology/{p}networks")
 # All ids and all refs.
 refs = root.findall(f"./{p}infrastructure/{p}topology//*[@ref]")
 #refs.extend(root.findall(f"./{p}infrastructure/{p}topology//*[@positioningSystemRef]"))
-
 ids = root.findall(f".//*[@id]")
 
 dic_ids_tipo = {}
@@ -62,20 +61,8 @@ def validateTopologyRefs():
                     ref.attrib['ref'],
                     dic_temp[ref.tag.split('}')[1]]
                     ))
-    else:
-        print("{}: The reference {} does not exit".format(ref.sourceline, ref.attrib['ref']))
-
-# Valida as referências de id. Se são válidas.
-def validaAllRefs () -> (bool,str):
-  for ref in refs:
-    if ref.attrib['ref'] not in map(lambda x : x.attrib['id'], ids):
-      erros = "{}: Reference {} doesn't match any id, meaning it wasn't declared".format(
-              ref.sourceline,
-              ref.attrib['ref'],
-              )
-      return (False,erros)
-
-  return (True,"")
+        else:
+          print("{}: The reference {} does not exit".format(ref.sourceline, ref.attrib['ref']))
 
 # mudar para receber ficheiro xml como argumento o path
 # do ficheiro e o respetivo schema
@@ -179,7 +166,8 @@ def check_redundancy() -> (bool, bool, str, str):
   return(b1,b2,erros1,erros2)
 
 
-(boolean_ids, e_ids) = validaAllRefs()
+validateTopologyRefs()
+#(boolean_ids, e_ids) = validaAllRefs()
 ## (netElementRel,boolean) = netElementsFunc(netElements)
 #netElementsFunc(netElements) # Preenchimento das relations para cada netElement.
 #netRelationsFunc()
