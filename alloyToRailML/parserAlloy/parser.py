@@ -13,7 +13,7 @@ def strToPos(pos):
         return 1
 
 
-def parseNetElement(rail, nelems, rels):
+def parseNetElement(rail, nelems, rels, ecu):
     for elem in nelems:
         nelem = elem.get('label').split('$')[1]
         ident = 'ne_' + nelem
@@ -21,9 +21,14 @@ def parseNetElement(rail, nelems, rels):
         r = []
         for rel in assoc_rels:
             netr = 'nr_' + rel[1].get('label').split('$')[1]
-            print(f'{ident} {netr}')
             r.append(netr)
-        rail.addNetElement(NetElement(ident, r))
+        assoc_ecu = ecu.findall(f'.//atom[@label="NetElement${nelem}"][1]/..')
+        ecol = []
+        for e in assoc_ecu:
+            el = 'ne_' + e[1].get('label').split('$')[1]
+            ecol.append(el)
+        print(f'{ident} {r} {ecol}')
+        rail.addNetElement(NetElement(ident, r, ecol))
 
 
 
@@ -72,8 +77,9 @@ def parseAlloyXML(filename):
 
     nelems = tree.find(f'.//sig[@label="this/NetElement"]')
     rels = tree.find(f'.//field[@label="relation"]')
+    ecu = tree.find(f'.//field[@label="elementCollectionUnordered"]')
 
-    parseNetElement(rail, nelems, rels)
+    parseNetElement(rail, nelems, rels, ecu)
 
     nrels = tree.find(f'.//sig[@label="this/NetRelation"]')
     navs = tree.find(f'.//field[@label="navigability"]')

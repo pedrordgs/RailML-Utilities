@@ -25,6 +25,13 @@ for nelem in rail.netElements:
         nrel = ET.Element(f'{path}relation')
         nrel.set('ref', rel)
         new.append(nrel)
+    el = ET.Element(f'{path}elementCollectionUnordered')
+    el.set('id', f'ecu_{nelem.id}')
+    for elem in nelem.elementCollectionUnordered:
+        elemPart = ET.Element(f'{path}elementPart')
+        elemPart.set('ref', elem)
+        el.append(elemPart)
+    new.append(el)
     assoc_pos = ET.Element(f'{path}associatedPositioningSystem')
     assoc_pos.set('id', f'aps_{nelem.id}')
     intrinsic_coord = ET.Element(f'{path}intrinsicCoordinate')
