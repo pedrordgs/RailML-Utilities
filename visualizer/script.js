@@ -117,7 +117,7 @@ function netRel(xmlDoc){
 }
 
 if (window.File && window.FileReader && window.FileList && window.Blob) {
-    function showFile() {
+    function loadFile() {
         var file = document.querySelector('input[type=file]').files[0];
         var reader = new FileReader()
 
