@@ -64,6 +64,7 @@ def validateTopologyRefs():
         else:
           print("{}: The reference {} does not exit".format(ref.sourceline, ref.attrib['ref']))
 
+
 # mudar para receber ficheiro xml como argumento o path
 # do ficheiro e o respetivo schema
 def validateXMLwithXSD(filename):
@@ -183,7 +184,7 @@ getPositionIds()
 ##                       PRINTS TO THE USER                          #
 ##                                                                   #
 ######################################################################
-#pretty_print("Validating XML with a predefined Schema", validateXMLwithXSD(filename), "")
+# pretty_print("Validating XML with a predefined Schema", validateXMLwithXSD(filename), "")
 
 ##pretty_print("Checking if every ref is a valid id",
 ##    np.array_equal(nub(sorted(list_ids)), nub(sorted(list_refs))), "")

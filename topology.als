@@ -24,11 +24,10 @@ some sig NetElement {
 fact NetElement {
 	-- Relation is redundant
 	relation = ~(elementA+elementB)
-	-- An element can't be a part of itself
-	no elementCollectionUnordered & iden
-	-- An element can't be on two different elements (???)
-	-- elementCollectionUnordered.~elementCollectionUnordered in iden
-	no iden & ^elementCollectionUnordered -- there are no loops on elementCollectionUnordered
+	-- there are no loops on elementCollectionUnordered
+	no iden & ^elementCollectionUnordered
+	-- there are no relations between an element and an element inside
+	
 }
 
 // Possible navigability values
@@ -87,17 +86,31 @@ fun adjacent : NetElement -> NetElement {
 	relation.~relation - iden
 }
 
+fun relatedOn: Level -> NetElement -> NetElement {
+	{ l: Level, disj a, b: NetElement {
+			some e: l.networkResource:>NetElement | a + b in e.^elementCollectionUnordered or
+			some r: l.networkResource:>NetRelation, disj e1, e2: l.networkResource:>NetElement {
+				r in e1.relation & e2.relation and 
+				a in e1.*elementCollectionUnordered and
+				b in e2.*elementCollectionUnordered
+			}
+		}
+	}
+}
+
+
 fact Topology {
 	/* ASSUMPTIONS */
 
 	-- If a NetElement is connected to two different NetElements in same endpoint, those must also be connected
 	all a: NetElement, disj b,c: Position.(a.elementOn) | a.elementOn.b = a.elementOn.c implies some b.elementOn.c
 
-	-- Can't exist 2 NetRelations with the same elementA and elementB. Se for circular deve ser considerado a mesma NetRelation.
-	(elementA.~elementA & elementB.~elementB) in iden /* ker<elementA,elementB> in iden */
+	-- Can't exist more than 1 netRelation with the same elementA and elementB. Se for circular deve ser considerado a mesma NetRelation.
+	(elementA.~elementA & elementB.~elementB) + (elementA.~elementB & elementB.~elementA) in iden
 
 	-- If 3 elements are connected in a endpoint, then its a switch, meaning navigability must be none in 1 out of 3.
-	all n : NetRelation | n.navigability = None iff (n.positionOnA = n.positionOnB)
+	-- Esta regra será definida quando forem implementados os switch
+	-- all n : NetRelation | n.navigability = None iff (n.positionOnA = n.positionOnB) 
 
 	-- No relations with elementA = elementB.
 	/* no (elementA.~elementB & iden) → False, Raquetes (navigabilidade raquetes?) */
@@ -107,12 +120,26 @@ fact Topology {
 
 	-- All associated relations must have less than 6 relations with others. 6 net relations associated (associated[n] = 5) means that we have a double switch.
 	-- However, we cant have 5 or 4 netRelations associated.
-	all n : NetRelation | #associated[n] < 6 && #associated[n] != 4 && #associated[n] != 3
+ 	-- Esta regra será definida quando forem implementados os switch
+	-- all n : NetRelation | #associated[n] < 6 && #associated[n] != 4 && #associated[n] != 3
 
 	-- Micro elements need to be on meso and macro elements, fails when there isn't a Meso or Macro level
-	all n: Network | extend[n.level & descriptionLevel.Micro] in extend[n.level & descriptionLevel.Meso]
-	all n: Network | extend[n.level & descriptionLevel.Micro] in extend[n.level & descriptionLevel.Macro]
-	all n: Network | extend[n.level & descriptionLevel.Meso] in extend[n.level & descriptionLevel.Macro]
+	all n: Network | some n.level & descriptionLevel.Meso implies {
+		 extend[n.level & descriptionLevel.Micro] in extend[n.level & descriptionLevel.Meso]
+	}
+	all n: Network | some n.level & descriptionLevel.Macro implies {
+		 extend[n.level & descriptionLevel.Micro] in extend[n.level & descriptionLevel.Macro] and
+		 extend[n.level & descriptionLevel.Meso] in extend[n.level & descriptionLevel.Macro]
+	}
+	
+	-- If two elements are related on micro, they are related on meso and macro too
+	all n: Network | some n.level & descriptionLevel.Meso implies {
+		 relatedOn[n.level & descriptionLevel.Micro] in relatedOn[n.level & descriptionLevel.Meso]
+	}
+	all n: Network | some n.level & descriptionLevel.Macro implies {
+		 relatedOn[n.level & descriptionLevel.Micro] in relatedOn[n.level & descriptionLevel.Macro] and
+		 relatedOn[n.level & descriptionLevel.Meso] in relatedOn[n.level & descriptionLevel.Macro]
+	}
 }
 
 
@@ -134,24 +161,25 @@ enum DescriptionLevel {Micro, Meso, Macro}
 
 fact Network {
 	// Assumptions
-	--one Network
-	--one Level
-	--one Network.level
 	all n:Network, l: DescriptionLevel | lone n.level & descriptionLevel.l -- foreach network, we can have at most 1 micro, 1 meso and 1 macro level
-	no Level - Network.level -- every level has a network associated
-	--Network.level.descriptionLevel = Micro
-	--Network.level.networkResource = NetElement+NetRelation
+	no Level - Network.level -- every level is associated to a network
+	no Network - Level.~level -- every network has at most one level associated
+	-- if some netRelation is a networkResource of a level, then its elements need to be a networkResource of the same level
+	all l: Level | all r: l.networkResource:>NetRelation | r.elementA + r.elementB  in l.networkResource:>NetElement
+	-- An element inside another element can't be a netResource of the same level
+	all l: Level | all disj a, b: l.networkResource:>NetElement | no a & b.elementCollectionUnordered
 }
 
-/*
-	abstract sig Level {}
-	one sig Micro, Meso, Macro extends Level {}
-*/
-
 run{
-	no NetElement - Level.networkResource
-	all l: Level | one l.descriptionLevel
+	no (NetElement+NetRelation) - Level.networkResource -- every netelement and netrelation is a networkResource
+	all l: Level | one l.descriptionLevel -- every level has a descriptionlevel
+	all l: Level | some l.networkResource -- every level has networkResources
+	-- higher levels have more extended elements
+	all n: Network {
+		some extend[n.level & descriptionLevel.Macro] - extend[n.level & descriptionLevel.Micro] and
+		some extend[n.level & descriptionLevel.Macro] - extend[n.level & descriptionLevel.Meso] and
+		some extend[n.level & descriptionLevel.Meso] - extend[n.level & descriptionLevel.Micro]
+	}
+	no iden & elementA.~elementB -- no rackets
+	some elementCollectionUnordered
 } for exactly 5 NetElement, exactly 5 NetRelation, exactly 1 Network, exactly 3 Level
-
-
-
