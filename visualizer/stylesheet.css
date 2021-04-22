@@ -1,0 +1,26 @@
+.body {
+    background-color: powderblue;
+}
+
+.upload-wrapper {
+    background-color: pink;
+}
+
+#cy {
+    width: 80%;
+    height: 700px;
+    margin: auto;
+    background-color: white;
+    display: block;
+    align-content: center;
+}
+
+h1 {
+  color: red;
+  text-align: center;
+}
+
+p {
+  font-family: verdana;
+  font-size: 20px;
+}
