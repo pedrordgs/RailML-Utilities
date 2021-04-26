@@ -128,7 +128,7 @@ def netRelationsFunc():
               netRelArray.append(xs.attrib['ref'])
         dic_relations[x.attrib['id'].strip()] = netRelArray
 
-def check_redundancy() -> (bool, bool, str, str):
+def check_redundancy():
   b1 = True
   b2 = True
   erros1 = ""
