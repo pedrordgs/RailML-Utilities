@@ -140,11 +140,3 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 } else {
     alert("Your browser is too old to support HTML5 File API");
 }
-
-
-// var eles = cy.add([
-//     { group: 'nodes', data: { id: 'n0' }, position: { x: 100, y: 100 } },
-//     { group: 'nodes', data: { id: 'n1' }, position: { x: 200, y: 200 } },
-//     { group: 'edges', data: { id: 'e0', source: 'n0', target: 'n1' } },
-//     { group: 'edges', data: { id: 'e1', source: 'n1', target: 'n1' } }
-// ]);
