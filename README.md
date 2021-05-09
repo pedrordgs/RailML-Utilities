@@ -18,8 +18,8 @@ Contribution is much welcome! Anyone is able to contributing by submitting a PR.
 ## Credits
 This project was developed by:
 - José Pedro Silva (a84577@alunos.uminho.pt)
-- Luís Mário Ribeiro (a8XXXX@alunos.uminho.pt)
-- Pedro Rodrigues (a8XXXX@alunos.uminho.pt)
+- Luís Mário Ribeiro (a85954@alunos.uminho.pt)
+- Pedro Rodrigues (a84783@alunos.uminho.pt)
 
 And supervised by:
 - Alcino Cunha (alcino@di.uminho.pt)
