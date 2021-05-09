@@ -5,10 +5,16 @@ import sys
 input_file = sys.argv[1]
 out_file = sys.argv[2]
 
+path = '{https://www.railml.org/schemas/3.1}'
+
+ET.register_namespace('', 'https://www.railml.org/schemas/3.1')
+ET.register_namespace('dc', 'http://purl.org/dc/elements/1.1/')
+ET.register_namespace('gml', 'http://www.opengis.net/gml/3.2/')
+ET.register_namespace('xsi', 'http://www.w3.org/2001/XMLSchema-instance')
+
 tree = ET.parse('template.xml')
 instance = tree.getroot()
 
-path = '{https://www.railml.org/schemas/3.1}'
 
 netElements = instance.find(f'.//{path}netElements')
 netRelations = instance.find(f'.//{path}netRelations')
@@ -70,8 +76,4 @@ for net in rail.networks:
         new.append(lvl)
     networks.append(new)
 
-
 tree.write(out_file)
-
-
-

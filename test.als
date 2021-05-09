@@ -21,14 +21,13 @@ some sig NetElement {
 	-- name: set Name,
 }
 
-fact NetElement {
+pred NetElementAssumptions {
 	-- Relation is redundant
 	relation = ~(elementA+elementB)
 	-- there are no loops on elementCollectionUnordered
 	no iden & ^elementCollectionUnordered
-	-- there are no relations between an element and an element inside
-	
 }
+
 
 // Possible navigability values
 abstract sig Navigability {}
@@ -71,8 +70,8 @@ fun associated: NetRelation -> NetRelation {
 fun elementOn: NetElement -> Position -> NetElement {
 	{a: NetElement, p: Position, b: NetElement |
 		some r: NetRelation {
-			a = r.elementA and p = r.positionOnA and b = r.elementB or
-			a = r.elementB and p = r.positionOnB and b = r.elementB
+			(a = r.elementA and p = r.positionOnA and b = r.elementB) or
+			(a = r.elementB and p = r.positionOnB and b = r.elementA)
 		}
 	}
 }
@@ -99,7 +98,7 @@ fun relatedOn: Level -> NetElement -> NetElement {
 }
 
 
-fact Topology {
+pred TopologyAssumptions {
 	/* ASSUMPTIONS */
 
 	-- If a NetElement is connected to two different NetElements in same endpoint, those must also be connected
@@ -160,7 +159,7 @@ sig Level {
 abstract sig DescriptionLevel {}
 one sig Micro, Meso, Macro extends DescriptionLevel {}
 
-fact Network {
+pred NetworkAssumptions {
 	// Assumptions
 	all n:Network, l: DescriptionLevel | lone n.level & descriptionLevel.l -- foreach network, we can have at most 1 micro, 1 meso and 1 macro level
 	no Level - Network.level -- every level is associated to a network
@@ -172,6 +171,9 @@ fact Network {
 }
 
 run{
+	NetElementAssumptions
+	TopologyAssumptions
+	NetworkAssumptions
 	no (NetElement+NetRelation) - Level.networkResource -- every netelement and netrelation is a networkResource
 	all l: Level | one l.descriptionLevel -- every level has a descriptionlevel
 	all l: Level | some l.networkResource -- every level has networkResources
@@ -184,10 +186,6 @@ run{
 	no iden & elementA.~elementB -- no rackets
 	some elementCollectionUnordered
 } for exactly 5 NetElement, exactly 5 NetRelation, exactly 1 Network, exactly 3 Level
-
-
-
-
 
 
 /*
