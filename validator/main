@@ -1,10 +1,11 @@
 #!/usr/bin/python3
 import sys, os
 from os.path import isfile
-from verifier.xml_checker import check_
+
+# Módulos criados - Parser, ValidadorSchema e RulesAlloy
 from parser_rail.parser import parseRailML
-from lxml import etree
-from colorama import Fore, Back, Style
+from verifier.xml_checker import check_
+from verifier.alloy_rules import assumptions_
 
 
 # Main function which is gonna call the Schema validator, the parser and then the validator.
@@ -20,10 +21,14 @@ def main():
       print("ERROR: File given isn't a xml file.")
       sys.exit()
 
-    # Validate Schema
+
+    # Validate Schema xml
+    #check_(f)
+    # Parse file
     r = parseRailML(f)
-    # Validate xml
-    check_(f)
+    # Validate alloy rules
+    assumptions_(r)
+
 
   else:
     print('Must give a file as input.')
