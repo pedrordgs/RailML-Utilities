@@ -17,17 +17,22 @@ def parseNetElement(rail, nelems, rels, ecu):
     for elem in nelems:
         nelem = elem.get('label').split('$')[1]
         ident = 'ne_' + nelem
-        assoc_rels = rels.findall(f'.//atom[@label="NetElement${nelem}"]/..')
+        if rels != None:
+            assoc_rels = rels.findall(f'.//atom[@label="NetElement${nelem}"]/..')
+        else:
+            assoc_rels = []
         r = []
         for rel in assoc_rels:
             netr = 'nr_' + rel[1].get('label').split('$')[1]
             r.append(netr)
-        assoc_ecu = ecu.findall(f'.//atom[@label="NetElement${nelem}"][1]/..')
+        if ecu != None:
+            assoc_ecu = ecu.findall(f'.//atom[@label="NetElement${nelem}"][1]/..')
+        else:
+            assoc_ecu = []
         ecol = []
         for e in assoc_ecu:
             el = 'ne_' + e[1].get('label').split('$')[1]
             ecol.append(el)
-        print(f'{ident} {r} {ecol}')
         rail.addNetElement(NetElement(ident, r, ecol))
 
 
@@ -41,7 +46,6 @@ def parseNetRelation(rail, nrels, navs, possA, possB, elemsA, elemsB):
         posB = strToPos(possB.find(f'.//atom[@label="NetRelation${nrel}"]/..')[1].get('label').split('$')[0])
         elemA = 'ne_' + elemsA.find(f'.//atom[@label="NetRelation${nrel}"]/..')[1].get('label').split('$')[1]
         elemB = 'ne_' + elemsB.find(f'.//atom[@label="NetRelation${nrel}"]/..')[1].get('label').split('$')[1]
-        print(f'{ident} {nav} {posA} {posB} {elemA} {elemB}')
         rail.netRelations.append(NetRelation(ident, nav, posA, posB, elemA, elemB))
 
 
@@ -63,7 +67,6 @@ def parseNetworks(rail, nets, lvls, desc_lvl, net_res):
                     net_resources.append('ne_' + s[1])
                 else:
                     net_resources.append('nr_' + s[1])
-            print(f'{ident} {lvl_id} {desc} {net_resources}')
             lvls.append(Level(lvl_id, desc, net_resources))
         rail.networks.append(Network(ident, lvls))
 

@@ -3,7 +3,6 @@ import xml.etree.ElementTree as ET
 import sys
 
 input_file = sys.argv[1]
-out_file = sys.argv[2]
 
 path = '{https://www.railml.org/schemas/3.1}'
 
@@ -31,13 +30,14 @@ for nelem in rail.netElements:
         nrel = ET.Element(f'{path}relation')
         nrel.set('ref', rel)
         new.append(nrel)
-    el = ET.Element(f'{path}elementCollectionUnordered')
-    el.set('id', f'ecu_{nelem.id}')
-    for elem in nelem.elementCollectionUnordered:
-        elemPart = ET.Element(f'{path}elementPart')
-        elemPart.set('ref', elem)
-        el.append(elemPart)
-    new.append(el)
+    if len(nelem.elementCollectionUnordered) > 0:
+        el = ET.Element(f'{path}elementCollectionUnordered')
+        el.set('id', f'ecu_{nelem.id}')
+        for elem in nelem.elementCollectionUnordered:
+            elemPart = ET.Element(f'{path}elementPart')
+            elemPart.set('ref', elem)
+            el.append(elemPart)
+        new.append(el)
     assoc_pos = ET.Element(f'{path}associatedPositioningSystem')
     assoc_pos.set('id', f'aps_{nelem.id}')
     intrinsic_coord = ET.Element(f'{path}intrinsicCoordinate')
@@ -76,4 +76,6 @@ for net in rail.networks:
         new.append(lvl)
     networks.append(new)
 
-tree.write(out_file)
+ET.indent(instance)
+xml = ET.tostring(instance, encoding='unicode')
+print(xml)

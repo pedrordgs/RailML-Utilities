@@ -187,7 +187,7 @@ def parseNetworkResources(instance, nlvls, map_lvls, map_elems, map_rels):
     instance.add_field(field)
 
 
-def parseToAlloy(filename):
+def parseToAlloy(filename, alloyfile):
     alloy = Alloy()
 
     tree = ET.parse(filename)
@@ -198,7 +198,7 @@ def parseToAlloy(filename):
     networks = root.find(f'.//{path}networks')
     network_levels = networks.findall(f'.//{path}level')
 
-    instance = Instance('/home/pbr/railML/test.als')
+    instance = Instance(alloyfile)
     init_decl(instance)
 
     map_elems = parseNetElements(instance, netElements)
@@ -221,6 +221,3 @@ def parseToAlloy(filename):
     alloy.add_instance(instance)
 
     return alloy
-
-
-

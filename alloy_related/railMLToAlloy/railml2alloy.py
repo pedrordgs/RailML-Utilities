@@ -1,8 +1,11 @@
 from parserRail.parser import parseToAlloy
 import xml.etree.ElementTree as ET
+import sys
 
-alloy = parseToAlloy('examples/railml.xml')
+alloy_file = sys.argv[1]
+input_file = sys.argv[2]
 
+alloy = parseToAlloy(input_file, alloy_file)
 
 root = ET.Element('alloy')
 root.set('builddate', "2021-02-23T10:54:30.238Z")
@@ -57,4 +60,6 @@ for instance in alloy.instances:
 
     root.append(ins)
 
-ET.dump(root)
+ET.indent(root)
+xml = ET.tostring(root, encoding='unicode')
+print(xml)
