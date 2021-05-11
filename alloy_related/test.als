@@ -89,7 +89,7 @@ fun relatedOn: Level -> NetElement -> NetElement {
 	{ l: Level, disj a, b: NetElement {
 			some e: l.networkResource:>NetElement | a + b in e.^elementCollectionUnordered or
 			some r: l.networkResource:>NetRelation, disj e1, e2: l.networkResource:>NetElement {
-				r in e1.relation & e2.relation and 
+				r in e1.relation & e2.relation and
 				a in e1.*elementCollectionUnordered and
 				b in e2.*elementCollectionUnordered
 			}
@@ -109,7 +109,7 @@ pred TopologyAssumptions {
 
 	-- If 3 elements are connected in a endpoint, then its a switch, meaning navigability must be none in 1 out of 3.
 	-- Esta regra será definida quando forem implementados os switch
-	-- all n : NetRelation | n.navigability = None iff (n.positionOnA = n.positionOnB) 
+	-- all n : NetRelation | n.navigability = None iff (n.positionOnA = n.positionOnB)
 
 	-- No relations with elementA = elementB.
 	/* no (elementA.~elementB & iden) → False, Raquetes (navigabilidade raquetes?) */
@@ -130,7 +130,7 @@ pred TopologyAssumptions {
 		 extend[n.level & descriptionLevel.Micro] in extend[n.level & descriptionLevel.Macro] and
 		 extend[n.level & descriptionLevel.Meso] in extend[n.level & descriptionLevel.Macro]
 	}
-	
+
 	-- If two elements are related on micro, they are related on meso and macro too
 	all n: Network | some n.level & descriptionLevel.Meso implies {
 		 relatedOn[n.level & descriptionLevel.Micro] in relatedOn[n.level & descriptionLevel.Meso]
@@ -190,7 +190,7 @@ run{
 
 /*
 fun elementOn2 : NetElement -> Natural -> NetElement -> Natural {
-	{ a : NetElement, p : Natural, b : NetElement, q : Natural | 
+	{ a : NetElement, p : Natural, b : NetElement, q : Natural |
 		some r : NetRelation {
 			r.elementA = a and p = mul[r.positionOnA,a.length] and r.elementB = b and q = mul[r.positionOnB,b.length] or
 			r.elementB = a and p = mul[r.positionOnB,a.length] and r.elementA = b and q = mul[r.positionOnA,b.length]
