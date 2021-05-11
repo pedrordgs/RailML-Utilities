@@ -3,8 +3,8 @@ function netElementFunc(id, length) {
     this.length = length;
 };
 
-var arr = []
 function drawNodes(xmlDoc, relations){
+		var arr = []
     var nodes = [];
     let netElements = xmlDoc.getElementsByTagName('netElement');
     for (i=0; i<netElements.length; i++){
@@ -15,27 +15,24 @@ function drawNodes(xmlDoc, relations){
     }
     //console.log(arr)
     var cy = cytoscape({
-
         container: document.getElementById('cy'), // container to render in
-
         elements: [],
-
         style: [ // the stylesheet for the graph
             {
                 selector: 'node',
                 style: {
-                    'background-color': '#666',
-                    'label': 'data(id)'
+                    'background-color': '#666'
+                    // 'label': 'data(id)' -> para desenhar o nome dos nodos
                 }
             },
-
             {
                 selector: 'edge',
                 style: {
                     'width': 3,
                     'line-color': '#ccc',
                     'target-arrow-color': '#ccc',
-                    'curve-style': 'bezier'
+                    'curve-style': 'bezier',
+										'label': 'data(relation)'
                 }
             }
         ],
@@ -77,7 +74,7 @@ function drawNodes(xmlDoc, relations){
             hasBeenDrawn.push(elem1);
         }
 
-        cy.add({ group: 'edges', data: { id: i, source: elem0, target: elem1}})
+        cy.add({ group: 'edges', selectable: true, data: { relation: arr[i].id,  id: i, source: elem0, target: elem1}})
     }
     cy.fit();
     return nodes;
