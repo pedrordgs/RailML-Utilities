@@ -9,7 +9,7 @@ The main goal of this project after finishing the topology is to expand all the 
 
 ## Features
 - [Verification with Alloy](https://github.com/pedrordgs/railML/tree/master/alloy_related)
-- [railML validator](https://github.com/pedrordgs/railML/tree/master/xml_validator)
+- [railML validator](https://github.com/pedrordgs/railML/tree/master/validator)
 - [railML visualizer](https://github.com/pedrordgs/railML/tree/master/visualizer)
 
 ## Contributing
