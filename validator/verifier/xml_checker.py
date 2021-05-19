@@ -51,9 +51,9 @@ def check_(filename):
   ##                       PRINTS TO THE USER                          #
   ##                                                                   #
   ######################################################################
-  pretty_print("Validating XML with a predefined Schema.", validateXMLwithXSD(filename), "")
+  p_print("Validating XML with a predefined Schema.", validateXMLwithXSD(filename), "")
 
-  pretty_print("Checking if every ref is a valid id.", b, e)
+  p_print("Checking if every ref is a valid id.", b, e)
 
 
 
@@ -90,15 +90,17 @@ def validateXMLwithXSD(filename):
         return False
     return True
 
-def pretty_print(str, b, erros):
-    print(str)
+# Pretty print
+def p_print(str, b, erros):
     if b:
-        print(Fore.GREEN + " True")
+      print(Fore.GREEN + "", str)
     else:
-        print(Fore.RED + " False")
+      print(Fore.RED + "", str)
     print(Style.RESET_ALL, end="")
     if erros != "":
-      print(erros)
+      if (erros == "ignore_net"):
+        print('', end='')
+      else:
+        print(erros)
     else:
-      print("")
-
+      print('')

@@ -2,7 +2,7 @@
 import sys, os
 from os.path import isfile
 
-# Módulos criados - Parser, ValidadorSchema e RulesAlloy
+# Created modules - Parser, ValidadorSchema and RulesAlloy
 from parser_rail.parser import parseRailML
 from verifier.xml_checker import check_
 from verifier.alloy_rules import assumptions_
