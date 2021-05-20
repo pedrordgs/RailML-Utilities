@@ -15,6 +15,9 @@ This folder contains every file used for validation purposes. Before verifying t
     - An element can't relate to itself at the same position. So, can't exist a relation with elementA = elementB and positionA = positionB.
     - If a element is connected to two different elements in same endpoint, those must also be connected and their positions must be preserved.
 - **Network Assumptions:** Note that, networks can have different levels, those being Micro, Meso and Macro, hierarchically ordered.
-    - Extending every element at the Meso level, they either represent a meso element or a micro element. Meaning that, every element at the Micro level must be also at the extended Meso level.
-    - Extending every element at the Macro level, they either represent a macro element, a meso element or a micro element. Meaning that, every element at the Micro level or at the Meso level must be also at the extended Macro level.
+    - Micro level must exist in each defined network.
+    - Elements defined at the Micro level can't be extended by other elements, meaning that elementCollectionUnordered of these elements must be empty.
+    - Extending every element at the Meso level, they must represent a micro element. Meaning that, Micro level must be the same as the extended Meso level.
+    - Extending every element at the Macro level, they either represent a meso element or a micro element. Meaning that, the logic disjunction of both Micro and Meso level must be the same as the extended Macro level.
+    - Every relation defined at any level, their corresponding elements must be defined at the same level.
     - Relations defined at the Micro level, must also be defined at both Meso and Macro levels. Same for relations defined at the Meso level, which must be defined at the Macro level.
