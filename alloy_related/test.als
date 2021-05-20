@@ -163,7 +163,7 @@ pred NetworkAssumptions {
 	// Assumptions
 	all n:Network, l: DescriptionLevel | lone n.level & descriptionLevel.l -- foreach network, we can have at most 1 micro, 1 meso and 1 macro level
 	no Level - Network.level -- every level is associated to a network
-	no Network - Level.~level -- every network has at most one level associated
+	no Network - Level.~level -- every network has at least one level associated
 	-- if some netRelation is a networkResource of a level, then its elements need to be a networkResource of the same level
 	all l: Level | all r: l.networkResource:>NetRelation | r.elementA + r.elementB  in l.networkResource:>NetElement
 	-- An element inside another element can't be a netResource of the same level
