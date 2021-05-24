@@ -68,15 +68,17 @@ fun associated: NetRelation -> NetRelation {
 	((elementB.~elementA & positionOnB.~positionOnA) - iden)
 }
 
-fun elementOn: NetElement -> Position -> NetElement {
-	{a: NetElement, p: Position, b: NetElement |
-		some r: NetRelation {
-			a = r.elementA and p = r.positionOnA and b = r.elementB or
-			a = r.elementB and p = r.positionOnB and b = r.elementB
+
+fun elementOn : NetElement -> Position -> NetElement -> Position {
+	{ a : NetElement, pa : Position, b : NetElement, pb : Position | 
+		some r : NetRelation {
+			r.elementA = a and pa = r.positionOnA and r.elementB = b and pb = r.positionOnB or
+			r.elementB = a and pa = r.positionOnB and r.elementA = b and pb = r.positionOnA
 		}
 	}
 }
 
+// Extends a level relating it with every element they have, considering elementCollectionUnordered
 fun extend: Level -> NetElement {
 	{ l: Level, n: NetElement | n in l.networkResource or n in l.networkResource.^elementCollectionUnordered }
 }
@@ -86,6 +88,12 @@ fun adjacent : NetElement -> NetElement {
 	relation.~relation - iden
 }
 
+/*
+	Every pair of elements that are related in some level.
+	Two elements are related iff:
+		- they both have the same parent (considering elementCollectionUnordered)
+		- there is a relation between them or between their parents (considering elementCollectionUnordered)
+*/
 fun relatedOn: Level -> NetElement -> NetElement {
 	{ l: Level, disj a, b: NetElement {
 			some e: l.networkResource:>NetElement | a + b in e.^elementCollectionUnordered or
@@ -103,7 +111,7 @@ fact Topology {
 	/* ASSUMPTIONS */
 
 	-- If a NetElement is connected to two different NetElements in same endpoint, those must also be connected
-	all a: NetElement, disj b,c: Position.(a.elementOn) | a.elementOn.b = a.elementOn.c implies some b.elementOn.c
+	all a,b,c : NetElement, x,y,z : Position | a->x->b->y in elementOn and a->x->c->z in elementOn and (b != c or y != z) implies b->y->c->z in elementOn
 
 	-- Can't exist more than 1 netRelation with the same elementA and elementB. Se for circular deve ser considerado a mesma NetRelation.
 	(elementA.~elementA & elementB.~elementB) + (elementA.~elementB & elementB.~elementA) in iden
@@ -111,9 +119,6 @@ fact Topology {
 	-- If 3 elements are connected in a endpoint, then its a switch, meaning navigability must be none in 1 out of 3.
 	-- Esta regra será definida quando forem implementados os switch
 	-- all n : NetRelation | n.navigability = None iff (n.positionOnA = n.positionOnB) 
-
-	-- No relations with elementA = elementB.
-	/* no (elementA.~elementB & iden) → False, Raquetes (navigabilidade raquetes?) */
 
 	-- No relations with elementA = elementB and positionA = positionB. As raquetes devem ter as positions de A e B diferentes.
 	no (elementA.~elementB & positionOnA.~positionOnB & iden)
@@ -184,25 +189,3 @@ run{
 	no iden & elementA.~elementB -- no rackets
 	some elementCollectionUnordered
 } for exactly 5 NetElement, exactly 5 NetRelation, exactly 1 Network, exactly 3 Level
-
-
-
-
-
-
-/*
-fun elementOn2 : NetElement -> Natural -> NetElement -> Natural {
-	{ a : NetElement, p : Natural, b : NetElement, q : Natural | 
-		some r : NetRelation {
-			r.elementA = a and p = mul[r.positionOnA,a.length] and r.elementB = b and q = mul[r.positionOnB,b.length] or
-			r.elementB = a and p = mul[r.positionOnB,a.length] and r.elementA = b and q = mul[r.positionOnA,b.length]
-		}
-	}
-}
-
-pred sor {
-	all a,b,c : NetElement, x,y,z : Natural | a->x->b->y in elementOn and a->x->c->z in elementOn and (b != c or y != z) implies b->y->c->z in elementOn
-}
-
-check pred
-*/
