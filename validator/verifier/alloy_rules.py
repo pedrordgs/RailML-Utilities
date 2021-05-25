@@ -166,19 +166,19 @@ def netRelations_assumptions():
     if tup not in elems_relations:
       if tup_rev not in elems_relations:
         elems_relations[tup] = [rel]
+        stored_tuples.append(tup)
       else:
         elems_relations[tup_rev].append(rel)
-        stored_tuples.append(tup_rev)
         b = False
     else:
-      eles_relations[tup].append(rel)
-      stored_tuples.append(tup)
+      elems_relations[tup].append(rel)
       b = False
 
     # Repeated elements with the same position
     if rel.elementA == rel.elementB and rel.positionOnA == rel.positionOnB:
       b1 = False
       err1 += f'\tLine {rel.line}: Relation {rel.id} has equal elements A and B → {rel.elementA.id}, defined in position {rel.positionOnA}.\n'
+
 
   if b:
     p_print('Relations elements injectivity verified.', True, err)
@@ -305,7 +305,7 @@ def extendNetwork_assumptions():
       # Creates the extended meso elements
       for m in meso.networkResources:
         if m.__class__.__name__ == "NetElement": # check if a netElement
-          meso_list =  meso_list + m.transitive_ecu # + [m]
+          meso_list =  meso_list + m.transitive_ecu + [m]
         if m.__class__.__name__ == "NetRelation":
           if m.elementA not in meso.networkResources:
             relations_meso = False
@@ -344,9 +344,9 @@ def extendNetwork_assumptions():
         relations_macro = True
         err_rmacro  = ''
         # Creates the extended macro elements
-        for mM in macro:
+        for mM in macro.networkResources:
           if mM.__class__.__name__ == "NetElement": # check if a netElement
-            macro_list = macro_list + mM.transitive_ecu # + [mM]
+            macro_list = macro_list + mM.transitive_ecu + [mM]
           if mM.__class__.__name__ == "NetRelation":
             if mM.elementA not in macro.networkResources:
               relations_macro = False
@@ -423,4 +423,4 @@ def extendNetwork_assumptions():
       if (e4):
         print(e4, end='')
       if (e5):
-        print(e4, end='')
+        print(e5, end='')
