@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <title>RailML Utilities</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+  <style>
+body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+body {font-size:16px;}
+.w3-half img{margin-bottom:-6px;margin-top:16px;opacity:0.8;cursor:pointer}
+.w3-half img:hover{opacity:1}
+  </style>
+  <body>
+
+    <!-- Sidebar/menu -->
+    <nav class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
+      <!-- <div class="w3-container"> -->
+      <!--   <h3 class="w3-padding-64"><b>RailML<br>Utilities</b></h3> -->
+      <!-- </div> -->
+      <div class="w3-bar-block w3-padding-64">
+        <a href="#" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Introduction</a>
+        <a href="#rules" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Rules</a>
+        <a href="#alloy" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Alloy</a>
+        <a href="#validator" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Validator</a>
+        <a href="#visualizer" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Visualizer</a>
+        <a href="#aboutus" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">About us</a>
+      </div>
+    </nav>
+
+    <!-- Top menu on small screens -->
+    <header class="w3-container w3-top w3-hide-large w3-red w3-xlarge w3-padding">
+      <a href="javascript:void(0)" class="w3-button w3-red w3-margin-right" onclick="w3_open()">☰</a>
+      <span>RailML Utilities</span>
+    </header>
+
+    <!-- Overlay effect when opening sidebar on small screens -->
+    <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-main" style="margin-left:340px;margin-right:40px">
+
+      <!-- Introduction -->
+      <div class="w3-container" style="margin-top:80px" id="introduction">
+        <h1 class="w3-jumbo"><b>RailML Utilities</b></h1>
+        <h1 class="w3-xxxlarge w3-text-red"><b>Introduction.</b></h1>
+        <hr style="width:50px;border:5px solid red" class="w3-round">
+        <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</p>
+        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris fringilla facilisis lectus, vitae feugiat ante consequat nec. Pellentesque posuere ex non pulvinar sodales. Quisque vel dolor eros. Vestibulum fringilla libero dolor, rhoncus sagittis sem fermentum sed. Sed venenatis vitae tortor eget vestibulum. Pellentesque et mi nec nunc iaculis molestie. Nulla ut dui a ex finibus maximus. Ut quis orci consectetur, accumsan est id, consequat ex. In vel neque venenatis, tincidunt turpis at, congue ante. Fusce vel ex eget enim posuere posuere quis nec tortor. Mauris sit amet dignissim sapien, placerat finibus metus. Morbi in mauris vitae urna commodo feugiat. Donec sed metus sit amet ipsum volutpat efficitur. Nulla facilisi.
+        </p>
+      </div>
+
+      <!-- Rules -->
+      <div class="w3-container" id="rules" style="margin-top:75px">
+        <h1 class="w3-xxxlarge w3-text-red"><b>Rules.</b></h1>
+        <hr style="width:50px;border:5px solid red" class="w3-round">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vestibulum.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce aliquet, nisi ac sodales aliquam, eros nisi sodales felis, quis posuere felis urna vel lorem. Aliquam lacinia mi at felis vulputate venenatis. Donec ac dignissim sapien. Nulla facilisi. Pellentesque porta at lorem et porta. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse porttitor, quam quis laoreet porttitor, lorem lorem mollis massa, vitae convallis diam odio sed tellus. Integer interdum felis sed quam tempor tincidunt. Phasellus in erat et justo rutrum vehicula. Etiam vel erat nec sem sollicitudin gravida. Aliquam erat volutpat.
+        </p>
+      </div>
+
+      <!-- Alloy -->
+      <div class="w3-container" id="alloy" style="margin-top:75px">
+        <h1 class="w3-xxxlarge w3-text-red"><b>Alloy.</b></h1>
+        <hr style="width:50px;border:5px solid red" class="w3-round">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus pharetra pharetra mi imperdiet sodales. Nulla et elementum tellus. Aenean ac sem semper, lacinia lectus sit amet, vehicula nibh. Curabitur felis libero, luctus ut orci in, sollicitudin consectetur elit. Sed ac tortor mauris. Proin et lectus eu leo dignissim tempor rhoncus nec justo. Donec blandit leo eget gravida sodales. Donec ultricies urna vel ex tempus imperdiet. In felis enim, vestibulum id arcu ut, maximus porta leo.
+        </p>
+
+      <!-- Validator -->
+      <div class="w3-container" id="validator" style="margin-top:75px">
+        <h1 class="w3-xxxlarge w3-text-red"><b>Validator.</b></h1>
+        <hr style="width:50px;border:5px solid red" class="w3-round">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus pharetra pharetra mi imperdiet sodales. Nulla et elementum tellus. Aenean ac sem semper, lacinia lectus sit amet, vehicula nibh. Curabitur felis libero, luctus ut orci in, sollicitudin consectetur elit. Sed ac tortor mauris. Proin et lectus eu leo dignissim tempor rhoncus nec justo. Donec blandit leo eget gravida sodales. Donec ultricies urna vel ex tempus imperdiet. In felis enim, vestibulum id arcu ut, maximus porta leo.
+        </p>
+      </div>
+
+      <!-- Visualizer -->
+      <div class="w3-container" id="visualizer" style="margin-top:75px">
+        <h1 class="w3-xxxlarge w3-text-red"><b>Visualizer.</b></h1>
+        <hr style="width:50px;border:5px solid red" class="w3-round">
+      </div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus pharetra pharetra mi imperdiet sodales. Nulla et elementum tellus. Aenean ac sem semper, lacinia lectus sit amet, vehicula nibh. Curabitur felis libero, luctus ut orci in, sollicitudin consectetur elit. Sed ac tortor mauris. Proin et lectus eu leo dignissim tempor rhoncus nec justo. Donec blandit leo eget gravida sodales. Donec ultricies urna vel ex tempus imperdiet. In felis enim, vestibulum id arcu ut, maximus porta leo.
+        </p>
+
+
+      <!-- About us -->
+      <div class="w3-container" id="aboutus" style="margin-top:75px">
+        <h1 class="w3-xxxlarge w3-text-red"><b>About us.</b></h1>
+        <hr style="width:50px;border:5px solid red" class="w3-round">
+      </div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus pharetra pharetra mi imperdiet sodales. Nulla et elementum tellus. Aenean ac sem semper, lacinia lectus sit amet, vehicula nibh. Curabitur felis libero, luctus ut orci in, sollicitudin consectetur elit. Sed ac tortor mauris. Proin et lectus eu leo dignissim tempor rhoncus nec justo. Donec blandit leo eget gravida sodales. Donec ultricies urna vel ex tempus imperdiet. In felis enim, vestibulum id arcu ut, maximus porta leo.
+        </p>
+
+
+      <!-- End page content -->
+    </div>
+
+    <!-- W3.CSS Container -->
+    <div class="w3-light-grey w3-container w3-padding-32" style="margin-top:75px;padding-right:58px"><p class="w3-right">Made by <a href="https://github.com/pedrordgs" title="me" target="_blank" class="w3-hover-opacity">me</a></p></div>
+
+    <script>
+      // Script to open and close sidebar
+      function w3_open() {
+        document.getElementById("mySidebar").style.display = "block";
+        document.getElementById("myOverlay").style.display = "block";
+      }
+
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("myOverlay").style.display = "none";
+}
+
+    </script>
+
+  </body>
+</html>
+
