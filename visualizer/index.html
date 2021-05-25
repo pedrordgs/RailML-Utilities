@@ -31,12 +31,19 @@
       <div class="bigdiv">
       <div id="cy"> </div>
 
-
-        <div class="upload-wrapper">
-          <header>
-            <input type="file" onchange="loadFile()">
-          </header>
-          <div id="show-text"></div>
+        <div>
+          <div >
+            <button type="button" class="btn btn-light" onclick="draw('Micro')">1</button>
+          </div>
+          <div >
+            <button type="button" class="btn btn-light" onclick="draw('Meso')">2</button>
+          </div>
+          <div class="upload-wrapper">
+            <header>
+              <input type="file" onchange="loadFile()">
+            </header>
+            <div id="show-text"></div>
+          </div>
         </div>
       </div>
 
