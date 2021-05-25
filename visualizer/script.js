@@ -112,7 +112,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
       }
       map[networks[i].getAttribute('descriptionLevel')] = [netEl, netRel];
     }
-    console.log(map);
+    // console.log(map);
   }
 
   function draw(level){
@@ -131,6 +131,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
         let parser = new DOMParser();
         xmlDoc = parser.parseFromString(event.target.result, 'text/xml');
         loadNetworks();
+        spawnButtons();
       }
     } else {
       alert("It doesn't seem to be a xml file!");
@@ -141,4 +142,22 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 
 } else {
   alert("Your browser is too old to support HTML5 File API");
+}
+
+function spawnButtons(){
+  for (str in map){
+    console.log(str);
+    spawnButton(str);
+  }
+}
+
+function spawnButton(str){
+  let btn = document.createElement("button");
+  btn.innerHTML = str;
+  btn.type = "button";
+  btn.className = "btn btn-light";
+  document.getElementById('bla').appendChild(btn);
+  btn.addEventListener("click", function(){
+    draw(str);
+  }) ;
 }
