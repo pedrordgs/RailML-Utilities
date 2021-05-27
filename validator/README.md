@@ -10,25 +10,25 @@ In order to use this validator, it must be given a railML file to the main progr
 
 ```python validator_rml.py [input file]```
 
-A railML instance can be found [here](https://github.com/pedrordgs/railML/blob/master/validator/examples/railML.xml).
+A railML instance can be found [here](https://github.com/pedrordgs/RailML-Utilities/blob/master/validator/examples/tutorial.xml).
 
-The file must be downloaded and copied to the [examples](https://github.com/pedrordgs/railML/tree/master/validator/examples) folder.
+The file must be downloaded and copied to the [examples](https://github.com/pedrordgs/RailML-Utilities/tree/master/validator/examples/) folder.
 
 ## Verifier
-The folder [verifier](https://github.com/pedrordgs/railML/blob/master/validator/) contains every file used for validation purposes. Before verifying the rules explored using **Alloy**, schema must be valid. Therefore, this verification process was divided in different files.
+The folder [verifier](https://github.com/pedrordgs/RailML-Utilities/blob/master/validator/verifier/) contains every file used for validation purposes. Before verifying the rules explored using **Alloy**, schema must be valid. Therefore, this verification process was divided in different files.
 
-#### [XML Schema checking](https://github.com/pedrordgs/railML/blob/master/validator/verifier/xml_checker.py)
+#### [XML Schema checking](https://github.com/pedrordgs/RailML-Utilities/blob/master/validator/verifier/xml_checker.py)
 - The [schemas](https://www.railml.org/en/download/schemes.html) provided by **railVivid** were used for schema checking.
 - Every attribute **ref** must be a valid attribute **id**.
 
-#### [Alloy rules verified](https://github.com/pedrordgs/railML/blob/master/validator/verifier/alloy_rules.py)
+#### [Alloy rules verified](https://github.com/pedrordgs/RailML-Utilities/blob/master/validator/verifier/alloy_rules.py)
 - **NetElements Assumptions**
     - Every element's relation must reference the latter, implying that relation must be redundant.
     - Elements can be referenced as part of others elements, abstracting some elements as one. However, an element can't ever be a recursively part of itself.
 - **NetRelations Assumptions**
     - Must not exist different relations representing the same relation between elements.
     - An element can't relate to itself at the same position. So, can't exist a relation with elementA = elementB and positionA = positionB.
-    - <u>Element On</u>: If an element is connected to two different elements in same endpoint, those must also be connected and their positions must be preserved.
+    - **Element On**: If an element is connected to two different elements in same endpoint, those must also be connected and their positions must be preserved.
 - **Network Assumptions:** \
 Note that, networks can have different levels, those being Micro, Meso and Macro, hierarchically ordered.
     - Micro level should exist in each defined network, but the user can opt for the non-declaration of this level and proceed to the verification of the remaining levels.

@@ -8,9 +8,9 @@ This project started of as a school project. The main goal was to verify if the 
 The main goal of this project after finishing the topology is to expand all the features to cover 100% of the railML format.
 
 ## Features
-- [Verification with Alloy](https://github.com/pedrordgs/railML/tree/master/alloy_related)
-- [railML validator](https://github.com/pedrordgs/railML/tree/master/validator)
-- [railML visualizer](https://github.com/pedrordgs/railML/tree/master/visualizer)
+- [Verification with Alloy](https://github.com/pedrordgs/RailML-Utilities/tree/master/alloy_related)
+- [railML validator](https://github.com/pedrordgs/RailML-Utilities/tree/master/validator)
+- [railML visualizer](https://github.com/pedrordgs/RailML-Utilities/tree/master/visualizer)
 
 ## Contributing
 Contribution is much welcome! Anyone is able to contributing by submitting a PR. If you want to help but are having some difficulties either message or email any developer.
