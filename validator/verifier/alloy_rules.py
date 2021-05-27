@@ -139,9 +139,9 @@ def elementOn():
             err += f'\tElement {e_r[1].id}, declared at Line {e_r[1].line}, must have a relation with the element {id_e.id}, since they both connect to {e.id} at the same endpoint {pos_outro}.\n'
 
   if b == False:
-    p_print('ElementOn property failed.', False, err)
+    p_print('Element On property failed.', False, err)
   else:
-    p_print('ElementOn property verified.', True, err)
+    p_print('Element On property verified.', True, err)
 
 
 
@@ -228,6 +228,7 @@ def extendNetwork_assumptions():
     err_meso = ''
     err_micro_macro = ''
     err_meso_macro = ''
+    err_macro = ''
 
 
     # Error Strings: Elements and Relations must be within one level only.
@@ -253,7 +254,9 @@ def extendNetwork_assumptions():
     # Can't check anything further if micro isnt defined at a network
     if not micro:
       p_print(f'ERROR: Micro level does not exist in the network {netw.id}.', False, "\t- You must guarantee the existence of Micro level at every network before checking the remaining.")
-      return
+      inp = input("\tDo you want to proceed without the implemention of the Micro Level? [y/N] ")
+      if inp == "N" or inp == "n" or inp == "":
+        return
     # Check every relation if they have corresponding elements at the same level.
     else:
 
@@ -283,7 +286,7 @@ def extendNetwork_assumptions():
 
       if relations_micro == False:
         check_micro = False
-        err_relations_micro = f'\tThere are some relations that have elements defined in a different level.'
+        err_relations_micro = f'\tThere are some relations at the Micro Level that have elements defined in a different level.\n'
         err_relations_micro += err_rmicro
       else:
         correct += f'\tEvery relation defined in Micro has valid level elements.\n'
@@ -305,7 +308,7 @@ def extendNetwork_assumptions():
       # Creates the extended meso elements
       for m in meso.networkResources:
         if m.__class__.__name__ == "NetElement": # check if a netElement
-          meso_list =  meso_list + m.transitive_ecu + [m]
+          meso_list =  meso_list + m.transitive_ecu # + [m]
         if m.__class__.__name__ == "NetRelation":
           if m.elementA not in meso.networkResources:
             relations_meso = False
@@ -316,23 +319,39 @@ def extendNetwork_assumptions():
 
       if relations_meso == False:
         check_meso = False
-        err_relations_meso = f'\tThere are some relations that have elements defined in a different level.'
+        err_relations_meso = f'\tThere are some relations at the Meso Level that have elements defined in a different level.\n'
         err_relations_meso += err_rmeso
       else:
         correct += f'\tEvery relation defined in Meso has valid level elements.\n'
 
-      for e_micro in micro.networkResources:
-        if e_micro.__class__.__name__ == "NetElement":
-          if e_micro not in meso_list:
-            err += f'\t  - Line {micro.line}: Element {e_micro.id} at Micro level must be at the extended Meso Level, declared in Line {meso.line}.\n'
-            b = False
-            check_meso = False
+      # If Micro Level exists
+      if micro:
 
-      if b == False:
-        err_meso = f'\tNot all elements at Micro are in the extended Meso, at the network {netw.id}:\n'
-        err_meso += err
-      else:
-        correct += f'\tThe network {netw.id} has every Micro element in the extended Meso Level.\n'
+        # Check if every micro is at the extended meso
+        for e_micro in micro.networkResources:
+          if e_micro.__class__.__name__ == "NetElement":
+            if e_micro not in meso_list and e_micro not in meso.networkResources:
+              err += f'\t  - Line {micro.line}: Element {e_micro.id} at Micro level must be at the extended Meso Level, declared in Line {meso.line}.\n'
+              b = False
+              check_meso = False
+
+        # Check if extendend meso is in micro resource
+        for extended_meso in meso_list:
+          if extended_meso not in micro.networkResources:
+              err += f'\t  - Line {meso.line}: Element {extended_meso.id} defined as extended must be defined at the Micro Level, defined in Line {micro.line}.\n'
+              b = False
+              check_meso = False
+          if macro:
+            if extended_meso in macro.networkResources:
+              err += f'\t  - Line {meso.line}: Element {extended_meso.id} defined as extended must be defined at the Micro Level, defined in Line {micro.line}, and can not be defined at the Macro Level, Line {macro.line}, as it is.\n'
+              b = False
+              check_meso = False
+
+        if b == False:
+          err_meso = f'\tNot all elements respect the rule of extending Meso, at the network {netw.id}:\n'
+          err_meso += err
+        else:
+          correct += f'\tThe network {netw.id} respects the rule of extending Meso, meaning that the elements at Micro are the same as the elements at the extended Meso Level.\n'
 
       # Check if Macro Level is declared
       if macro:
@@ -341,12 +360,23 @@ def extendNetwork_assumptions():
         err = ''
         macro_list = []
 
+        macro_extended_elements = True
+
+        # Relations
         relations_macro = True
         err_rmacro  = ''
+
         # Creates the extended macro elements
         for mM in macro.networkResources:
           if mM.__class__.__name__ == "NetElement": # check if a netElement
-            macro_list = macro_list + mM.transitive_ecu + [mM]
+            macro_list = macro_list + mM.transitive_ecu # + [mM]
+
+            # Check if the extension of every element at macro must not be declared in macro!
+            for m_transitive in mM.transitive_ecu:
+              if m_transitive in macro.networkResources:
+                macro_extended_elements = False
+                err += f'\t  - Line {macro.line}: The element {m_transitive.id} extended by element {mM.id} can not be defined at the Macro Level, as it is.\n'
+
           if mM.__class__.__name__ == "NetRelation":
             if mM.elementA not in macro.networkResources:
               relations_macro = False
@@ -355,31 +385,43 @@ def extendNetwork_assumptions():
               relations_macro = False
               err_rmacro += f'\t  - Line {mM.line}: The element {mM.elementB.id}, in this relation {mM.id}, does not correspond to this network level (Macro).\n'
 
+        # Check if elements extended at this level is defined at this level
+        if macro_extended_elements == False:
+          check_macro = False
+          err_macro = f'\tThere are some elements defined at Macro Level that extend elements that are also defined at Macro Level:\n'
+          err_macro += err
+        else:
+          correct += f'\tEvery element extended at the Macro level are either defined at the Meso Level or the Micro Level.\n'
+
+        # Check if relations at Macro were respected
         if relations_macro == False:
           check_macro = False
-          err_relations_macro = f'\tThere are some relations that have elements defined in a different level.'
+          err_relations_macro = f'\tThere are some relations at the Macro Level that have elements defined in a different level:\n'
           err_relations_macro += err_rmacro
         else:
           correct += f'\tEvery relation defined in Macro has valid level elements.\n'
 
+        # If Micro Level exists
+        if micro:
+          err = '' # reset error string.
+          for e_micro in micro.networkResources:
+            if e_micro.__class__.__name__ == "NetElement":
+              if e_micro not in macro_list and e_micro not in macro.networkResources:
+                err += f'\t  - Line {micro.line}: Element {e_micro.id} at Micro level must be at the extended Macro Level, declared in Line {macro.line}.\n'
+                b = False
+                check_macro = False
+          if b == False:
+            err_micro_macro = f'\tNot all elements at Micro are in the extended Macro, at the network {netw.id}:\n'
+            err_micro_macro += err
+          else:
+            correct += f'\tThe network {netw.id} has every Micro element in the extended Macro Level.\n'
 
-        for e_micro in micro.networkResources:
-          if e_micro.__class__.__name__ == "NetElement":
-            if e_micro not in macro_list:
-              err += f'\t  - Line {micro.line}: Element {e_micro.id} at Micro level must be at the extended Macro Level, declared in Line {macro.line}.\n'
-              b = False
-              check_macro = False
-        if b == False:
-          err_micro_macro = f'\tNot all elements at Micro are in the extended Macro, at the network {netw.id}:\n'
-          err_micro_macro += err
-        else:
-          correct += f'\tThe network {netw.id} has every Micro element in the extended Macro Level.\n'
-
+        # If Meso Level exists
         if meso:
           err = '' # reset error string again.
           for e_meso in meso.networkResources:
             if e_meso.__class__.__name__ == "NetElement":
-              if e_meso not in macro_list:
+              if e_meso not in macro_list and e_meso not in macro.networkResources:
                 err += f'\t  - Line {meso.line}: Element {e_meso.id} at Meso level must be at the extended Macro Level, declared in Line {macro.line}.\n'
                 b1 = False
                 check_macro = False
@@ -391,14 +433,14 @@ def extendNetwork_assumptions():
 
       err_elements  = err_elements_micro + err_elements_meso + err_elements_macro
       err_relations = err_relations_micro + err_relations_meso + err_relations_macro
-      dic_netw_str[netw] = (err_elements, err_relations, err_meso, err_micro_macro, err_meso_macro, correct)
+      dic_netw_str[netw] = (err_elements, err_relations, err_meso, err_macro, err_micro_macro, err_meso_macro, correct)
 
 
   # Prints to the user - Error treatment
   if check_micro and check_macro and check_meso:
     p_print('Every network respects the extended property.', True, 'ignore_net')
     for nt in dic_netw_str:
-      (e1,e2,e3,e4,e5,c) = dic_netw_str[nt]
+      (e1,e2,e3,e4,e5,e6,c) = dic_netw_str[nt]
       print(f'  For the network {nt.id} defined at Line {nt.line}:')
       print(Fore.GREEN + '\n\tVerified properties:')
       print(Style.RESET_ALL, end='')
@@ -406,12 +448,12 @@ def extendNetwork_assumptions():
   else:
     p_print('Not every network respects the extended property.', False, 'ignore_net')
     for nt in dic_netw_str:
-      (e1,e2,e3,e4,e5,c) = dic_netw_str[nt]
+      (e1,e2,e3,e4,e5,e6,c) = dic_netw_str[nt]
       print(f'  For the network {nt.id} defined at Line {nt.line}:')
       print(Fore.GREEN + '\n\tVerified properties:')
       print(Style.RESET_ALL, end='')
       print(c, end='')
-      if(e1 or e2 or e3 or e4 or e5):
+      if(e1 or e2 or e3 or e4 or e5 or e6):
         print(Fore.RED + '\n\tErrors found:')
         print(Style.RESET_ALL, end='')
       if (e1):
@@ -424,3 +466,5 @@ def extendNetwork_assumptions():
         print(e4, end='')
       if (e5):
         print(e5, end='')
+      if (e6):
+        print(e6, end='')
