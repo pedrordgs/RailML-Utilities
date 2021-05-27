@@ -45,8 +45,12 @@ body {font-size:16px;}
         <h1 class="w3-jumbo"><b>RailML Utilities</b></h1>
         <h1 class="w3-xxxlarge w3-text-red"><b>Introduction.</b></h1>
         <hr style="width:50px;border:5px solid red" class="w3-round">
-        <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</p>
-        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris fringilla facilisis lectus, vitae feugiat ante consequat nec. Pellentesque posuere ex non pulvinar sodales. Quisque vel dolor eros. Vestibulum fringilla libero dolor, rhoncus sagittis sem fermentum sed. Sed venenatis vitae tortor eget vestibulum. Pellentesque et mi nec nunc iaculis molestie. Nulla ut dui a ex finibus maximus. Ut quis orci consectetur, accumsan est id, consequat ex. In vel neque venenatis, tincidunt turpis at, congue ante. Fusce vel ex eget enim posuere posuere quis nec tortor. Mauris sit amet dignissim sapien, placerat finibus metus. Morbi in mauris vitae urna commodo feugiat. Donec sed metus sit amet ipsum volutpat efficitur. Nulla facilisi.
+        <p>This project started of as a school project. The main goal is to verify if the <a href="https://www.railml.org/en/home.html" title="railML" target="_blank" class="w3-hover-opacity">railML</a> format has no flaws and at the same time validate and visualize railML instances.</p>
+        <p>To do so, we used the <a href="https://alloytools.org/" title="alloy" target="_blank" class="w3-hover-opacity">Alloy</a> verification tool. Since railML is very extensive we started by verifying only the topology section. After some weekly reunions, alongside with our project manager, we decided that it would be nice to have a xml validator that validates references as well as a web visualizer to display a railway infrastructure. Both of these new features would still only focus on the topology. The main goal of this project after finishing the topology is to expand all the features to cover 100% of the railML format.
+        </p>
+        <p>At an early stage, we started to check <a href="https://www.railml.org/en/user/railvivid.html" title="railvivid" target="_blank" class="w3-hover-opacity">RailVIVID</a> (official railML validator) flaws and we noticed that they only validate the railML schema. Our main goal was to extend this validation to include logical <a href="#rules" class="w3-hover-opacity">rules</a> that we discover using Alloy.
+        </p>
+        <p>After checking all the rules, we proceed to implement them in a validator using the python programming language while working on the implementation of our visualizer too. Afterwards, we decided that we needed some parsers to convert alloy instances to railML (<a href="https://github.com/pedrordgs/RailML-Utilities/tree/master/alloy_related/alloyToRailML" title="alloyToRailML" target="_blank" class="w3-hover-opacity">alloyToRailML</a>) and railML files to alloy instances (<a href="https://github.com/pedrordgs/RailML-Utilities/tree/master/alloy_related/railMLToAlloy" title="railMLToAlloy" target="_blank" class="w3-hover-opacity">railMLToAlloy</a>). This was useful for our model based testing implementation.
         </p>
       </div>
 
@@ -66,6 +70,7 @@ body {font-size:16px;}
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut.</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus pharetra pharetra mi imperdiet sodales. Nulla et elementum tellus. Aenean ac sem semper, lacinia lectus sit amet, vehicula nibh. Curabitur felis libero, luctus ut orci in, sollicitudin consectetur elit. Sed ac tortor mauris. Proin et lectus eu leo dignissim tempor rhoncus nec justo. Donec blandit leo eget gravida sodales. Donec ultricies urna vel ex tempus imperdiet. In felis enim, vestibulum id arcu ut, maximus porta leo.
         </p>
+    </div>
 
       <!-- Validator -->
       <div class="w3-container" id="validator" style="margin-top:75px">
@@ -80,20 +85,20 @@ body {font-size:16px;}
       <div class="w3-container" id="visualizer" style="margin-top:75px">
         <h1 class="w3-xxxlarge w3-text-red"><b>Visualizer.</b></h1>
         <hr style="width:50px;border:5px solid red" class="w3-round">
-      </div>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut.</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus pharetra pharetra mi imperdiet sodales. Nulla et elementum tellus. Aenean ac sem semper, lacinia lectus sit amet, vehicula nibh. Curabitur felis libero, luctus ut orci in, sollicitudin consectetur elit. Sed ac tortor mauris. Proin et lectus eu leo dignissim tempor rhoncus nec justo. Donec blandit leo eget gravida sodales. Donec ultricies urna vel ex tempus imperdiet. In felis enim, vestibulum id arcu ut, maximus porta leo.
         </p>
+      </div>
 
 
       <!-- About us -->
       <div class="w3-container" id="aboutus" style="margin-top:75px">
         <h1 class="w3-xxxlarge w3-text-red"><b>About us.</b></h1>
         <hr style="width:50px;border:5px solid red" class="w3-round">
-      </div>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut.</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus pharetra pharetra mi imperdiet sodales. Nulla et elementum tellus. Aenean ac sem semper, lacinia lectus sit amet, vehicula nibh. Curabitur felis libero, luctus ut orci in, sollicitudin consectetur elit. Sed ac tortor mauris. Proin et lectus eu leo dignissim tempor rhoncus nec justo. Donec blandit leo eget gravida sodales. Donec ultricies urna vel ex tempus imperdiet. In felis enim, vestibulum id arcu ut, maximus porta leo.
         </p>
+      </div>
 
 
       <!-- End page content -->
