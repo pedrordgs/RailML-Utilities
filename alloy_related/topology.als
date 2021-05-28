@@ -128,6 +128,16 @@ fact Topology {
  	-- Esta regra será definida quando forem implementados os switch
 	-- all n : NetRelation | #associated[n] < 6 && #associated[n] != 4 && #associated[n] != 3
 
+
+	-- If all elementCollectionUnordered need to be defined on lower levels
+	all n: Network, nelem: (n.level & descriptionLevel.Meso).networkResource & NetElement {
+		nelem.elementCollectionUnordered in (n.level & descriptionLevel.Micro).networkResource
+	}
+
+	all n: Network, nelem: (n.level & descriptionLevel.Macro).networkResource & NetElement {
+		nelem.elementCollectionUnordered in (n.level & descriptionLevel.(Micro+Meso)).networkResource
+	}
+	
 	-- Micro elements need to be on meso and macro elements, fails when there isn't a Meso or Macro level
 	all n: Network | some n.level & descriptionLevel.Meso implies {
 		 extend[n.level & descriptionLevel.Micro] in extend[n.level & descriptionLevel.Meso]
