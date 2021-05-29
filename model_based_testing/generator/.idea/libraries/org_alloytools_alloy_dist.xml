@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="org.alloytools.alloy.dist">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../org.alloytools.alloy.dist.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../org.alloytools.alloy.dist.jar!/OSGI-OPT/src" />
+    </SOURCES>
+  </library>
+</component>
