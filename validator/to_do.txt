@@ -1,2 +1,0 @@
-- related on -> relations must be preserved through levels
-- check if its defined more than 1 level per description

@@ -27,6 +27,18 @@ def check_(filename):
   for x in ids:
     dic_ids_tipo[x.attrib['id']] = x.tag
 
+  networks = root.findall(f".//{p}networks/{p}network")
+  b_network = True
+  error_network = ''
+
+  for n in networks:
+    levels = n.findall(f'./{p}level')
+    l = [lx.attrib['descriptionLevel'] for lx in levels]
+
+    if len(set(l)) != len(l):
+      error_network += f"\t Line {n.sourceline}: Network {n.attrib['id']} has repeated levels."
+      b_network = False
+
 
   # Estruturas auxiliares para testar redundancia entre netElements e netRelations
   dic_elements  = {}
@@ -51,10 +63,28 @@ def check_(filename):
   ##                       PRINTS TO THE USER                          #
   ##                                                                   #
   ######################################################################
-  p_print("Validating XML with a predefined Schema.", validateXMLwithXSD(filename), "")
+  print("\n\033[4mChecking Schema properties:\033[0m\n")
 
-  p_print("Checking if every ref is a valid id.", b, e)
+  b_schema = validateXMLwithXSD(filename)
 
+  if b_schema:
+    p_print("XML Schema is valid.", True, "")
+  else:
+    p_print("XML Schema is not valid.", False, "")
+
+  if b:
+    p_print("Every ref is a valid id.", b, e)
+  else:
+    p_print('Not every ref is a valid id.', b, e)
+
+  if not b_network:
+    p_print('Repeated levels found in a network.', False, error_network)
+  else:
+    p_print('No repeated levels found in a network.', True, "")
+
+  if b_network==False or b==False or b_schema==False:
+    print('\nIn order to check the alloy rules, the Schema validation must be guaranteed.')
+    sys.exit()
 
 
 def validateTopologyRefs(dic_ids_tipo, refs, dic_temp):
