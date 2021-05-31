@@ -69,7 +69,7 @@ fun associated: NetRelation -> NetRelation {
 
 
 fun elementOn : NetElement -> Position -> NetElement -> Position {
-	{ a : NetElement, pa : Position, b : NetElement, pb : Position | 
+	{ a : NetElement, pa : Position, b : NetElement, pb : Position |
 		some r : NetRelation {
 			r.elementA = a and pa = r.positionOnA and r.elementB = b and pb = r.positionOnB or
 			r.elementB = a and pa = r.positionOnB and r.elementA = b and pb = r.positionOnA
