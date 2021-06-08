@@ -2,12 +2,45 @@ from lxml import etree
 from parser_rail.netElement import NetElement
 from parser_rail.netRelation import NetRelation
 from parser_rail.network import Network
+from parser_rail.geometricPos import GeometricPosition
+from parser_rail.linearPos import LinearPosition
 from parser_rail.level import Level
 from parser_rail.railway import Railway
 
 rel_elm = {}
 elm_elm = {}
 id_res  = {}
+id_pos  = {}
+
+def parsePosSystem(rail, pos_system, path='{https://www.railml.org/schemas/3.1}'):
+
+  geometric = pos_system.find(f'./{path}geometricPositioningSystems')
+  linear    = pos_system.find(f'./{path}linearPositioningSystems')
+
+  for g in geometric:
+    ident = g.get('id')
+    # Valid
+    valid_from = g.find(f'./{path}isValid').get('from')
+    valid_to   = g.find(f'./{path}isValid').get('to')
+
+    g_pos = GeometricPosition(ident, valid_from, valid_to)
+    id_pos[ident] = g_pos
+
+    rail.addPosition(g_pos)
+
+  for l in linear:
+    ident = l.get('id')
+    units = l.get('units')
+    start = l.get('startMeasure')
+    end   = l.get('endMeasure')
+    # Valid
+    valid_from = l.find(f'./{path}isValid').get('from')
+    valid_to   = l.find(f'./{path}isValid').get('to')
+
+    l_pos = LinearPosition(ident, units, start, end, valid_from, valid_to)
+    id_pos[ident] = l_pos
+
+    rail.addPosition(l_pos)
 
 def parseNetElements(rail, nelems, path='{https://www.railml.org/schemas/3.1}'):
     for elem in nelems:
@@ -15,7 +48,67 @@ def parseNetElements(rail, nelems, path='{https://www.railml.org/schemas/3.1}'):
         length = elem.get('length')
         line = elem.sourceline
 
-        netelem = NetElement(ident,length,line)
+        # associated Position System
+        linear = {}
+        geometric = {}
+
+        intrisic = elem.findall(f'.//{path}intrinsicCoordinate')
+        intrisic_0 = list(filter(lambda x: x.get('intrinsicCoord') == '0', intrisic))
+        intrisic_1 = list(filter(lambda x: x.get('intrinsicCoord') == '1', intrisic))
+
+        # intrisic coord as 0
+        for i in intrisic_0:
+              linears = i.findall(f'./{path}linearCoordinate')
+              geometrics = i.findall(f'./{path}geometricCoordinate')
+
+              for l in linears:
+                ref = l.get('positioningSystemRef')
+                l_system = id_pos[ref]
+
+                if ref not in linear:
+                  linear[ref] = {}
+                  linear[ref]['start'] = []
+                linear[ref]['start'].append((l_system, l.get('measure')))
+
+              for g in geometrics:
+                ref = g.get('positioningSystemRef')
+                g_system = id_pos[ref]
+
+                if ref not in geometric:
+                  geometric[ref] = {}
+                  geometric[ref]['start'] = []
+
+                geometric[ref]['start'].append((g_system, g.get('x'), g.get('y')))
+
+        # intrisic coord as 1
+        for i in intrisic_1:
+              linears = i.findall(f'./{path}linearCoordinate')
+              geometrics = i.findall(f'./{path}geometricCoordinate')
+
+              for l in linears:
+                ref = l.get('positioningSystemRef')
+                l_system = id_pos[ref]
+
+                if ref not in linear:
+                  print(f'\033[4mPARSING ERROR\033[0m: Element {ident} defined at Line {line} has as end coordinate reference {ref}, but not as begin reference.')
+                  return
+
+                if 'end' not in linear[ref]:
+                  linear[ref]['end'] = []
+                linear[ref]['end'].append((l_system, l.get('measure')))
+
+              for g in geometrics:
+                ref = g.get('positioningSystemRef')
+                g_system = id_pos[ref]
+                if ref not in geometric:
+                  print(f'\033[4mPARSING ERROR\033[0m: Element {ident} defined at Line {line} has as end coordinate reference {ref}, but not as begin reference.')
+                  return
+
+                if 'end' not in geometric[ref]:
+                  geometric[ref]['end'] = []
+                geometric[ref]['end'].append((g_system, g.get('x'), g.get('y')))
+
+        netelem = NetElement(ident,length,line, linear, geometric)
         # dict with id relationed with the element
         id_res[ident] = netelem
         rail.addNetElement(netelem)
@@ -117,10 +210,15 @@ def parseRailML(filename, path='{https://www.railml.org/schemas/3.1}'):
     tree = etree.parse(filename)
     root = tree.getroot()
 
-    nelems   = root.find(f'.//{path}netElements')
-    nrels    = root.find(f'.//{path}netRelations')
-    networks = root.find(f'.//{path}networks')
+    pos_system = root.find(f'.//{path}positioning')
+    nelems     = root.find(f'.//{path}netElements')
+    nrels      = root.find(f'.//{path}netRelations')
+    networks   = root.find(f'.//{path}networks')
+    # buffers    = root.find(f'.//{path}bufferStops')
+    # switches   = root.find(f'.//{path}switchesIS')
+    # signals    = root.find(f'.//{path}signalsIS')
 
+    parsePosSystem(rail, pos_system)
     parseNetElements(rail, nelems)
     parseNetRelations(rail, nrels)
     parseNetworks(rail, networks)

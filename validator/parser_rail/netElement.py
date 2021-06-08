@@ -1,9 +1,11 @@
 class NetElement:
 
-    def __init__ (self, ident, length, line):
+    def __init__ (self, ident, length, line, linear, geometric):
         self.id = ident
         self.length = length
         self.line = line
+        self.linear = linear
+        self.geometric = geometric
 
         self.relations = []
         self.elementCollectionUnordered = []

@@ -5,7 +5,7 @@ from os.path import isfile
 # Created modules - Parser, ValidadorSchema and RulesAlloy
 from parser_rail.parser import parseRailML
 from verifier.xml_checker import check_
-from verifier.alloy_rules import assumptions_
+from verifier.topology_rules import assumptions_
 
 
 # Main function which is gonna call the Schema validator, the parser and then the validator.
