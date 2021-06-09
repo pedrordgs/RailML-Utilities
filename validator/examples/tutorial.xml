@@ -161,10 +161,8 @@
           <relation ref="nr_x01b03"/>
           <associatedPositioningSystem id="ne_x01_aps01">
             <intrinsicCoordinate id="ne_x01_aps01_ic01" intrinsicCoord="0">
-              <linearCoordinate positioningSystemRef="lps01" measure="700.0"/>
             </intrinsicCoordinate>
             <intrinsicCoordinate id="ne_x01_aps01_ic02" intrinsicCoord="1">
-              <linearCoordinate positioningSystemRef="lps01" measure="4300.0"/>
             </intrinsicCoordinate>
           </associatedPositioningSystem>
         </netElement>

@@ -23,7 +23,7 @@ def main():
 
 
     # Validate Schema xml
-    # check_(f)
+    #check_(f)
     # Parse file
     r = parseRailML(f)
     # Validate alloy rules

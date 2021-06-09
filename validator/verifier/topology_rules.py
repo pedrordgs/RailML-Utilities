@@ -1,6 +1,8 @@
 from collections import Counter
 from colorama import Fore, Back, Style
 from verifier.xml_checker import p_print
+from datetime import datetime
+import math
 import networkx as nx
 
 # Main function that will call every property verification.
@@ -35,47 +37,133 @@ def assumptions_(r):
 
 def positionSystem_assumptions():
 
-  b_length = True
-  err_length = ''
+  # Inorder to check if isValid
+  today = datetime.today()
+  today = today.strftime("%Y-%m-%d")
 
+
+  # GEOMETRIC POSITION SYSTEM
   if not railw.geometric == []:
-    print('  \x1B[3mGeometric\'s System Assumptions:\x1B[23m\n')
+    fill = False
+    # Should be reseted in linear
+    b_length = True
+    err_length = ''
+    valid_time = True
+    err_time = ''
+    non_empty = True
+    err_empty = ''
+    print('  • \x1B[3mGeometric\'s System Assumptions:\x1B[23m\n')
     # Process every Geometric Positioning System
     for g in railw.geometric:
 
-      for elem in g.elements:
+      if not datetime.strptime(g.valid_from, "%Y-%m-%d") <= datetime.strptime(today, "%Y-%m-%d") <= datetime.strptime(g.valid_to, "%Y-%m-%d"):
+        valid_time = False
+        err_time += f'\tLine {g.line}: The positioning system {g.id} is currently time invalid.\n'
 
-        # check if element respects the element length property
-        length = elem.length
-        s = elem.linear[g.id]['start']
-        e = elem.linear[g.id]['end']
+      if not len(g.elements) == 0:
+        fill = True
+        for elem in g.elements:
+              # check if element respects the element length property
+          length = elem.length
+          s = elem.geometric[g.id]['start'][0]
+          if 'end' in elem.geometric[g.id]:
+            e = elem.geometric[g.id]['end'][0]
+          else:
+            e = elem.geometric[g.id]['start'][1]
 
+          # Determine the distance
+          d = math.sqrt(((s[1]-e[1])**2)+((s[2]-e[2])**2))
+
+          if not length is None:
+            if not float(length) == float(d):
+              err_length += f'\tLine {elem.line}: Element {elem.id} does not preserve the length property, where length has value of {length}, and the difference between coordinates related to the system {g.id} has value {d}.'
+              b_length = False
+      else:
+        non_empty = False
+        err_empty += f'\tLine {g.line}: The positioning system {g.id} is declared but has no associated element.\n'
+
+    # Length property
+    if b_length == True:
+      if fill:
+        p_print('Every element respects the length property.', True, err_length)
+    else:
+      if fill:
+        p_print('Elements found that disrespect the length property.', False, err_length)
+
+    # Time valid
+    if valid_time == True:
+      p_print('Every GPS is, until this day, time valid.', True, err_time)
+    else:
+      p_print('Not every GPS is time valid.', False, err_time)
+
+    # Empty warning
+    if non_empty == True:
+      p_print('Every GPS declared has associated elements.', True, err_empty)
+    else:
+      p_print('There are some GPS declared with no associated element.', False, err_empty)
+
+
+
+
+  # LINEAR POSITION SYSTEM
   if not railw.linear == []:
-    print('  \x1B[3mLinear\'s System Assumptions:\x1B[23m\n')
+    fill = False
+    # Reseted after geometric
+    b_length = True
+    err_length = ''
+    valid_time = True
+    err_time = ''
+    non_empty = True
+    err_empty = ''
+    print('\n  • \x1B[3mLinear\'s System Assumptions:\x1B[23m\n')
     # Process every Linear Positioning System
     for l in railw.linear:
 
-      for elem in l.elements:
-        # check if element respects the element length property
-        length = elem.length
-        s = elem.linear[l.id]['start'][0]
-        if 'end' in elem.linear[l.id]:
-          e = elem.linear[l.id]['end'][0]
-        else:
-          e = elem.linear[l.id]['start'][1]
+      if not datetime.strptime(l.valid_from, "%Y-%m-%d") <= datetime.strptime(today, "%Y-%m-%d") <= datetime.strptime(l.valid_to, "%Y-%m-%d"):
+        valid_time = False
+        err_time += f'\tLine {l.line}: The positioning system {l.id} is currently time invalid.\n'
 
-        # Determine the distance
-        d = abs(float(e[1]) - float(s[1]))
+      if not len(l.elements) == 0:
+        fill = True
+        for elem in l.elements:
+          # check if element respects the element length property
+          length = elem.length
+          s = elem.linear[l.id]['start'][0]
+          if 'end' in elem.linear[l.id]:
+            e = elem.linear[l.id]['end'][0]
+          else:
+            e = elem.linear[l.id]['start'][1]
 
-        if not length is None:
-          if not float(length) == float(d):
-            err_length += f'\tLine {elem.line}: Element {elem.id} does not preserve the length property, where length has value of {length}, and the difference between measures related to the system {l.id} has value {d}.'
-            b_length = False
+          # Determine the distance
+          d = abs(float(e[1]) - float(s[1]))
 
-  if b_length == True:
-    p_print('Every element respects the length property.', True, err_length)
-  else:
-    p_print('Elements found that disrespect the length property.', False, err_length)
+          if not length is None:
+            if not float(length) == float(d):
+              err_length += f'\tLine {elem.line}: Element {elem.id} does not preserve the length property, where length has value of {length}, and the difference between measures related to the system {l.id} has value {d}.'
+              b_length = False
+      else:
+        non_empty = False
+        err_empty += f'\tLine {l.line}: The positioning system {l.id} is declared but has no associated element.\n'
+
+    # Length property
+    if b_length == True:
+      if fill:
+        p_print('Every element respects the length property.', True, err_length)
+    else:
+      if fill:
+        p_print('Elements found that disrespect the length property.', False, err_length)
+
+    # Time valid
+    if valid_time == True:
+      p_print('Every LPS is, until this day, time valid.', True, err_time)
+    else:
+      p_print('Not every LPS is time valid.', False, err_time)
+
+    # Empty warning
+    if non_empty == True:
+      p_print('Every LPS declared has associated elements.', True, err_empty)
+    else:
+      p_print('There are some LPS declared with no associated element.', False, err_empty)
 
 
 # Redundacy with netRelations and no loops on elementCollectionUnordered
@@ -616,7 +704,7 @@ def extendNetwork_assumptions():
     p_print('Every declared network respects every network property.\n', True, 'ignore_net')
     for nt in dic_netw_str:
       (e1,e2,e3,e4,e5,e6,e7,e8,c) = dic_netw_str[nt]
-      print(f'\n     For the network \033[1m{nt.id}\033[0m defined at line {nt.line}:')
+      print(f'\n     • For the network \033[1m{nt.id}\033[0m defined at line {nt.line}:')
       print(Fore.GREEN + '\n\tVerified properties:')
       print(Style.RESET_ALL, end='')
       print(c, end='')
@@ -624,7 +712,7 @@ def extendNetwork_assumptions():
     p_print('Not every declared network respects the network\'s property.\n', False, 'ignore_net')
     for nt in dic_netw_str:
       (e1,e2,e3,e4,e5,e6,e7,e8,c) = dic_netw_str[nt]
-      print(f'     For the network \033[1m{nt.id}\033[0m defined at line {nt.line}:')
+      print(f'     • For the network \033[1m{nt.id}\033[0m defined at line {nt.line}:')
       print(Fore.GREEN + '\n\tVerified properties:')
       print(Style.RESET_ALL, end='')
       print(c, end='')

@@ -19,11 +19,12 @@ def parsePosSystem(rail, pos_system, path='{https://www.railml.org/schemas/3.1}'
 
   for g in geometric:
     ident = g.get('id')
+    line = g.sourceline
     # Valid
     valid_from = g.find(f'./{path}isValid').get('from')
     valid_to   = g.find(f'./{path}isValid').get('to')
 
-    g_pos = GeometricPosition(ident, valid_from, valid_to)
+    g_pos = GeometricPosition(ident, line, valid_from, valid_to)
     id_pos[ident] = g_pos
 
     rail.addGeometric(g_pos)
@@ -31,13 +32,14 @@ def parsePosSystem(rail, pos_system, path='{https://www.railml.org/schemas/3.1}'
   for l in linear:
     ident = l.get('id')
     units = l.get('units')
+    line  = l.sourceline
     start = l.get('startMeasure')
     end   = l.get('endMeasure')
     # Valid
     valid_from = l.find(f'./{path}isValid').get('from')
     valid_to   = l.find(f'./{path}isValid').get('to')
 
-    l_pos = LinearPosition(ident, units, start, end, valid_from, valid_to)
+    l_pos = LinearPosition(ident, units, line, start, end, valid_from, valid_to)
     id_pos[ident] = l_pos
 
     rail.addLinear(l_pos)
@@ -177,6 +179,18 @@ def parseNetRelations(rail, nrels, path='{https://www.railml.org/schemas/3.1}'):
         # dict with id relationed with the element
         id_res[ident] = netrel
         rail.addNetRelation(netrel)
+
+        # Append relation to Positioning System
+        for linear in netelemA.linear:
+          if linear in netelemB.linear:
+            posl = id_pos[linear]
+            posl.append_relation(netrel)
+
+        # Append relation to Positioning System
+        for geometric in netelemA.geometric:
+          if geometric in netelemB.geometric:
+            posg = id_pos[geometric]
+            posg.append_relation(netrel)
 
         # Check if its defined on dict created for elems->relations
         if ident in rel_elm:
