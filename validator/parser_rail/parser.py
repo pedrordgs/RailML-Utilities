@@ -26,7 +26,7 @@ def parsePosSystem(rail, pos_system, path='{https://www.railml.org/schemas/3.1}'
     g_pos = GeometricPosition(ident, valid_from, valid_to)
     id_pos[ident] = g_pos
 
-    rail.addPosition(g_pos)
+    rail.addGeometric(g_pos)
 
   for l in linear:
     ident = l.get('id')
@@ -40,13 +40,18 @@ def parsePosSystem(rail, pos_system, path='{https://www.railml.org/schemas/3.1}'
     l_pos = LinearPosition(ident, units, start, end, valid_from, valid_to)
     id_pos[ident] = l_pos
 
-    rail.addPosition(l_pos)
+    rail.addLinear(l_pos)
 
 def parseNetElements(rail, nelems, path='{https://www.railml.org/schemas/3.1}'):
     for elem in nelems:
         ident = elem.get('id')
         length = elem.get('length')
         line = elem.sourceline
+
+        netelem = NetElement(ident,length,line)
+        # dict with id relationed with the element
+        id_res[ident] = netelem
+        rail.addNetElement(netelem)
 
         # associated Position System
         linear = {}
@@ -65,6 +70,9 @@ def parseNetElements(rail, nelems, path='{https://www.railml.org/schemas/3.1}'):
                 ref = l.get('positioningSystemRef')
                 l_system = id_pos[ref]
 
+                # Append to elements of the position system
+                l_system.append_element(netelem)
+
                 if ref not in linear:
                   linear[ref] = {}
                   linear[ref]['start'] = []
@@ -73,6 +81,9 @@ def parseNetElements(rail, nelems, path='{https://www.railml.org/schemas/3.1}'):
               for g in geometrics:
                 ref = g.get('positioningSystemRef')
                 g_system = id_pos[ref]
+
+                # Append to elements of the position system
+                g_system.append_element(netelem)
 
                 if ref not in geometric:
                   geometric[ref] = {}
@@ -89,6 +100,9 @@ def parseNetElements(rail, nelems, path='{https://www.railml.org/schemas/3.1}'):
                 ref = l.get('positioningSystemRef')
                 l_system = id_pos[ref]
 
+                # Append to elements of the position system
+                l_system.append_element(netelem)
+
                 if ref not in linear:
                   print(f'\033[4mPARSING ERROR\033[0m: Element {ident} defined at Line {line} has as end coordinate reference {ref}, but not as begin reference.')
                   return
@@ -100,6 +114,10 @@ def parseNetElements(rail, nelems, path='{https://www.railml.org/schemas/3.1}'):
               for g in geometrics:
                 ref = g.get('positioningSystemRef')
                 g_system = id_pos[ref]
+
+                # Append to elements of the position system
+                g_system.append_element(netelem)
+
                 if ref not in geometric:
                   print(f'\033[4mPARSING ERROR\033[0m: Element {ident} defined at Line {line} has as end coordinate reference {ref}, but not as begin reference.')
                   return
@@ -108,10 +126,8 @@ def parseNetElements(rail, nelems, path='{https://www.railml.org/schemas/3.1}'):
                   geometric[ref]['end'] = []
                 geometric[ref]['end'].append((g_system, g.get('x'), g.get('y')))
 
-        netelem = NetElement(ident,length,line, linear, geometric)
-        # dict with id relationed with the element
-        id_res[ident] = netelem
-        rail.addNetElement(netelem)
+        netelem.setLinear(linear)
+        netelem.setGeometric(geometric)
 
         # If defined as reference id in elem->[elem] dict.
         if ident in elm_elm:
@@ -169,17 +185,24 @@ def parseNetRelations(rail, nrels, path='{https://www.railml.org/schemas/3.1}'):
 
 def parseNetworks(rail, nets, path='{https://www.railml.org/schemas/3.1}'):
     for n in nets:
+
         net = n.get('id')
         line = n.sourceline
         levels = n.findall(f'./{path}level')
         lvls_associated = []
 
         for l in levels:
+
           id_l  = l.attrib['id']
           line_l = l.sourceline
           descLevel = l.attrib['descriptionLevel']
+
           # Get the reference to its class element
-          net_resources = [id_res[e.attrib['ref']] for e in l]
+          net_resources = []
+          for e in l:
+            nr = id_res[e.attrib['ref']]
+            nr.append_network(n)
+            net_resources.append(nr)
 
           lvls_associated.append(Level(id_l, descLevel, line_l, net_resources))
         rail.addNetwork(Network(net, line, lvls_associated))
@@ -218,7 +241,8 @@ def parseRailML(filename, path='{https://www.railml.org/schemas/3.1}'):
     # switches   = root.find(f'.//{path}switchesIS')
     # signals    = root.find(f'.//{path}signalsIS')
 
-    parsePosSystem(rail, pos_system)
+    if not pos_system is None:
+      parsePosSystem(rail, pos_system)
     parseNetElements(rail, nelems)
     parseNetRelations(rail, nrels)
     parseNetworks(rail, networks)

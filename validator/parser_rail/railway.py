@@ -4,7 +4,8 @@ class Railway:
         self.netElements = []
         self.netRelations = []
         self.networks = []
-        self.positions = []
+        self.linear = []
+        self.geometric = []
 
     def addNetElement(self, nelem):
         self.netElements.append(nelem)
@@ -15,5 +16,8 @@ class Railway:
     def addNetwork(self, net):
         self.networks.append(net)
 
-    def addPosition(self, pos):
-        self.positions.append(pos)
+    def addLinear(self, pos):
+        self.linear.append(pos)
+
+    def addGeometric(self, pos):
+        self.geometric.append(pos)

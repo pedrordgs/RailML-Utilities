@@ -9,3 +9,8 @@ class NetRelation:
         self.positionOnB = posB
         self.elementA = elemA
         self.elementB = elemB
+        self.networks = set()
+
+    def append_network(self, netw):
+      self.networks.add(netw)
+

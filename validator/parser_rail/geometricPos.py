@@ -5,3 +5,8 @@ class GeometricPosition:
     self.description = "Geometric"
     self.valid_from = valid_from
     self.valid_to = valid_to
+
+    self.elements  = set()
+
+  def append_element(self, e):
+    self.elements.add(e)

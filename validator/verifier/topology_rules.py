@@ -9,21 +9,73 @@ def assumptions_(r):
   global railw
   railw = r
 
-  print("\n\033[4mChecking Topology properties:\033[0m\n")
+  print("\n\033[4mChecking Topology properties:\033[0m")
+
   # Needs to be rethought - not that simple to implement
-  positionSystem_assumptions()
+  if railw.linear != [] or railw.geometric != []:
+    print("\n \x1B[3mPositioning System Assumptions:\x1B[23m\n")
+    positionSystem_assumptions()
+  else:
+    print("\n \x1B[3mNo Positioning System declared.\x1B[23m")
+
   # netElements assumptions - Redudancy and elementCollectionUnordered
+  print("\n \x1B[3mNetElement Assumptions:\x1B[23m\n")
   netElements_assumptions()
   # If a NetElement is connected to two different NetElements in same endpoint, those must also be connected
   elementOn()
+
   # netRelations assumptions
+  print("\n \x1B[3mNetRelation Assumptions:\x1B[23m\n")
   netRelations_assumptions()
+
   # extendNetworks properties - extend Micro should be on extend Meso and so on
+  print("\n \x1B[3mNetwork Assumptions:\x1B[23m\n")
   extendNetwork_assumptions()
 
 
 def positionSystem_assumptions():
-  return
+
+  b_length = True
+  err_length = ''
+
+  if not railw.geometric == []:
+    print('  \x1B[3mGeometric\'s System Assumptions:\x1B[23m\n')
+    # Process every Geometric Positioning System
+    for g in railw.geometric:
+
+      for elem in g.elements:
+
+        # check if element respects the element length property
+        length = elem.length
+        s = elem.linear[g.id]['start']
+        e = elem.linear[g.id]['end']
+
+  if not railw.linear == []:
+    print('  \x1B[3mLinear\'s System Assumptions:\x1B[23m\n')
+    # Process every Linear Positioning System
+    for l in railw.linear:
+
+      for elem in l.elements:
+        # check if element respects the element length property
+        length = elem.length
+        s = elem.linear[l.id]['start'][0]
+        if 'end' in elem.linear[l.id]:
+          e = elem.linear[l.id]['end'][0]
+        else:
+          e = elem.linear[l.id]['start'][1]
+
+        # Determine the distance
+        d = abs(float(e[1]) - float(s[1]))
+
+        if not length is None:
+          if not float(length) == float(d):
+            err_length += f'\tLine {elem.line}: Element {elem.id} does not preserve the length property, where length has value of {length}, and the difference between measures related to the system {l.id} has value {d}.'
+            b_length = False
+
+  if b_length == True:
+    p_print('Every element respects the length property.', True, err_length)
+  else:
+    p_print('Elements found that disrespect the length property.', False, err_length)
 
 
 # Redundacy with netRelations and no loops on elementCollectionUnordered
@@ -32,6 +84,9 @@ def netElements_assumptions():
   # No loops in elementCollectionUnordered: Transitive Closure
   b = True
   err_tr = ""
+
+  b_network = True
+  err_network = ""
 
   # Pair netElement with each netRelation
   list_elements  = []
@@ -46,6 +101,13 @@ def netElements_assumptions():
       err_tr += f'\tLine {e.line}: Loops found on elementCollectionUnordered of the NetElement {e.id}.\n'
       b = False
 
+    # Check if every element is defined at most one network
+    if len(e.networks) != 1:
+      if len(e.networks) == 0:
+        err_network += f'\tLine {e.line}: The element {e.id} has no network associated, must have at most 1 associated network.\n'
+      else:
+        err_network += f'\tLine {e.line}: The element {e.id} has {len(e.networks)} networks associated: {[n.id for n in list(e.networks)]}, must have at most 1 associated network.\n'
+      b_network = False
 
     '''
     # If collectionUnordered could be a connected graph.
@@ -97,6 +159,10 @@ def netElements_assumptions():
   else:
     p_print('Loops found on relation elementCollectionUnordered.', False, err_tr)
 
+  if b_network == True:
+    p_print('Every defined element has just 1 network associated.', True, err_network)
+  else:
+    p_print('Elements found that disrespect the network associated property.', False, err_network)
 
 # Get relations associated with element. Returns a list with every other element and his position, as well as the relation id.
 def getRelations(element) -> list:
@@ -143,7 +209,7 @@ def elementOn():
         if e_r[1] != id_e and e_r[5] == pos_outro:
           if (e_r[1],e_r[2]) not in r_aux:
             b    = False
-            err += f'\tElement {e_r[1].id}, declared at Line {e_r[1].line}, must have a relation with the element {id_e.id}, since they both connect to {e.id} at the same endpoint {pos_outro}.\n'
+            err += f'\tElement {e_r[1].id}, declared at line {e_r[1].line}, must have a relation with the element {id_e.id}, since they both connect to {e.id} at the same endpoint {pos_outro}.\n'
 
   if b == False:
     p_print('Element On property failed.', False, err)
@@ -159,6 +225,8 @@ def netRelations_assumptions():
   err  = ""
   b1   = True # repeated elements and positions
   err1 = ""
+  b_network = True
+  err_network = ""
 
   # Auxiliar structs to find relations with the equal elements to others
   elems_relations = {}
@@ -168,6 +236,15 @@ def netRelations_assumptions():
   for rel in railw.netRelations:
     tup     = (rel.elementA, rel.elementB)
     tup_rev = (rel.elementB, rel.elementA)
+
+
+    # Check if every relation is defined at most one network
+    if len(rel.networks) != 1:
+      if len(rel.networks) == 0:
+        err_network += f'\tLine {rel.line}: The relation {rel.id} has no network associated, must have at most 1 associated network.\n'
+      else:
+        err_network += f'\tLine {rel.line}: The relation {rel.id} has {len(rel.networks)} networks associated: {[n.id for n in list(rel.networks)]}, must have at most 1 associated network.\n'
+      b_network = False
 
     # Store to each tuple (elementA, elementB) every corresponding relation
     if tup not in elems_relations:
@@ -202,6 +279,11 @@ def netRelations_assumptions():
   else:
     p_print('Theres at least one relation that has equal elements A and B defined in the same position.', False, err1)
 
+
+  if b_network == True:
+    p_print('Every defined relation has just 1 network associated.', True, err_network)
+  else:
+    p_print('Relations found that disrespect the network associated property.', False, err_network)
 
 # Check if Micro Level extension is on Meso Level extension and so on
 def extendNetwork_assumptions():
@@ -285,7 +367,7 @@ def extendNetwork_assumptions():
           # Check if it has collection unordered
           if m.elementCollectionUnordered:
             elements_micro = False
-            err_emicro += f'\t  - Line {micro.line}: Element {m.id}, defined at Line {m.line}, is extended by some elements and should not, since it belongs to Micro level.\n'
+            err_emicro += f'\t  - Line {micro.line}: Element {m.id}, defined at line {m.line}, is extended by some elements and should not, since it belongs to Micro level.\n'
 
         # If its a netRelation
         if m.__class__.__name__ == "NetRelation":
@@ -380,19 +462,19 @@ def extendNetwork_assumptions():
         for e_micro in micro.networkResources:
           if e_micro.__class__.__name__ == "NetElement":
             if e_micro not in meso_list and e_micro not in meso.networkResources:
-              err += f'\t  - Line {micro.line}: Element {e_micro.id} at Micro level must be at the extended Meso Level, declared in Line {meso.line}.\n'
+              err += f'\t  - Line {micro.line}: Element {e_micro.id} at Micro level must be at the extended Meso Level, declared in line {meso.line}.\n'
               b = False
               check_meso = False
 
         # Check if extendend meso is in micro resource
         for extended_meso in meso_list:
           if extended_meso not in micro.networkResources:
-              err += f'\t  - Line {meso.line}: Element {extended_meso.id} defined as extended must be defined at the Micro Level, defined in Line {micro.line}.\n'
+              err += f'\t  - Line {meso.line}: Element {extended_meso.id} defined as extended must be defined at the Micro Level, defined in line {micro.line}.\n'
               b = False
               check_meso = False
           if macro:
             if extended_meso in macro.networkResources:
-              err += f'\t  - Line {meso.line}: Element {extended_meso.id} defined as extended must be defined at the Micro Level, defined in Line {micro.line}, and can not be defined at the Macro Level, Line {macro.line}, as it is.\n'
+              err += f'\t  - Line {meso.line}: Element {extended_meso.id} defined as extended must be defined at the Micro Level, defined in line {micro.line}, and can not be defined at the Macro Level, line {macro.line}, as it is.\n'
               b = False
               check_meso = False
 
@@ -499,7 +581,7 @@ def extendNetwork_assumptions():
           for e_micro in micro.networkResources:
             if e_micro.__class__.__name__ == "NetElement":
               if e_micro not in macro_list and e_micro not in macro.networkResources:
-                err += f'\t  - Line {micro.line}: Element {e_micro.id} at Micro level must be at the extended Macro Level, declared in Line {macro.line}.\n'
+                err += f'\t  - Line {micro.line}: Element {e_micro.id} at Micro level must be at the extended Macro Level, declared in line {macro.line}.\n'
                 b = False
                 check_macro = False
           if b == False:
@@ -515,7 +597,7 @@ def extendNetwork_assumptions():
           for e_meso in meso.networkResources:
             if e_meso.__class__.__name__ == "NetElement":
               if e_meso not in macro_list and e_meso not in macro.networkResources:
-                err += f'\t  - Line {meso.line}: Element {e_meso.id} at Meso level must be at the extended Macro Level, declared in Line {macro.line}.\n'
+                err += f'\t  - Line {meso.line}: Element {e_meso.id} at Meso level must be at the extended Macro Level, declared in line {macro.line}.\n'
                 b1 = False
                 check_macro = False
           if b1 == False:
@@ -531,23 +613,23 @@ def extendNetwork_assumptions():
 
   # Prints to the user - Error treatment
   if check_micro and check_macro and check_meso:
-    p_print('Every network respects the extended property.', True, 'ignore_net')
+    p_print('Every declared network respects every network property.\n', True, 'ignore_net')
     for nt in dic_netw_str:
       (e1,e2,e3,e4,e5,e6,e7,e8,c) = dic_netw_str[nt]
-      print(f'  For the network {nt.id} defined at Line {nt.line}:')
+      print(f'\n     For the network \033[1m{nt.id}\033[0m defined at line {nt.line}:')
       print(Fore.GREEN + '\n\tVerified properties:')
       print(Style.RESET_ALL, end='')
       print(c, end='')
   else:
-    p_print('Not every network respects the extended property.', False, 'ignore_net')
+    p_print('Not every declared network respects the network\'s property.\n', False, 'ignore_net')
     for nt in dic_netw_str:
       (e1,e2,e3,e4,e5,e6,e7,e8,c) = dic_netw_str[nt]
-      print(f'  For the network {nt.id} defined at Line {nt.line}:')
+      print(f'     For the network \033[1m{nt.id}\033[0m defined at line {nt.line}:')
       print(Fore.GREEN + '\n\tVerified properties:')
       print(Style.RESET_ALL, end='')
       print(c, end='')
       if(e1 or e2 or e3 or e4 or e5 or e6 or e7 or e8):
-        print(Fore.RED + '\n\tErrors found:')
+        print(Fore.RED + '\n\tRefuted properties:')
         print(Style.RESET_ALL, end='')
       if (e1):
         print(e1, end='')

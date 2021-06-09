@@ -123,14 +123,14 @@ def validateXMLwithXSD(filename):
 # Pretty print
 def p_print(str, b, erros):
     if b:
-      print(Fore.GREEN + "", str)
+      print(Fore.GREEN + "   ", str, end='')
     else:
-      print(Fore.RED + "", str)
+      print(Fore.RED + "   ", str)
     print(Style.RESET_ALL, end="")
     if erros != "":
       if (erros == "ignore_net"):
         print('', end='')
       else:
-        print(erros)
+        print(erros, end='')
     else:
       print('')
