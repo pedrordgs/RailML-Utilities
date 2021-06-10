@@ -44,7 +44,9 @@ def positionSystem_assumptions():
 
   # GEOMETRIC POSITION SYSTEM
   if not railw.geometric == []:
+    atleast1 = False
     fill = False
+    fill_rel = False
     # Should be reseted in linear
     b_length = True
     err_length = ''
@@ -52,6 +54,12 @@ def positionSystem_assumptions():
     err_time = ''
     non_empty = True
     err_empty = ''
+    b_cU = True
+    err_cU = ''
+    relation_con = True
+    err_rel_con = ''
+    warning = False
+    warning_str = ''
     print('  • \x1B[3mGeometric\'s System Assumptions:\x1B[23m\n')
     # Process every Geometric Positioning System
     for g in railw.geometric:
@@ -63,32 +71,147 @@ def positionSystem_assumptions():
       if not len(g.elements) == 0:
         fill = True
         for elem in g.elements:
-              # check if element respects the element length property
+          # check if element respects the element length property
           length = elem.length
-          s = elem.geometric[g.id]['start'][0]
-          if 'end' in elem.geometric[g.id]:
-            e = elem.geometric[g.id]['end'][0]
+
+          if 'start' in elem.geometric[g.id]:
+            s = elem.geometric[g.id]['start'][0]
+            if 'end' in elem.geometric[g.id]:
+              e = elem.geometric[g.id]['end'][0]
+            else:
+              # If there is more than 1 in start
+              if len(elem.geometric[g.id]['start']) == 2:
+                e = elem.geometric[g.id]['start'][1]
+                elem.geometric[g.id]['end'] = [e]
+              else:
+                warning = True
+                warning_str += f'\tLine {elem.line}: Not possible to determine the distance in the system {g.id}, since this element does not provide information about intrinsic coordinate 1.\n'
+                continue
           else:
-            e = elem.geometric[g.id]['start'][1]
+            warning = True
+            warning_str += f'\tLine {elem.line}: Not possible to determine the distance in the system {g.id}, since this element does not provide information about intrinsic coordinate 0.\n'
+            continue
 
           # Determine the distance
-          d = math.sqrt(((s[1]-e[1])**2)+((s[2]-e[2])**2))
+          d = math.sqrt(((float(s[1])-float(e[1]))**2)+((float(s[2])-float(e[2]))**2))
+          if (float(s[1]), float(s[2])) <= (float(e[1]), float(e[2])):
+            max_ = (float(e[1]), float(e[2]))
+            min_ = (float(s[1]), float(s[2]))
+          else:
+            max_ = (float(s[1]), float(s[2]))
+            min_ = (float(e[1]), float(e[2]))
+
+          # check elemententCollectionUnordered
+          if not elem.elementCollectionUnordered == []:
+            # list of measures of every element collection unordered
+            list_measures = []
+            for ecu in elem.elementCollectionUnordered:
+              if g.id not in ecu.linear:
+                warning = True
+                warning_str += f'\tLine {elem.line}: Not possible to determine the combine distances of the element {elem.id}\'s elementCollectionUnordered, since element {ecu.id} is not defined in the system {g.id}.\n'
+                break
+
+              if 'start' in ecu.geometric[g.id]:
+                ss = ecu.geometric[g.id]['start'][0]
+                if 'end' in elem.geometric[g.id]:
+                  ee = ecu.geometric[g.id]['end'][0]
+                else:
+                  # If there is more than 1 in start
+                  if len(ecu.geometric[g.id]['start']) == 2:
+                    ee = ecu.geometric[g.id]['start'][1]
+                    ecu.geometric[g.id]['end'] = [ee]
+                  else:
+                    warning = True
+                    warning_str += f'\tLine {elem.line}: Not possible to determine the combine distances of the element {elem.id}\'s elementCollectionUnordered, since element {ecu.id} does not provide information about intrinsic coordinate 1 in the system {g.id}.\n'
+                    break
+              else:
+                warning = True
+                warning_str += f'\tLine {elem.line}: Not possible to determine the combine distances of the element {elem.id}\'s elementCollectionUnordered, since element {ecu.id} does not provide information about intrinsic coordinate 0 in the system {g.id}.\n'
+                break
+
+              list_measures.append((float(ee[1]),float(ee[2])))
+              list_measures.append((float(ss[1]),float(ss[2])))
+
+            if len(list_measures) == 2*(elem.elementCollectionUnordered):
+              atleast1 = True
+              mM = max(list_measures)
+              mm = min(list_measures)
+              if not float(d) == float(mM - mm):
+                err_cU += f'\tLine {elem.line}: Element {elem.id} does not preserve the elementCollectionUnordered preservation property, where its defined between {min_} and {max_}, where the measure values of its parts are between {mm} and {mM}, in the system {g.id}\n.'
+                b_cU = False
+
 
           if not length is None:
             if not float(length) == float(d):
-              err_length += f'\tLine {elem.line}: Element {elem.id} does not preserve the length property, where length has value of {length}, and the difference between coordinates related to the system {g.id} has value {d}.'
+              err_length += f'\tLine {elem.line}: Element {elem.id} does not preserve the length property, where length has value of {length}, and the difference between coordinates related to the system {g.id} has value {d}.\n'
               b_length = False
       else:
         non_empty = False
         err_empty += f'\tLine {g.line}: The positioning system {g.id} is declared but has no associated element.\n'
 
-    # Length property
-    if b_length == True:
+      # Relations properties
+      for rel in g.relations:
+        fill_rel = True
+
+        elA = rel.elementA
+        elB = rel.elementB
+
+        # For element A
+        if 'start' in elA.geometric[g.id]:
+          sA = elA.geometric[g.id]['start'][0]
+          sA = (float(sA[1]),float(sA[2]))
+
+          if 'end' in elA.geometric[g.id]:
+            eA = elA.geometric[g.id]['end'][0]
+            eA = (float(eA[1]),float(eA[2]))
+          else:
+              # If there is more than 1 in start
+              if len(elA.geometric[g.id]['start']) == 2:
+                eA = elA.geometric[g.id]['start'][1]
+                elA.geometric[g.id]['end'] = [eA]
+                eA = (float(eA[1]),float(eA[2]))
+              else:
+                warning = True
+                warning_str += f'\tLine {rel.line}: Not possible to verify the connection in the relation {rel.id} in the system {g.id}, since the elementA of this relation {elA.id} does not provide information about intrinsic coordinate 1.\n'
+                continue
+        else:
+          warning = True
+          warning_str += f'\tLine {rel.line}: Not possible to verify the connection in the relation {rel.id} in the system {g.id}, since the elementA of this relation {elA.id} does not provide information about intrinsic coordinate 0.\n'
+          continue
+
+        # For element B
+        if 'start' in elB.geometric[g.id]:
+          sB = elB.geometric[g.id]['start'][0]
+          sB = (float(sB[1]),float(sB[2]))
+          if 'end' in elB.geometric[g.id]:
+            eB = elB.geometric[g.id]['end'][0]
+            eB = (float(eB[1]),float(eB[2]))
+          else:
+              # If there is more than 1 in start
+              if len(elB.geometric[g.id]['start']) == 2:
+                eB = elB.geometric[g.id]['start'][1]
+                elB.geometric[g.id]['end'] = [eB]
+                eB = (float(eB[1]),float(eB[2]))
+              else:
+                warning = True
+                warning_str += f'\tLine {rel.line}: Not possible to verify the connection in the relation {rel.id} in the system {g.id}, since the elementB of this relation {elB.id} does not provide information about intrinsic coordinate 1.\n'
+                continue
+        else:
+          warning = True
+          warning_str += f'\tLine {rel.line}: Not possible to verify the connection in the relation {rel.id} in the system {g.id}, since the elementB of this relation {elB.id} does not provide information about intrinsic coordinate 0.\n'
+          continue
+
+        if not (sA == sB or eA == sB or sA == eB or eA == eB):
+          relation_con = False
+          err_rel_con += f'\tLine {rel.line}: Relation {rel.id} does not preserve the connectivity property, meaning that its elements are not connected in the system {g.id}.\n'
+
+
+
+    ### Output Treatment ###
+    # Print warnings
+    if warning == True:
       if fill:
-        p_print('Every element respects the length property.', True, err_length)
-    else:
-      if fill:
-        p_print('Elements found that disrespect the length property.', False, err_length)
+        print(Fore.YELLOW + "   Warnings:\n" + Style.RESET_ALL + warning_str, end='')
 
     # Time valid
     if valid_time == True:
@@ -102,12 +225,34 @@ def positionSystem_assumptions():
     else:
       p_print('There are some GPS declared with no associated element.', False, err_empty)
 
+    # Length property
+    if b_length == True:
+      if fill:
+        p_print('Every element respects the length property.', True, err_length)
+    else:
+      if fill:
+        p_print('Elements found that disrespect the length property.', False, err_length)
 
+    # elementCollectionUnordered property
+    if b_cU == True:
+      if atleast1:
+        p_print('Every element respects the preservation of the coordinates on elementCollectionUnordered.', True, err_cU)
+    else:
+        p_print('Elements found that disrespect the preservation of the coordinates on elementCollectionUnordered.', False, err_cU)
+
+    # relation conectivity property
+    if relation_con == True:
+      if fill_rel:
+        p_print('Every relation respects the connectivity of their elements.', True, err_rel_con)
+    else:
+      p_print('Relations found that disrespect the connectivity property.', False, err_rel_con)
 
 
   # LINEAR POSITION SYSTEM
   if not railw.linear == []:
     fill = False
+    fill_rel = False
+    atleast1 = False
     # Reseted after geometric
     b_length = True
     err_length = ''
@@ -115,6 +260,12 @@ def positionSystem_assumptions():
     err_time = ''
     non_empty = True
     err_empty = ''
+    b_cU = True
+    err_cU = ''
+    relation_con = True
+    err_rel_con = ''
+    warning = False
+    warning_str = ''
     print('\n  • \x1B[3mLinear\'s System Assumptions:\x1B[23m\n')
     # Process every Linear Positioning System
     for l in railw.linear:
@@ -128,30 +279,145 @@ def positionSystem_assumptions():
         for elem in l.elements:
           # check if element respects the element length property
           length = elem.length
-          s = elem.linear[l.id]['start'][0]
-          if 'end' in elem.linear[l.id]:
-            e = elem.linear[l.id]['end'][0]
+
+          if 'start' in elem.linear[l.id]:
+            s = elem.linear[l.id]['start'][0]
+            if 'end' in elem.linear[l.id]:
+              e = elem.linear[l.id]['end'][0]
+            else:
+              # If there is more than 1 in start
+              if len(elem.linear[l.id]['start']) == 2:
+                e = elem.linear[l.id]['start'][1]
+                elem.linear[l.id]['end'] = [e]
+              else:
+                warning = True
+                warning_str += f'\tLine {elem.line}: Not possible to determine the distance in the system {l.id}, since this element does not provide information about intrinsic coordinate 1.\n'
+                continue
           else:
-            e = elem.linear[l.id]['start'][1]
+            warning = True
+            warning_str += f'\tLine {elem.line}: Not possible to determine the distance in the system {l.id}, since this element does not provide information about intrinsic coordinate 0.\n'
+            continue
 
           # Determine the distance
           d = abs(float(e[1]) - float(s[1]))
+          if float(e[1]) >= float(s[1]):
+            max_ = float(e[1])
+            min_ = float(s[1])
+          else:
+            max_ = float(s[1])
+            min_ = float(e[1])
 
+          # check elemententCollectionUnordered
+          if not elem.elementCollectionUnordered == []:
+            # list of measures of every element collection unordered
+            list_measures = []
+            for ecu in elem.elementCollectionUnordered:
+              if l.id not in ecu.linear:
+                warning = True
+                warning_str += f'\tLine {elem.line}: Not possible to determine the combine distances of the element {elem.id}\'s elementCollectionUnordered, since element {ecu.id} is not defined in the system {l.id}.\n'
+                break
+
+              if 'start' in ecu.linear[l.id]:
+                ss = ecu.linear[l.id]['start'][0]
+                if 'end' in elem.linear[l.id]:
+                  ee = ecu.linear[l.id]['end'][0]
+                else:
+                  # If there is more than 1 in start
+                  if len(ecu.linear[l.id]['start']) == 2:
+                    ee = ecu.linear[l.id]['start'][1]
+                    ecu.linear[l.id]['end'] = [ee]
+                  else:
+                    warning = True
+                    warning_str += f'\tLine {elem.line}: Not possible to determine the combine distances of the element {elem.id}\'s elementCollectionUnordered, since element {ecu.id} does not provide information about intrinsic coordinate 1 in the system {l.id}.\n'
+                    break
+              else:
+                warning = True
+                warning_str += f'\tLine {elem.line}: Not possible to determine the combine distances of the element {elem.id}\'s elementCollectionUnordered, since element {ecu.id} does not provide information about intrinsic coordinate 0 in the system {l.id}.\n'
+                break
+
+              list_measures.append(float(ee[1]))
+              list_measures.append(float(ss[1]))
+
+            if len(list_measures) == 2*len(elem.elementCollectionUnordered):
+              atleast1 = True
+              mM = max(list_measures)
+              mm = min(list_measures)
+              if mM != max_ or mm != min_:
+                err_cU += f'\tLine {elem.line}: Element {elem.id} does not preserve the elementCollectionUnordered preservation property, where its defined between {min_} and {max_}, where the measure values of its parts are between {mm} and {mM}, in the system {l.id}.\n'
+                b_cU = False
+
+          # out of elementCollectionUnordered cycle
           if not length is None:
             if not float(length) == float(d):
-              err_length += f'\tLine {elem.line}: Element {elem.id} does not preserve the length property, where length has value of {length}, and the difference between measures related to the system {l.id} has value {d}.'
+              err_length += f'\tLine {elem.line}: Element {elem.id} does not preserve the length property, where length has value of {length}, and the difference between measures related to the system {l.id} has value {d}.\n'
               b_length = False
       else:
         non_empty = False
         err_empty += f'\tLine {l.line}: The positioning system {l.id} is declared but has no associated element.\n'
 
-    # Length property
-    if b_length == True:
+
+      # Relations properties
+      for rel in l.relations:
+        fill_rel = True
+
+        elA = rel.elementA
+        elB = rel.elementB
+
+        # For element A
+        if 'start' in elA.linear[l.id]:
+          sA = elA.linear[l.id]['start'][0]
+          sA = float(sA[1])
+
+          if 'end' in elA.linear[l.id]:
+            eA = elA.linear[l.id]['end'][0]
+            eA = float(eA[1])
+          else:
+              # If there is more than 1 in start
+              if len(elA.linear[l.id]['start']) == 2:
+                eA = elA.linear[l.id]['start'][1]
+                elA.linear[l.id]['end'] = [eA]
+                eA = float(eA[1])
+              else:
+                warning = True
+                warning_str += f'\tLine {rel.line}: Not possible to verify the connection in the relation {rel.id} in the system {l.id}, since the elementA of this relation {elA.id} does not provide information about intrinsic coordinate 1.\n'
+                continue
+        else:
+          warning = True
+          warning_str += f'\tLine {rel.line}: Not possible to verify the connection in the relation {rel.id} in the system {l.id}, since the elementA of this relation {elA.id} does not provide information about intrinsic coordinate 0.\n'
+          continue
+
+        # For element B
+        if 'start' in elB.linear[l.id]:
+          sB = elB.linear[l.id]['start'][0]
+          sB = float(sB[1])
+          if 'end' in elB.linear[l.id]:
+            eB = elB.linear[l.id]['end'][0]
+            eB = float(eB[1])
+          else:
+              # If there is more than 1 in start
+              if len(elB.linear[l.id]['start']) == 2:
+                eB = elB.linear[l.id]['start'][1]
+                elB.linear[l.id]['end'] = [eB]
+                eB = float(eB[1])
+              else:
+                warning = True
+                warning_str += f'\tLine {rel.line}: Not possible to verify the connection in the relation {rel.id} in the system {l.id}, since the elementB of this relation {elB.id} does not provide information about intrinsic coordinate 1.\n'
+                continue
+        else:
+          warning = True
+          warning_str += f'\tLine {rel.line}: Not possible to verify the connection in the relation {rel.id} in the system {l.id}, since the elementB of this relation {elB.id} does not provide information about intrinsic coordinate 0.\n'
+          continue
+
+        if not (sA == sB or eA == sB or sA == eB or eA == eB):
+          relation_con = False
+          err_rel_con += f'\tLine {rel.line}: Relation {rel.id} does not preserve the connectivity property, meaning that its elements are not connected in the system {l.id}.\n'
+
+
+    ### Output Treatment ###
+    # Print warnings
+    if warning == True:
       if fill:
-        p_print('Every element respects the length property.', True, err_length)
-    else:
-      if fill:
-        p_print('Elements found that disrespect the length property.', False, err_length)
+        print(Fore.YELLOW + "   Warnings:\n" + Style.RESET_ALL + warning_str, end='')
 
     # Time valid
     if valid_time == True:
@@ -164,6 +430,31 @@ def positionSystem_assumptions():
       p_print('Every LPS declared has associated elements.', True, err_empty)
     else:
       p_print('There are some LPS declared with no associated element.', False, err_empty)
+
+    # Length property
+    if b_length == True:
+      if fill:
+        p_print('Every element respects the length property.', True, err_length)
+    else:
+      if fill:
+        p_print('Elements found that disrespect the length property.', False, err_length)
+
+    # elementCollectionUnordered property
+    if b_cU == True:
+      if atleast1:
+        p_print('Every element respects the preservation of the measures on elementCollectionUnordered.', True, err_cU)
+    else:
+      if atleast1:
+        p_print('Elements found that disrespect the preservation of the measures on elementCollectionUnordered.', False, err_cU)
+
+    # relation conectivity property
+    if relation_con == True:
+      if fill_rel:
+        p_print('Every relation respects the connectivity of their elements.', True, err_rel_con)
+    else:
+      p_print('Relations found that disrespect the connectivity property.', False, err_rel_con)
+
+
 
 
 # Redundacy with netRelations and no loops on elementCollectionUnordered
@@ -252,6 +543,8 @@ def netElements_assumptions():
   else:
     p_print('Elements found that disrespect the network associated property.', False, err_network)
 
+
+
 # Get relations associated with element. Returns a list with every other element and his position, as well as the relation id.
 def getRelations(element) -> list:
 
@@ -303,6 +596,7 @@ def elementOn():
     p_print('Element On property failed.', False, err)
   else:
     p_print('Element On property verified.', True, err)
+
 
 
 

@@ -11,6 +11,7 @@ rel_elm = {}
 elm_elm = {}
 id_res  = {}
 id_pos  = {}
+id_rel  = {}
 
 def parsePosSystem(rail, pos_system, path='{https://www.railml.org/schemas/3.1}'):
 
@@ -62,6 +63,7 @@ def parseNetElements(rail, nelems, path='{https://www.railml.org/schemas/3.1}'):
         intrisic = elem.findall(f'.//{path}intrinsicCoordinate')
         intrisic_0 = list(filter(lambda x: x.get('intrinsicCoord') == '0', intrisic))
         intrisic_1 = list(filter(lambda x: x.get('intrinsicCoord') == '1', intrisic))
+        middle_intrinsic = list(filter(lambda x: x.get('intrinsicCoord') != '1' and x.get('intrinsicCoord') != '0', intrisic))
 
         # intrisic coord as 0
         for i in intrisic_0:
@@ -92,6 +94,36 @@ def parseNetElements(rail, nelems, path='{https://www.railml.org/schemas/3.1}'):
                   geometric[ref]['start'] = []
 
                 geometric[ref]['start'].append((g_system, g.get('x'), g.get('y')))
+
+        # intrisic coord between 0 and 1
+        for i in middle_intrinsic:
+              linears = i.findall(f'./{path}linearCoordinate')
+              geometrics = i.findall(f'./{path}geometricCoordinate')
+
+              for l in linears:
+                ref = l.get('positioningSystemRef')
+                l_system = id_pos[ref]
+
+                # Append to elements of the position system
+                # l_system.append_element(netelem)
+
+                if ref not in linear:
+                  linear[ref] = {}
+                  linear[ref]['middle'] = []
+                linear[ref]['middle'].append((i.get('intrinsicCoord'),l_system, l.get('measure')))
+
+              for g in geometrics:
+                ref = g.get('positioningSystemRef')
+                g_system = id_pos[ref]
+
+                # Append to elements of the position system
+                # g_system.append_element(netelem)
+
+                if ref not in geometric:
+                  geometric[ref] = {}
+                  geometric[ref]['middle'] = []
+
+                geometric[ref]['middle'].append((i.get('intrinsicCoord'), g_system, g.get('x'), g.get('y')))
 
         # intrisic coord as 1
         for i in intrisic_1:
@@ -136,6 +168,7 @@ def parseNetElements(rail, nelems, path='{https://www.railml.org/schemas/3.1}'):
           for elm in elm_elm[ident]:
             elm.append_element(netelem)
 
+        # Instead of storing just the id of the relation, its stored the realtion itself -> For that we need a auxiliar dict
         relations = elem.findall(f'./{path}relation')
         for rel in relations:
             ref = rel.get('ref')
@@ -176,8 +209,10 @@ def parseNetRelations(rail, nrels, path='{https://www.railml.org/schemas/3.1}'):
         netelemB = id_res[elemB]
 
         netrel = NetRelation(ident,nav,line,posA,posB,netelemA,netelemB)
+
         # dict with id relationed with the element
         id_res[ident] = netrel
+
         rail.addNetRelation(netrel)
 
         # Append relation to Positioning System
@@ -196,6 +231,25 @@ def parseNetRelations(rail, nrels, path='{https://www.railml.org/schemas/3.1}'):
         if ident in rel_elm:
           for elm in rel_elm[ident]:
             elm.append_relation(netrel)
+
+        # Create associated relations for each relation -> In order to check properties like switches
+        for re in id_rel:
+          rel = id_rel[re]
+          if rel.elementA == netelemA and rel.positionOnA == posA:
+            netrel.append_relation(rel)
+            rel.append_relation(netrel)
+          if rel.elementB == netelemB and rel.positionOnB == posB:
+            netrel.append_relation(rel)
+            rel.append_relation(netrel)
+          if rel.elementB == netelemA and rel.positionOnB == posA:
+            netrel.append_relation(rel)
+            rel.append_relation(netrel)
+          if rel.elementA == netelemB and rel.positionOnA == posB:
+            netrel.append_relation(rel)
+            rel.append_relation(netrel)
+
+        # dict with id -> netrel
+        id_rel[ident] = netrel
 
 def parseNetworks(rail, nets, path='{https://www.railml.org/schemas/3.1}'):
     for n in nets:

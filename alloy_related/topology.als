@@ -27,7 +27,7 @@ fact NetElement {
 	-- there are no loops on elementCollectionUnordered
 	no iden & ^elementCollectionUnordered
 	-- there are no relations between an element and an element inside
-	
+
 }
 
 // Possible navigability values
@@ -70,7 +70,7 @@ fun associated: NetRelation -> NetRelation {
 
 
 fun elementOn : NetElement -> Position -> NetElement -> Position {
-	{ a : NetElement, pa : Position, b : NetElement, pb : Position | 
+	{ a : NetElement, pa : Position, b : NetElement, pb : Position |
 		some r : NetRelation {
 			r.elementA = a and pa = r.positionOnA and r.elementB = b and pb = r.positionOnB or
 			r.elementB = a and pa = r.positionOnB and r.elementA = b and pb = r.positionOnA
@@ -98,7 +98,7 @@ fun relatedOn: Level -> NetElement -> NetElement {
 	{ l: Level, disj a, b: NetElement {
 			some e: l.networkResource:>NetElement | a + b in e.^elementCollectionUnordered or
 			some r: l.networkResource:>NetRelation, disj e1, e2: l.networkResource:>NetElement {
-				r in e1.relation & e2.relation and 
+				r in e1.relation & e2.relation and
 				a in e1.*elementCollectionUnordered and
 				b in e2.*elementCollectionUnordered
 			}
@@ -118,7 +118,7 @@ fact Topology {
 
 	-- If 3 elements are connected in a endpoint, then its a switch, meaning navigability must be none in 1 out of 3.
 	-- Esta regra será definida quando forem implementados os switch
-	-- all n : NetRelation | n.navigability = None iff (n.positionOnA = n.positionOnB) 
+	-- all n : NetRelation | n.navigability = None iff (n.positionOnA = n.positionOnB)
 
 	-- No relations with elementA = elementB and positionA = positionB. As raquetes devem ter as positions de A e B diferentes.
 	no (elementA.~elementB & positionOnA.~positionOnB & iden)
@@ -137,7 +137,7 @@ fact Topology {
 	all n: Network, nelem: (n.level & descriptionLevel.Macro).networkResource & NetElement {
 		nelem.elementCollectionUnordered in (n.level & descriptionLevel.(Micro+Meso)).networkResource
 	}
-	
+
 	-- Micro elements need to be on meso and macro elements, fails when there isn't a Meso or Macro level
 	all n: Network | some n.level & descriptionLevel.Meso implies {
 		 extend[n.level & descriptionLevel.Micro] in extend[n.level & descriptionLevel.Meso]
@@ -146,7 +146,7 @@ fact Topology {
 		 extend[n.level & descriptionLevel.Micro] in extend[n.level & descriptionLevel.Macro] and
 		 extend[n.level & descriptionLevel.Meso] in extend[n.level & descriptionLevel.Macro]
 	}
-	
+
 	-- If two elements are related on micro, they are related on meso and macro too
 	all n: Network | some n.level & descriptionLevel.Meso implies {
 		 relatedOn[n.level & descriptionLevel.Micro] in relatedOn[n.level & descriptionLevel.Meso]
