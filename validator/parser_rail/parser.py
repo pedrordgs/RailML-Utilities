@@ -60,13 +60,15 @@ def parseNetElements(rail, nelems, path='{https://www.railml.org/schemas/3.1}'):
         linear = {}
         geometric = {}
 
-        intrisic = elem.findall(f'.//{path}intrinsicCoordinate')
-        intrisic_0 = list(filter(lambda x: x.get('intrinsicCoord') == '0', intrisic))
-        intrisic_1 = list(filter(lambda x: x.get('intrinsicCoord') == '1', intrisic))
-        middle_intrinsic = list(filter(lambda x: x.get('intrinsicCoord') != '1' and x.get('intrinsicCoord') != '0', intrisic))
+        # Check if exists position system
+        if bool(id_pos):
+          intrisic = elem.findall(f'.//{path}intrinsicCoordinate')
+          intrisic_0 = list(filter(lambda x: x.get('intrinsicCoord') == '0', intrisic))
+          intrisic_1 = list(filter(lambda x: x.get('intrinsicCoord') == '1', intrisic))
+          middle_intrinsic = list(filter(lambda x: x.get('intrinsicCoord') != '1' and x.get('intrinsicCoord') != '0', intrisic))
 
-        # intrisic coord as 0
-        for i in intrisic_0:
+          # intrisic coord as 0
+          for i in intrisic_0:
               linears = i.findall(f'./{path}linearCoordinate')
               geometrics = i.findall(f'./{path}geometricCoordinate')
 
@@ -95,8 +97,8 @@ def parseNetElements(rail, nelems, path='{https://www.railml.org/schemas/3.1}'):
 
                 geometric[ref]['start'].append((g_system, g.get('x'), g.get('y')))
 
-        # intrisic coord between 0 and 1
-        for i in middle_intrinsic:
+          # intrisic coord between 0 and 1
+          for i in middle_intrinsic:
               linears = i.findall(f'./{path}linearCoordinate')
               geometrics = i.findall(f'./{path}geometricCoordinate')
 
@@ -125,8 +127,8 @@ def parseNetElements(rail, nelems, path='{https://www.railml.org/schemas/3.1}'):
 
                 geometric[ref]['middle'].append((i.get('intrinsicCoord'), g_system, g.get('x'), g.get('y')))
 
-        # intrisic coord as 1
-        for i in intrisic_1:
+          # intrisic coord as 1
+          for i in intrisic_1:
               linears = i.findall(f'./{path}linearCoordinate')
               geometrics = i.findall(f'./{path}geometricCoordinate')
 

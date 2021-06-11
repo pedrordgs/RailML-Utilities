@@ -610,6 +610,13 @@ def netRelations_assumptions():
   b_network = True
   err_network = ""
 
+  b_associated = True
+  b_navigability = True
+  control_1 = False
+  control_2 = False
+  err_associated = ''
+  err_nav = ''
+
   # Auxiliar structs to find relations with the equal elements to others
   elems_relations = {}
   stored_tuples = []
@@ -619,6 +626,39 @@ def netRelations_assumptions():
     tup     = (rel.elementA, rel.elementB)
     tup_rev = (rel.elementB, rel.elementA)
 
+    # Check associated property
+    if len(rel.associated) < 6 and len(rel.associated) != 4 and len(rel.associated) != 3:
+
+      if len(rel.associated) == 2:
+        # It's a switch
+        control_1 = True
+        count = 0
+        if rel.navigability == 'None':
+          count += 1
+        for r in rel.associated:
+          if r.navigability == 'None':
+            count += 1
+
+        if count != 1:
+          b_navigability = False
+          err_nav += f'\tLine {rel.line}: The relation {rel.id} and their associated relations -> {", ".join(map(lambda x: str(x.id), rel.associated))} <- form a switch, but do not respect the navigability property, where just 1 of them must have its navigability as None.\n'
+
+      if len(rel.associated) == 5:
+        # It's a double switch
+        control_2 = True
+        count = 0
+        if rel.navigability == 'None':
+          count += 1
+        for r in rel.associated:
+          if r.navigability == 'None':
+            count += 1
+        if count != 2:
+          b_navigability = False
+          err_nav += f'\tLine {rel.line}: The relation {rel.id} and their associated relations -> {", ".join(map(lambda x: str(x.id), rel.associated))} <- form a double-switch, but do not respect the navigability property, where just 2 of them must have its navigability as None.\n'
+
+    else:
+      b_associated = False
+      err_associated += f'\tLine {rel.line}: The relation {rel.id} does not respect the association between relations property, since it has {len(rel.associated)} relations associated.\n'
 
     # Check if every relation is defined at most one network
     if len(rel.networks) != 1:
@@ -661,6 +701,21 @@ def netRelations_assumptions():
   else:
     p_print('Theres at least one relation that has equal elements A and B defined in the same position.', False, err1)
 
+  if b_associated:
+    p_print('Every defined relation respects the limited number of associated relations property.', True, err_associated)
+  else:
+    p_print('Relations found that disrespect the limited number of associated relations property.', False, err_associated)
+
+  if b_navigability:
+    if control_1:
+      p_print('Every defined relation that form a 3-way relation with other relations, respect the navigability property.', True, err_nav)
+    if control_2:
+      p_print('Every defined relation that form a 6-way relation with other relations, respect the navigability property.', True, err_nav)
+  else:
+    if control_1:
+      p_print('Not every relation that form a 3-way relation with other relations, respect the navigability property.', False, err_nav)
+    if control_2:
+      p_print('Not every relation that form a 6-way relation with other relations, respect the navigability property.', False, err_nav)
 
   if b_network == True:
     p_print('Every defined relation has just 1 network associated.', True, err_network)
