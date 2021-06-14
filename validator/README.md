@@ -32,6 +32,7 @@ The folder [verifier](https://github.com/pedrordgs/RailML-Utilities/blob/master/
     - Each relation has a set of associated relations, where they relate with each other by having one shared element at the same position. Each relation can either have 1, 2 (switch abstraction) or 5 (double-switch abstraction) associated relations.
     - If 3 relations are associated, one of them must have its navigability to None. If 5 relations are associated, two of them must have its navigability to None.
 - **Network Assumptions**
+    
     Note that networks can have different levels, those being Micro, Meso and Macro, hierarchically ordered.
     - Micro level should exist in each defined network, but the user can opt for the non-declaration of this level and proceed to the verification of the remaining levels.
     - Elements defined at the Micro level can't be extended by other elements, meaning that elementCollectionUnordered of these elements must be empty.
