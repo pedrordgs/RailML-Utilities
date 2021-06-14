@@ -130,6 +130,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
       reader.onload = function (event) {
         let parser = new DOMParser();
         xmlDoc = parser.parseFromString(event.target.result, 'text/xml');
+        map = {}
         loadNetworks();
         spawnButtons();
       }
@@ -145,8 +146,8 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 }
 
 function spawnButtons(){
+  document.getElementById('bla').innerHTML = ''
   for (str in map){
-    console.log(str);
     spawnButton(str);
   }
 }
