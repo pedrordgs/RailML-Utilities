@@ -25,14 +25,14 @@ The folder [verifier](https://github.com/pedrordgs/RailML-Utilities/blob/master/
 - **NetElements Assumptions**
     - Every element's relation must reference the latter, implying that relation must be redundant.
     - Elements can be referenced as part of others elements, abstracting some elements as one. However, an element can't ever be a recursively part of itself.
-    - **Element On**: If an element is connected to two different elements in same endpoint, those must also be connected and their positions must be preserved.
+    - **Element On**: If an element is connected to two different elements in the same endpoint, those must also be connected and their positions must be preserved.
 - **NetRelations Assumptions**
     - Must not exist different relations representing the same relation between elements.
     - An element can't relate to itself at the same position. So, can't exist a relation with elementA = elementB and positionA = positionB.
     - Each relation has a set of associated relations, where they relate with each other by having one shared element at the same position. Each relation can either have 1, 2 (switch abstraction) or 5 (double-switch abstraction) associated relations.
-    - If 3 relations are associated, one of them must have its navigability to None. If 5 relations are associated, two of them must have its navigability to None.
+    - *Navigability Property*: If 3 relations are associated, one of them must have its navigability to None. If 5 relations are associated, two of them must have its navigability to None.
 - **Network Assumptions**
-    
+
     Note that networks can have different levels, those being Micro, Meso and Macro, hierarchically ordered.
     - Micro level should exist in each defined network, but the user can opt for the non-declaration of this level and proceed to the verification of the remaining levels.
     - Elements defined at the Micro level can't be extended by other elements, meaning that elementCollectionUnordered of these elements must be empty.
@@ -46,15 +46,15 @@ These properties related to the positioning systems were not specified in alloy 
 - **Geometric Positioning System**
     - Every GPS must be time valid, meaning that their corresponding validation date can't be outdated.
     - If one of the declared GPS has no netElement associated, a warning will be displayed.
-    - The difference between endpoints of one netElement, declared in the same GPS, must be equal to its length.
+    - The difference between endpoints of one netElement, declared at the same GPS, must be equal to its length.
     - If a netElement has elementParts associated, their combining endpoints difference must be equal to the netElement endpoints difference, for each shared GPS.
-    - If both elements of one relation are represented in the GPS, they must be connected.
+    - If both elements of one relation are represented at the same GPS, they must be connected.
     - Angles between GPS coordinates of each netElement must be lower than 45º. This property must also be preserved in relations, where 2 elements are connected and their angle must be lower than 45º.
 - **Linear Positioning System**
     - Every LPS must be time valid, meaning that their corresponding validation date can't be outdated.
     - If one of the declared LPS has no netElement associated, a warning will be displayed.
-    - The difference between endpoints of one netElement, declared in the same LPS, must be equal to its length.
+    - The difference between endpoints of one netElement, declared at the same LPS, must be equal to its length.
     - If a netElement has elementParts associated, their combining endpoints difference must be equal to the netElement endpoints difference, for each shared LPS.
-    - If both elements of one relation are represented in the LPS, they must be connected.
+    - If both elements of one relation are represented at the same LPS, they must be connected.
 
-Contact Us, if you find a not mentioned property, assuring that the latter is always preserved.
+**Contact us**, if you find a not mentioned property, assuring that the latter is always preserved.

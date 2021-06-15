@@ -2,18 +2,25 @@
   background-color: #e0e0e0;
 }
 
+.bla {
+  text-align:center;
+  margin-bottom: 20px;
+}
 
 .upload-wrapper {
-  width: 15%;
-  margin: auto;
-  float: left;
+  position: absolute;
+  width: 20%;
+  bottom: 0px;
+  text-align:center;
+  align-items:center;
 }
 
 .bigdiv {
   margin: 20px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
+  /* align-items: center;
+  justify-content: center; */
 }
 
 #about {
