@@ -189,12 +189,18 @@ def parseNetElements(rail, nelems, path='{https://www.railml.org/schemas/3.1}'):
             if ref in id_res:
               r_aux = id_res[ref]
               netelem.append_element(r_aux)
+              # add parent
+              r_aux.append_parent(netelem)
             else:
               if ref in elm_elm:
                 elm_elm[ref].append(netelem)
+                # add parent
+                netelem.append_parent(elm_elm[ref])
               else:
                 elm_elm[ref] = []
                 elm_elm[ref].append(netelem)
+                # add parent
+                netelem.append_parent(elm_elm[ref])
 
 
 def parseNetRelations(rail, nrels, path='{https://www.railml.org/schemas/3.1}'):
@@ -270,8 +276,11 @@ def parseNetworks(rail, nets, path='{https://www.railml.org/schemas/3.1}'):
           # Get the reference to its class element
           net_resources = []
           for e in l:
+            # network resource
             nr = id_res[e.attrib['ref']]
-            nr.append_network(n)
+            nr.append_network(net)
+            nr.append_level(descLevel)
+
             net_resources.append(nr)
 
           lvls_associated.append(Level(id_l, descLevel, line_l, net_resources))

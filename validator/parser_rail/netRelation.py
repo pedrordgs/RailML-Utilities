@@ -10,10 +10,14 @@ class NetRelation:
         self.elementA = elemA
         self.elementB = elemB
         self.networks = set()
+        self.levels = set()
         self.associated = set()
 
     def append_network(self, netw):
       self.networks.add(netw)
+
+    def append_level(self, l):
+      self.levels.add(l)
 
     def append_relation(self, rel):
       self.associated.add(rel)

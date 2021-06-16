@@ -467,6 +467,11 @@ def netElements_assumptions():
   b_network = True
   err_network = ""
 
+  b_level = True
+  err_level = ""
+
+  b_parent = True
+  err_parent = ""
   # Pair netElement with each netRelation
   list_elements  = []
   for e in railw.netElements:
@@ -482,11 +487,18 @@ def netElements_assumptions():
 
     # Check if every element is defined at most one network
     if len(e.networks) != 1:
-      if len(e.networks) == 0:
-        err_network += f'\tLine {e.line}: The element {e.id} has no network associated, must have at most 1 associated network.\n'
-      else:
-        err_network += f'\tLine {e.line}: The element {e.id} has {len(e.networks)} networks associated: {[n.id for n in list(e.networks)]}, must have at most 1 associated network.\n'
+      err_network += f'\tLine {e.line}: The element {e.id} has {len(e.networks)} networks associated: {[n.id for n in list(e.networks)]}, where must have just 1 associated network.\n'
       b_network = False
+
+    # Check if every element is defined at one level
+    if len(e.levels) != 1:
+      err_level += f'\tLine {e.line}: The element {e.id} is defined at {len(e.levels)} levels, but it can only be defined at 1 level.\n'
+      b_level = False
+
+    # Check if every element has only one parent
+    if len(e.parents) > 1:
+      err_parent += f'\tLine {e.line}: The element {e.id} has {len(e.parents)} associated parents, but it can have at most 1.\n'
+      b_parent = False
 
     '''
     # If collectionUnordered could be a connected graph.
@@ -538,12 +550,20 @@ def netElements_assumptions():
   else:
     p_print('Loops found on relation elementCollectionUnordered.', False, err_tr)
 
+  if b_parent == True:
+    p_print('Every defined element has at most 1 parent.', True, err_parent)
+  else:
+    p_print('Elements found that disrespect the element-parent property.', False, err_parent)
+
   if b_network == True:
-    p_print('Every defined element has just 1 network associated.', True, err_network)
+    p_print('Every defined element has 1 network associated.', True, err_network)
   else:
     p_print('Elements found that disrespect the network associated property.', False, err_network)
 
-
+  if b_level == True:
+    p_print('Every defined element is defined at only 1 level.', True, err_level)
+  else:
+    p_print('Elements found that disrespect the associated level property.', False, err_level)
 
 # Get relations associated with element. Returns a list with every other element and his position, as well as the relation id.
 def getRelations(element) -> list:
@@ -609,6 +629,8 @@ def netRelations_assumptions():
   err1 = ""
   b_network = True
   err_network = ""
+  b_level = True
+  err_level = ""
 
   b_associated = True
   b_navigability = True
@@ -626,47 +648,70 @@ def netRelations_assumptions():
     tup     = (rel.elementA, rel.elementB)
     tup_rev = (rel.elementB, rel.elementA)
 
-    # Check associated property
-    if len(rel.associated) < 6 and len(rel.associated) != 4 and len(rel.associated) != 3:
-
-      if len(rel.associated) == 2:
-        # It's a switch
-        control_1 = True
-        count = 0
-        if rel.navigability == 'None':
-          count += 1
-        for r in rel.associated:
-          if r.navigability == 'None':
-            count += 1
-
-        if count != 1:
-          b_navigability = False
-          err_nav += f'\tLine {rel.line}: The relation {rel.id} and their associated relations -> {", ".join(map(lambda x: str(x.id), rel.associated))} <- form a switch, but do not respect the navigability property, where just 1 of them must have its navigability as None.\n'
-
-      if len(rel.associated) == 5:
-        # It's a double switch
-        control_2 = True
-        count = 0
-        if rel.navigability == 'None':
-          count += 1
-        for r in rel.associated:
-          if r.navigability == 'None':
-            count += 1
-        if count != 2:
-          b_navigability = False
-          err_nav += f'\tLine {rel.line}: The relation {rel.id} and their associated relations -> {", ".join(map(lambda x: str(x.id), rel.associated))} <- form a double-switch, but do not respect the navigability property, where just 2 of them must have its navigability as None.\n'
-
-    else:
-      b_associated = False
-      err_associated += f'\tLine {rel.line}: The relation {rel.id} does not respect the association between relations property, since it has {len(rel.associated)} relations associated.\n'
-
-    # Check if every relation is defined at most one network
+    # Check if every relation is defined at one network
     if len(rel.networks) != 1:
-      if len(rel.networks) == 0:
-        err_network += f'\tLine {rel.line}: The relation {rel.id} has no network associated, must have at most 1 associated network.\n'
-      else:
-        err_network += f'\tLine {rel.line}: The relation {rel.id} has {len(rel.networks)} networks associated: {[n.id for n in list(rel.networks)]}, must have at most 1 associated network.\n'
+      err_network += f'\tLine {rel.line}: The relation {rel.id} has {len(rel.networks)} networks associated: {[n.id for n in list(rel.networks)]}, where must have just 1 associated network.\n'
       b_network = False
+
+    # Check if every relation is defined at one level
+    if len(rel.levels) != 1:
+      err_level += f'\tLine {rel.line}: The relation {rel.id} is defined at {len(rel.levels)} levels, but it can only be defined at 1 level.\n'
+      b_level = False
+
+    if len(rel.levels) == 1:
+      # Check associated property - Can only be defined at micro
+      if len(rel.associated) < 6 and len(rel.associated) != 4 and len(rel.associated) != 3 and list(rel.levels)[0] == "Micro":
+
+        if len(rel.associated) == 2:
+          # It's a switch
+          control_1 = True
+          count = 0
+          if rel.navigability == 'None':
+            count += 1
+          for r in rel.associated:
+            if "Micro" not in list(r.levels):
+              b_associated = False
+              err_associated += f'\tLine {r.line}: The relations {rel.id} and {r.id} can not be associated, because {r.id} does not belong to the Micro level.\n'
+              b_navigability = False
+              err_navigability += f'\tLine {r.line}: The relations {rel.id} and {r.id} can not be associated, and therefore the navigability property can not be proved because {r.id} does not belong to the Micro level.\n'
+
+            if r.navigability == 'None':
+              count += 1
+
+          if count != 1:
+            b_navigability = False
+            err_nav += f'\tLine {rel.line}: The relation {rel.id} and their associated relations -> {", ".join(map(lambda x: str(x.id), rel.associated))} <- form a switch, but do not respect the navigability property, where just 1 of them must have its navigability as None.\n'
+
+        if len(rel.associated) == 5:
+          # It's a double switch
+          control_2 = True
+          count = 0
+          if rel.navigability == 'None':
+            count += 1
+          for r in rel.associated:
+            if "Micro" not in list(r.levels):
+              b_associated = False
+              err_associated += f'\tLine {r.line}: The relations {rel.id} and {r.id} can not be associated, because {r.id} does not belong to the Micro level.\n'
+              b_navigability = False
+              err_navigability += f'\tLine {r.line}: The relations {rel.id} and {r.id} can not be associated, and therefore the navigability property can not be proved because {r.id} does not belong to the Micro level.\n'
+
+            if r.navigability == 'None':
+              count += 1
+          if count != 2:
+            b_navigability = False
+            err_nav += f'\tLine {rel.line}: The relation {rel.id} and their associated relations -> {", ".join(map(lambda x: str(x.id), rel.associated))} <- form a double-switch, but do not respect the navigability property, where just 2 of them must have its navigability as None.\n'
+      else:
+        if list(rel.levels)[0] == "Micro":
+          b_associated = False
+          err_associated += f'\tLine {rel.line}: The relation {rel.id} does not respect the association between relations property, since it has {len(rel.associated)} relations associated.\n'
+    else:
+      if "Micro" in list(rel.levels):
+        b_associated = False
+        b_navigability = False
+        err_associated += f'\tLine {rel.line}: Since the relation {rel.id} has more than 1 associated level, it was not possible to determine if the associated property was preserved.\n'
+        err_navigability += f'\tLine {rel.line}: Since the relation {rel.id} has more than 1 associated level, it was not possible to determine if the navigability property was preserved.\n'
+
+
 
     # Store to each tuple (elementA, elementB) every corresponding relation
     if tup not in elems_relations:
@@ -718,9 +763,14 @@ def netRelations_assumptions():
       p_print('Not every relation that form a 6-way relation with other relations, respect the navigability property.', False, err_nav)
 
   if b_network == True:
-    p_print('Every defined relation has just 1 network associated.', True, err_network)
+    p_print('Every defined relation has 1 network associated.', True, err_network)
   else:
     p_print('Relations found that disrespect the network associated property.', False, err_network)
+
+  if b_level == True:
+    p_print('Every defined relation is defined at only 1 level.', True, err_level)
+  else:
+    p_print('Relations found that disrespect the associated level property.', False, err_level)
 
 # Check if Micro Level extension is on Meso Level extension and so on
 def extendNetwork_assumptions():
@@ -798,6 +848,17 @@ def extendNetwork_assumptions():
       elements_micro = True
       err_emicro = ''
 
+      err_rel_micro_meso = ''
+      micro_relatedOn = True
+      err_relatedOn_micro = ''
+
+      if meso and not macro:
+        h = meso
+        t_h = "Meso"
+      if macro and not meso:
+        h = macro
+        t_h = "Macro"
+
       for m in micro.networkResources:
         # If its a netElement
         if m.__class__.__name__ == "NetElement":
@@ -817,6 +878,40 @@ def extendNetwork_assumptions():
             relations_micro = False
             err_rmicro += f'\t  - Line {m.line}: The element {m.elementB.id}, in this relation {m.id}, does not correspond to this network level (Micro).\n'
 
+          eA = m.elementA
+          eB = m.elementB
+
+          # related on - check if the relations at micro are preserved at meso
+          if not h is None:
+            if len(m.elementA.parents) == 1 and len(m.elementB.parents) == 1:
+                pA = list(m.elementA.parents)[0]
+                pB = list(m.elementB.parents)[0]
+
+                if len(pA.levels) == 1 and len(pB.levels) == 1:
+                  lvlA = list(pA.levels)[0]
+                  lvlB = list(pA.levels)[0]
+                  if lvlA == t_h and lvlB == t_h:
+                    if not pA == pB:
+                      f = False
+                      for nr in h.networkResources:
+                        if nr.__class__.__name__ == "NetRelation":
+                          tp = (nr.elementA, nr.elementB)
+                          if (pA, pB) == tp or (pB, pA) == tp:
+                            f = True
+                            break
+                      if f == False:
+                        err_rel_micro_meso += f'\t  - Line {m.line}: The relation {m.id}, represented at Micro, has no representation at the {t_h} level.\n'
+                        micro_relatedOn = False
+                  else:
+                    err_rel_micro_meso += f'\t  - Line {m.line}: The relation {m.id}, represented at Micro, one of its elements\'s parent ({pA.id} or {pB.id}) is not represented at the {t_h}, so it is not possible to determine the representation at the {t_h} level.\n'
+                    micro_relatedOn = False
+                else:
+                  err_rel_micro_meso += f'\t  - Line {m.line}: The relation {m.id}, represented at Micro, one of its elements\'s parent ({pA.id} or {pB.id}) does not respect the associated level property, so it is not possible to determine the representation at the {t_h} level.\n'
+                  micro_relatedOn = False
+            else:
+              err_rel_micro_meso += f'\t  - Line {m.line}: The relation {m.id}, represented at Micro, one of its elements does not respect the element-parent property, so it is not possible to determine the representation at the {t_h} level.\n'
+              micro_relatedOn = False
+
       if relations_micro == False:
         check_micro = False
         err_relations_micro = f'\tThere are some relations at the Micro Level that have elements defined in a different level.\n'
@@ -831,6 +926,13 @@ def extendNetwork_assumptions():
       else:
         correct += f'\tEvery element defined in Micro does not compose in different elements.\n'
 
+      if micro_relatedOn == False:
+        check_micro = False
+        err_relatedOn_micro = f'\tThere are some relations at the Micro Level that do not have a representation at {t_h} (Its parent level):\n'
+        err_relatedOn_micro += err_rel_micro_meso
+      else:
+        correct += f'\tEvery relation defined in Micro has its representation at {t_h} Level (Its parent level).\n'
+
     # Check if Meso Level is declared
     if meso:
       err = ''
@@ -838,7 +940,7 @@ def extendNetwork_assumptions():
       temp_l = []
       # Elements of each relation at Meso -> Inorder to check relatedOn
       elems_relation_meso = []
-
+      err_rel_meso_macro = ''
       relations_meso = True
       meso_relatedOn = True
       err_romeso = ''
@@ -849,8 +951,43 @@ def extendNetwork_assumptions():
           meso_list =  meso_list + m.transitive_ecu # + [m]
         if m.__class__.__name__ == "NetRelation":
 
+          temp_l = []
           elems_relation_meso.append((m.elementA, m.elementB))
           bool_temp = False
+
+          eA = m.elementA
+          eB = m.elementB
+
+          # related on - check if the relations at meso are preserved at macro
+          if macro:
+            if len(m.elementA.parents) == 1 and len(m.elementB.parents) == 1:
+                pA = list(m.elementA.parents)[0]
+                pB = list(m.elementB.parents)[0]
+
+                if len(pA.levels) == 1 and len(pB.levels) == 1:
+                  lvlA = list(pA.levels)[0]
+                  lvlB = list(pA.levels)[0]
+                  if lvlA == "Macro" and lvlB == "Macro":
+                    if not pA == pB:
+                      f = False
+                      for macro_net in macro.networkResources:
+                        if macro_net.__class__.__name__ == "NetRelation":
+                          tp = (macro_net.elementA, macro_net.elementB)
+                          if (pA, pB) == tp or (pB, pA) == tp:
+                            f = True
+                            break
+                      if f == False:
+                        err_rel_meso_macro += f'\t  - Line {m.line}: The relation {m.id}, represented at Meso, has no representation at the Macro level.\n'
+                        meso_relatedOn = False
+                  else:
+                    err_rel_meso_macro += f'\t  - Line {m.line}: The relation {m.id}, represented at Meso, one of its elements\'s parent ({pA.id} or {pB.id}) is not represented at the Macro, so it is not possible to determine the representation at the Macro level.\n'
+                    meso_relatedOn = False
+                else:
+                  err_rel_meso_macro += f'\t  - Line {m.line}: The relation {m.id}, represented at Meso, one of its elements\'s parent ({pA.id} or {pB.id}) does not respect the associated level property, so it is not possible to determine the representation at the Macro level.\n'
+                  meso_relatedOn = False
+            else:
+              err_rel_meso_macro += f'\t  - Line {m.line}: The relation {m.id}, represented at Meso, one of its elements does not respect the element-parent property, so it is not possible to determine the representation at the Macro level.\n'
+              meso_relatedOn = False
 
           if micro:
             for m1 in m.elementA.elementCollectionUnordered:
@@ -884,22 +1021,36 @@ def extendNetwork_assumptions():
       else:
         correct += f'\tEvery relation defined in Meso has valid level elements.\n'
 
-      # If Micro Level exists
-      if micro:
+      # If Micro Level or Macro exists
+      if micro or macro:
 
         # Related On Meso
         if meso_relatedOn == False:
             check_meso = False
-            err_relatedOn_meso = f'\tThere are some relations at the Meso Level that do not have a corresponding relation at the Micro Level:\n'
+            err_relatedOn_meso = f'\tThere are some relations at the Meso Level that do not have a corresponding/representation relation at the remaining levels:\n'
             err_relatedOn_meso += err_romeso
+            err_relatedOn_meso += err_rel_meso_macro
         else:
+          if micro and not macro:
             correct += f'\tEvery relation defined in Meso has a corresponding relation at Micro.\n'
+          if micro and macro:
+            correct += f'\tEvery relation defined in Meso has a corresponding relation at Micro, and is represented at Macro.\n'
+          if macro and not micro:
+            correct += f'\tEvery relation defined in Meso is represented at Macro.\n'
+
+      if micro:
 
         # Check if every micro is at the extended meso
         for e_micro in micro.networkResources:
           if e_micro.__class__.__name__ == "NetElement":
-            if e_micro not in meso_list and e_micro not in meso.networkResources:
+            if e_micro not in meso_list:
               err += f'\t  - Line {micro.line}: Element {e_micro.id} at Micro level must be at the extended Meso Level, declared in line {meso.line}.\n'
+              b = False
+              check_meso = False
+
+            # An element can't be defined at the collectionUnordered of an element that share the same level
+            if e_micro in meso_list and e_micro in meso.networkResources:
+              err += f'\t  - Line {meso.line}: Element {extended_meso.id} defined as extended must be defined at the Micro Level, defined in line {micro.line}, and can not be defined at the Meso Level, line {meso.line}, as it is.\n'
               b = False
               check_meso = False
 
@@ -909,6 +1060,8 @@ def extendNetwork_assumptions():
               err += f'\t  - Line {meso.line}: Element {extended_meso.id} defined as extended must be defined at the Micro Level, defined in line {micro.line}.\n'
               b = False
               check_meso = False
+
+          # Check for macro
           if macro:
             if extended_meso in macro.networkResources:
               err += f'\t  - Line {meso.line}: Element {extended_meso.id} defined as extended must be defined at the Micro Level, defined in line {micro.line}, and can not be defined at the Macro Level, line {macro.line}, as it is.\n'
@@ -949,14 +1102,15 @@ def extendNetwork_assumptions():
 
           if mM.__class__.__name__ == "NetRelation":
 
+            temp_l = []
             # RelatedOn Property
             if micro or meso:
               # Possible Relations
-              for m1 in m.elementA.elementCollectionUnordered:
-                for m2 in m.elementB.elementCollectionUnordered:
-                  temp_l.append((m1,m2))
+              for m1 in mM.elementA.elementCollectionUnordered:
+                for m2 in mM.elementB.elementCollectionUnordered:
+                    temp_l.append((m1,m2))
 
-              if micro:
+              if micro and not meso:
                 bool_temp = False
                 for tup in elems_relation_micro:
                   if tup in temp_l or tup[::-1] in temp_l:
@@ -964,7 +1118,7 @@ def extendNetwork_assumptions():
                     break
                 if bool_temp == False:
                   macro_relatedOn = False
-                  err_romacro += f'\t  - Line {mM.line}: The relation {mM.id} represented at Macro Level, with {mM.id} and {mM.id} as elements, is not represented at the Micro level.\n'
+                  err_romacro += f'\t  - Line {mM.line}: The relation {mM.id} represented at Macro Level, with {mM.elementA.id} and {mM.elementB.id} as elements, is not represented at the Micro level.\n'
 
               if meso:
                 bool_temp = False
@@ -974,7 +1128,7 @@ def extendNetwork_assumptions():
                     break
                 if bool_temp == False:
                   macro_relatedOn = False
-                  err_romacro += f'\t  - Line {mM.line}: The relation {mM.id} represented at Macro Level, with {mM.id} and {mM.id} as elements, is not represented at the Meso level.\n'
+                  err_romacro += f'\t  - Line {mM.line}: The relation {mM.id} represented at Macro Level, with {mM.elementA.id} and {mM.elementA.id} as elements, is not represented at the Meso level.\n'
 
 
             if mM.elementA not in macro.networkResources:
@@ -1001,13 +1155,17 @@ def extendNetwork_assumptions():
           correct += f'\tEvery relation defined in Macro has valid level elements.\n'
 
 
-      # Related On Meso
+        # Related On Meso
         if macro_relatedOn == False:
             check_macro = False
-            err_relatedOn_macro = f'\tThere are some relations at the Macro Level that do not have a corresponding relation at the Micro Level:\n'
-            err_relatedOn_macro += err_romacro
+            if micro and not meso:
+              err_relatedOn_macro = f'\tThere are some relations at the Macro Level that do not have a corresponding relation at Micro level:\n'
+              err_relatedOn_macro += err_romacro
+            if meso:
+              err_relatedOn_macro = f'\tThere are some relations at the Macro Level that do not have a corresponding relation at Meso level:\n'
+              err_relatedOn_macro += err_romacro
         else:
-          if micro:
+          if micro and not meso:
             correct += f'\tEvery relation defined in Macro has a corresponding relation at Micro.\n'
           if meso:
             correct += f'\tEvery relation defined in Macro has a corresponding relation at Meso.\n'
@@ -1017,7 +1175,7 @@ def extendNetwork_assumptions():
           err = '' # reset error string.
           for e_micro in micro.networkResources:
             if e_micro.__class__.__name__ == "NetElement":
-              if e_micro not in macro_list and e_micro not in macro.networkResources:
+              if e_micro not in macro_list:
                 err += f'\t  - Line {micro.line}: Element {e_micro.id} at Micro level must be at the extended Macro Level, declared in line {macro.line}.\n'
                 b = False
                 check_macro = False
@@ -1033,7 +1191,7 @@ def extendNetwork_assumptions():
           err = '' # reset error string again.
           for e_meso in meso.networkResources:
             if e_meso.__class__.__name__ == "NetElement":
-              if e_meso not in macro_list and e_meso not in macro.networkResources:
+              if e_meso not in macro_list and e_meso:
                 err += f'\t  - Line {meso.line}: Element {e_meso.id} at Meso level must be at the extended Macro Level, declared in line {macro.line}.\n'
                 b1 = False
                 check_macro = False
@@ -1045,14 +1203,14 @@ def extendNetwork_assumptions():
 
     err_elements  = err_elements_micro + err_elements_meso + err_elements_macro
     err_relations = err_relations_micro + err_relations_meso + err_relations_macro
-    dic_netw_str[netw] = (err_elements, err_relations, err_meso, err_relatedOn_meso, err_macro, err_micro_macro, err_meso_macro, err_relatedOn_macro, correct)
+    dic_netw_str[netw] = (err_elements, err_relations, err_relatedOn_micro, err_meso, err_relatedOn_meso, err_macro, err_micro_macro, err_meso_macro, err_relatedOn_macro, correct)
 
 
   # Prints to the user - Error treatment
   if check_micro and check_macro and check_meso:
     p_print('Every declared network respects every network property.\n', True, 'ignore_net')
     for nt in dic_netw_str:
-      (e1,e2,e3,e4,e5,e6,e7,e8,c) = dic_netw_str[nt]
+      (e1,e2,e3,e4,e5,e6,e7,e8,e9,c) = dic_netw_str[nt]
       print(f'\n     • For the network \033[1m{nt.id}\033[0m defined at line {nt.line}:')
       print(Fore.GREEN + '\n\tVerified properties:')
       print(Style.RESET_ALL, end='')
@@ -1060,12 +1218,12 @@ def extendNetwork_assumptions():
   else:
     p_print('Not every declared network respects the network\'s property.\n', False, 'ignore_net')
     for nt in dic_netw_str:
-      (e1,e2,e3,e4,e5,e6,e7,e8,c) = dic_netw_str[nt]
+      (e1,e2,e3,e4,e5,e6,e7,e8,e9,c) = dic_netw_str[nt]
       print(f'     • For the network \033[1m{nt.id}\033[0m defined at line {nt.line}:')
       print(Fore.GREEN + '\n\tVerified properties:')
       print(Style.RESET_ALL, end='')
       print(c, end='')
-      if(e1 or e2 or e3 or e4 or e5 or e6 or e7 or e8):
+      if(e1 or e2 or e3 or e4 or e5 or e6 or e7 or e8 or e9):
         print(Fore.RED + '\n\tRefuted properties:')
         print(Style.RESET_ALL, end='')
       if (e1):
@@ -1084,3 +1242,5 @@ def extendNetwork_assumptions():
         print(e7, end='')
       if (e8):
         print(e8, end='')
+      if (e9):
+        print(e9, end='')

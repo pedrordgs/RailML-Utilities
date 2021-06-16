@@ -9,6 +9,8 @@ class NetElement:
         self.geometric = {}
 
         self.networks = set()
+        self.levels = set()
+        self.parents = set()
 
         self.relations = []
         self.elementCollectionUnordered = []
@@ -25,6 +27,12 @@ class NetElement:
 
     def append_network(self, netw):
       self.networks.add(netw)
+
+    def append_level(self, l):
+      self.levels.add(l)
+
+    def append_parent(self, p):
+      self.parents.add(p)
 
     def setLinear(self, l):
       self.linear = l
