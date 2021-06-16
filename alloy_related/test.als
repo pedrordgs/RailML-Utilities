@@ -106,6 +106,42 @@ fun relatedOn: Level -> NetElement -> NetElement {
 	}
 }
 
+/*
+pred intersect[a:NetRelation, b:NetRelation] {
+	a != b
+	(a.elementA->a.positionOnA->b.elementA->b.positionOnA in elementOn or
+	a.elementA->a.positionOnA->b.elementB->b.positionOnB in elementOn or 
+	a.elementB->a.positionOnB->b.elementA->b.positionOnA in elementOn or
+	a.elementB->a.positionOnB->b.elementB->b.positionOnB in elementOn)
+}
+*/
+
+fun simpleIntersection: NetRelation -> NetRelation -> NetRelation {
+	{disj a,b,c: NetRelation | b in a.associated and c in a.associated and b in c.associated}
+}
+
+
+fun doubleIntersection[a: NetRelation]: NetRelation -> NetRelation -> NetRelation -> NetRelation -> NetRelation {
+	{disj b,c,d,e,f: NetRelation {
+	 		b in a.associated
+			c in a.associated
+			d in a.associated
+			e in a.associated
+			f in a.associated
+			c in b.associated
+			d in b.associated
+			e in b.associated
+			f in b.associated
+			d in c.associated
+			e in c.associated
+			f in c.associated
+			e in d.associated
+			f in d.associated
+			f in e.associated
+		}
+	}
+}
+
 
 pred TopologyAssumptions {
 	/* ASSUMPTIONS */
@@ -117,8 +153,9 @@ pred TopologyAssumptions {
 	(elementA.~elementA & elementB.~elementB) + (elementA.~elementB & elementB.~elementA) in iden
 
 	-- If 3 elements are connected in a endpoint, then its a switch, meaning navigability must be none in 1 out of 3.
-	-- Esta regra será definida quando forem implementados os switch
-	-- all n : NetRelation | n.navigability = None iff (n.positionOnA = n.positionOnB)
+	all disj a,b,c: NetRelation | a->b->c in simpleIntersection implies one navigability.None & (a+b+c)
+	all disj a,b,c,d,e,f: NetRelation | b->c->d->e->f in doubleIntersection[a] implies #(navigability.None & (a+b+c+d+e+f)) = 2	
+	
 
 	-- No relations with elementA = elementB and positionA = positionB. As raquetes devem ter as positions de A e B diferentes.
 	no (elementA.~elementB & positionOnA.~positionOnB & iden)
@@ -129,13 +166,13 @@ pred TopologyAssumptions {
 	-- all n : NetRelation | #associated[n] < 6 && #associated[n] != 4 && #associated[n] != 3
 
 
-	-- If all elementCollectionUnordered need to be defined on lower levels
+	-- all elementCollectionUnordered need to be defined on lower levels
 	all n: Network, nelem: (n.level & descriptionLevel.Meso).networkResource & NetElement {
 		nelem.elementCollectionUnordered in (n.level & descriptionLevel.Micro).networkResource
 	}
 
 	all n: Network, nelem: (n.level & descriptionLevel.Macro).networkResource & NetElement {
-		nelem.elementCollectionUnordered in (n.level & descriptionLevel.(Micro+Meso)).networkResource
+		nelem.^elementCollectionUnordered in (n.level & descriptionLevel.(Micro+Meso)).networkResource
 	}
 
 

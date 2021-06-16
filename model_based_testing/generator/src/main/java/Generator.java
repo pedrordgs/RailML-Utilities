@@ -8,7 +8,7 @@ import edu.mit.csail.sdg.translator.TranslateAlloyToKodkod;
 public class Generator {
 
     public static void main(String[] args){
-        CompModule model = CompUtil.parseEverything_fromFile(null, null, "/home/pbr/railML/alloy_related/test.als");
+        CompModule model = CompUtil.parseEverything_fromFile(null, null, "/home/pbr/railML/alloy_related/another.als");
         Command cmd=model.getAllCommands().get(0);
         System.out.println(cmd.toString());
         A4Solution solution= TranslateAlloyToKodkod.execute_command(null, model.getAllReachableSigs(), cmd, new A4Options());

@@ -20,24 +20,23 @@
 </sig>
 
 <field label="relation" ID="5" parentID="4">
-   <tuple> <atom label="NetElement$0"/> <atom label="NetRelation$3"/> </tuple>
-   <tuple> <atom label="NetElement$0"/> <atom label="NetRelation$4"/> </tuple>
+   <tuple> <atom label="NetElement$1"/> <atom label="NetRelation$0"/> </tuple>
    <tuple> <atom label="NetElement$1"/> <atom label="NetRelation$1"/> </tuple>
-   <tuple> <atom label="NetElement$1"/> <atom label="NetRelation$2"/> </tuple>
-   <tuple> <atom label="NetElement$1"/> <atom label="NetRelation$4"/> </tuple>
-   <tuple> <atom label="NetElement$2"/> <atom label="NetRelation$0"/> </tuple>
    <tuple> <atom label="NetElement$2"/> <atom label="NetRelation$2"/> </tuple>
    <tuple> <atom label="NetElement$2"/> <atom label="NetRelation$3"/> </tuple>
+   <tuple> <atom label="NetElement$3"/> <atom label="NetRelation$1"/> </tuple>
+   <tuple> <atom label="NetElement$3"/> <atom label="NetRelation$3"/> </tuple>
+   <tuple> <atom label="NetElement$3"/> <atom label="NetRelation$4"/> </tuple>
    <tuple> <atom label="NetElement$4"/> <atom label="NetRelation$0"/> </tuple>
-   <tuple> <atom label="NetElement$4"/> <atom label="NetRelation$1"/> </tuple>
+   <tuple> <atom label="NetElement$4"/> <atom label="NetRelation$2"/> </tuple>
+   <tuple> <atom label="NetElement$4"/> <atom label="NetRelation$4"/> </tuple>
    <types> <type ID="4"/> <type ID="6"/> </types>
 </field>
 
 <field label="elementCollectionUnordered" ID="7" parentID="4">
-   <tuple> <atom label="NetElement$0"/> <atom label="NetElement$4"/> </tuple>
-   <tuple> <atom label="NetElement$3"/> <atom label="NetElement$0"/> </tuple>
-   <tuple> <atom label="NetElement$3"/> <atom label="NetElement$1"/> </tuple>
-   <tuple> <atom label="NetElement$3"/> <atom label="NetElement$2"/> </tuple>
+   <tuple> <atom label="NetElement$2"/> <atom label="NetElement$0"/> </tuple>
+   <tuple> <atom label="NetElement$2"/> <atom label="NetElement$1"/> </tuple>
+   <tuple> <atom label="NetElement$4"/> <atom label="NetElement$0"/> </tuple>
    <types> <type ID="4"/> <type ID="4"/> </types>
 </field>
 
@@ -80,7 +79,7 @@
 </sig>
 
 <field label="navigability" ID="16" parentID="6">
-   <tuple> <atom label="NetRelation$0"/> <atom label="Both$0"/> </tuple>
+   <tuple> <atom label="NetRelation$0"/> <atom label="None$0"/> </tuple>
    <tuple> <atom label="NetRelation$1"/> <atom label="AB$0"/> </tuple>
    <tuple> <atom label="NetRelation$2"/> <atom label="Both$0"/> </tuple>
    <tuple> <atom label="NetRelation$3"/> <atom label="AB$0"/> </tuple>
@@ -90,7 +89,7 @@
 
 <field label="positionOnA" ID="17" parentID="6">
    <tuple> <atom label="NetRelation$0"/> <atom label="Zero$0"/> </tuple>
-   <tuple> <atom label="NetRelation$1"/> <atom label="One$0"/> </tuple>
+   <tuple> <atom label="NetRelation$1"/> <atom label="Zero$0"/> </tuple>
    <tuple> <atom label="NetRelation$2"/> <atom label="One$0"/> </tuple>
    <tuple> <atom label="NetRelation$3"/> <atom label="One$0"/> </tuple>
    <tuple> <atom label="NetRelation$4"/> <atom label="Zero$0"/> </tuple>
@@ -102,25 +101,25 @@
    <tuple> <atom label="NetRelation$1"/> <atom label="Zero$0"/> </tuple>
    <tuple> <atom label="NetRelation$2"/> <atom label="One$0"/> </tuple>
    <tuple> <atom label="NetRelation$3"/> <atom label="Zero$0"/> </tuple>
-   <tuple> <atom label="NetRelation$4"/> <atom label="One$0"/> </tuple>
+   <tuple> <atom label="NetRelation$4"/> <atom label="Zero$0"/> </tuple>
    <types> <type ID="6"/> <type ID="14"/> </types>
 </field>
 
 <field label="elementA" ID="19" parentID="6">
    <tuple> <atom label="NetRelation$0"/> <atom label="NetElement$4"/> </tuple>
-   <tuple> <atom label="NetRelation$1"/> <atom label="NetElement$4"/> </tuple>
-   <tuple> <atom label="NetRelation$2"/> <atom label="NetElement$2"/> </tuple>
-   <tuple> <atom label="NetRelation$3"/> <atom label="NetElement$2"/> </tuple>
-   <tuple> <atom label="NetRelation$4"/> <atom label="NetElement$0"/> </tuple>
+   <tuple> <atom label="NetRelation$1"/> <atom label="NetElement$3"/> </tuple>
+   <tuple> <atom label="NetRelation$2"/> <atom label="NetElement$4"/> </tuple>
+   <tuple> <atom label="NetRelation$3"/> <atom label="NetElement$3"/> </tuple>
+   <tuple> <atom label="NetRelation$4"/> <atom label="NetElement$3"/> </tuple>
    <types> <type ID="6"/> <type ID="4"/> </types>
 </field>
 
 <field label="elementB" ID="20" parentID="6">
-   <tuple> <atom label="NetRelation$0"/> <atom label="NetElement$2"/> </tuple>
+   <tuple> <atom label="NetRelation$0"/> <atom label="NetElement$1"/> </tuple>
    <tuple> <atom label="NetRelation$1"/> <atom label="NetElement$1"/> </tuple>
-   <tuple> <atom label="NetRelation$2"/> <atom label="NetElement$1"/> </tuple>
-   <tuple> <atom label="NetRelation$3"/> <atom label="NetElement$0"/> </tuple>
-   <tuple> <atom label="NetRelation$4"/> <atom label="NetElement$1"/> </tuple>
+   <tuple> <atom label="NetRelation$2"/> <atom label="NetElement$2"/> </tuple>
+   <tuple> <atom label="NetRelation$3"/> <atom label="NetElement$2"/> </tuple>
+   <tuple> <atom label="NetRelation$4"/> <atom label="NetElement$4"/> </tuple>
    <types> <type ID="6"/> <type ID="4"/> </types>
 </field>
 
@@ -149,19 +148,20 @@
 </field>
 
 <field label="networkResource" ID="26" parentID="23">
+   <tuple> <atom label="Level$0"/> <atom label="NetElement$2"/> </tuple>
    <tuple> <atom label="Level$0"/> <atom label="NetElement$3"/> </tuple>
    <tuple> <atom label="Level$0"/> <atom label="NetElement$4"/> </tuple>
-   <tuple> <atom label="Level$1"/> <atom label="NetElement$0"/> </tuple>
+   <tuple> <atom label="Level$0"/> <atom label="NetRelation$2"/> </tuple>
+   <tuple> <atom label="Level$0"/> <atom label="NetRelation$3"/> </tuple>
+   <tuple> <atom label="Level$0"/> <atom label="NetRelation$4"/> </tuple>
    <tuple> <atom label="Level$1"/> <atom label="NetElement$1"/> </tuple>
-   <tuple> <atom label="Level$1"/> <atom label="NetElement$2"/> </tuple>
-   <tuple> <atom label="Level$1"/> <atom label="NetRelation$2"/> </tuple>
-   <tuple> <atom label="Level$1"/> <atom label="NetRelation$3"/> </tuple>
+   <tuple> <atom label="Level$1"/> <atom label="NetElement$3"/> </tuple>
+   <tuple> <atom label="Level$1"/> <atom label="NetElement$4"/> </tuple>
+   <tuple> <atom label="Level$1"/> <atom label="NetRelation$0"/> </tuple>
+   <tuple> <atom label="Level$1"/> <atom label="NetRelation$1"/> </tuple>
    <tuple> <atom label="Level$1"/> <atom label="NetRelation$4"/> </tuple>
+   <tuple> <atom label="Level$2"/> <atom label="NetElement$0"/> </tuple>
    <tuple> <atom label="Level$2"/> <atom label="NetElement$1"/> </tuple>
-   <tuple> <atom label="Level$2"/> <atom label="NetElement$2"/> </tuple>
-   <tuple> <atom label="Level$2"/> <atom label="NetElement$4"/> </tuple>
-   <tuple> <atom label="Level$2"/> <atom label="NetRelation$0"/> </tuple>
-   <tuple> <atom label="Level$2"/> <atom label="NetRelation$1"/> </tuple>
    <types> <type ID="23"/> <type ID="4"/> </types>
    <types> <type ID="23"/> <type ID="6"/> </types>
 </field>
