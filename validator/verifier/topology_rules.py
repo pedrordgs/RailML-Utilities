@@ -852,7 +852,7 @@ def extendNetwork_assumptions():
       micro_relatedOn = True
       err_relatedOn_micro = ''
 
-      if meso and not macro:
+      if meso:
         h = meso
         t_h = "Meso"
       if macro and not meso:

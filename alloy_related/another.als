@@ -65,89 +65,208 @@ one sig Micro, Meso, Macro extends DescriptionLevel {}
 
 
 
-pred NetElementAssumptions {
-	-- [0] Every element's relation must reference the latter, implying that relation must be redundant.
+/**
+	NetElement Assumptions
+**/
+
+
+/*
+[0] Every element's relation must reference the latter, 
+		implying that relation must be redundant.
+*/
+pred rule0 {
 	relation = ~(elementA+elementB)	
-	-- [1] An element can't ever be a recursively part of itself.
+}
+
+
+// [1] An element can't ever be a recursively part of itself.
+pred rule1 {
 	no iden & ^elementCollectionUnordered
-	-- [2] If an element is connected to two different elements in the same endpoint, those must also be connected and their positions must be preserved.
+}
+
+
+// [2] An element must have at most one parent
+pred rule2 {
+	all elem: NetElement | lone elem.~elementCollectionUnordered
+}
+
+
+/*
+[3] If an element is connected to two different elements in the same endpoint, 
+		those must also be connected and their positions must be preserved.
+*/
+pred rule3 {
 	all a,b,c : NetElement, x,y,z : Position | a->x->b->y in elementOn and a->x->c->z in elementOn and (b != c or y != z) implies b->y->c->z in elementOn
 }
 
 
-pred NetRelationsAssumptions {
-	-- [3] Must not exist different relations representing the same relation between elements.
+// [4] An element must be a networkResource of one and only one level
+pred rule4 {
+	all elem: NetElement | one elem.~networkResource
+}
+
+
+pred NetElementAssumptions {
+	rule0
+	rule1
+	rule2
+	rule3
+	rule4
+}
+
+
+
+
+/**
+	NetRelation Assumptions
+**/
+
+
+// [5] A netRelation must be a networkResource of one and only one level
+pred rule5 {
+	all rel: NetRelation | one rel.~networkResource
+}
+
+// [6] Must not exist different relations representing the same relation between elements.
+pred rule6 {
 	(elementA.~elementA & elementB.~elementB) + (elementA.~elementB & elementB.~elementA) in iden
-	-- [4] An element can't relate to itself at the same position. So, can't exist a relation with elementA = elementB and positionA = positionB.
+}
+
+
+/*
+[7] An element can't relate to itself at the same position. 
+		So, can't exist a relation with elementA = elementB and positionA = positionB.
+*/
+pred rule7 {
 	no (elementA.~elementB & positionOnA.~positionOnB & iden)
-	-- [5] Each relation has a set of associated relations, where they relate with each other by having one shared element at the same position. Each relation can either have 1, 2 (switch abstraction) or 5 (double-switch abstraction) associated relations.
-	all n : NetRelation | #associated[n] < 6 && #associated[n] != 4 && #associated[n] != 3
-	-- [6] Navigability Property: If 3 relations are associated, one of them must have its navigability to None. If 5 relations are associated, two of them must have its navigability to None
+}
+
+
+/*
+[8] Each relation has a set of associated relations, 
+		where they relate with each other by having one shared element at the same position. 
+		Each relation, on micro level, can either have 1, 2 (switch abstraction) or 5 (double-switch abstraction) associated relations.
+*/
+pred rule8 {
+	all n : descriptionLevel.Micro.networkResource:>NetRelation | #associated[n] < 6 && #associated[n] != 4 && #associated[n] != 3
+}
+
+/*
+[9] Navigability Property: 
+		If 3 relations are associated, one of them must have its navigability to None. 
+		If 5 relations are associated, two of them must have its navigability to None
+*/
+pred rule9 {
 	all disj a,b,c: NetRelation | a->b->c in simpleIntersection implies one navigability.None & (a+b+c)
 	all disj a,b,c,d,e,f: NetRelation | b->c->d->e->f in doubleIntersection[a] implies #(navigability.None & (a+b+c+d+e+f)) = 2	
 }
 
-
-pred NetworkAssumptions {
-	-- [7] Elements defined at the Micro level can't be extended by other elements, meaning that elementCollectionUnordered of these elements must be empty.
-	all n: Network, elem: (n.level & descriptionLevel.Micro).networkResource:>NetElement | no elem.elementCollectionUnordered
-	-- [8] Extending every element at the Meso level, they must represent a micro element. Meaning that, Micro level must be the same as the extended Meso level.
-	all n: Network | hasLevel[n,Micro] and hasLevel[n,Meso] implies {
-		 inside[n.level & descriptionLevel.Micro,n.level & descriptionLevel.Meso]
-		 extend[n.level & descriptionLevel.Meso] in (n.level & descriptionLevel.Micro).networkResource
-	}
-
-	-- [9] Extending every element at the Macro level, they either represent a meso element or a micro element. Meaning that, the logic disjunction of both Micro and Meso level must be the same as the extended Macro level.
-	all n: Network | (hasLevel[n,Micro] or hasLevel[n,Meso]) and hasLevel[n,Macro] implies {
-		 extend[n.level & descriptionLevel.Macro] in (n.level & descriptionLevel.(Micro+Macro)).networkResource
-		 hasLevel[n,Micro] implies inside[n.level & descriptionLevel.Micro,n.level & descriptionLevel.Macro]
-		 hasLevel[n,Meso] implies inside[n.level & descriptionLevel.Meso,n.level & descriptionLevel.Macro]
-	}
-
-	-- [10] Every relation defined at any level, their corresponding elements must be defined at the same level.
-	all l: Level | all r: l.networkResource:>NetRelation | r.elementA + r.elementB  in l.networkResource:>NetElement
-	-- [11] Relations defined at the Micro level, must also be defined at both Meso and Macro levels. Same for relations defined at the Meso level, which must be defined at the Macro level.
-	all n: Network | hasLevel[n,Micro] and hasLevel[n,Meso] implies {
-		 relatedOn[n.level & descriptionLevel.Micro] in relatedOn[n.level & descriptionLevel.Meso]
-	}
-	all n: Network | (hasLevel[n,Micro] or hasLevel[n,Meso]) and hasLevel[n,Macro] implies {
-		 relatedOn[n.level & descriptionLevel.Micro] + relatedOn[n.level & descriptionLevel.Meso] in relatedOn[n.level & descriptionLevel.Meso]
-	}
-
-
-	-- foreach network, we can have at most 1 micro, 1 meso and 1 macro level
-	all n:Network, l: DescriptionLevel | lone n.level & descriptionLevel.l
-	-- An element inside another element can't be a netResource of the same level
-	all l: Level | all disj a, b: l.networkResource:>NetElement | no a & b.elementCollectionUnordered
+pred NetRelationsAssumptions {
+	rule5
+	rule6
+	rule7
+	rule8
+	rule9
 }
 
 
-run{
-	NetElementAssumptions
-	NetRelationsAssumptions
-	NetworkAssumptions
 
-	no (NetElement+NetRelation) - Level.networkResource -- every netelement and netrelation is a networkResource
-	all l: Level | one l.descriptionLevel -- every level has a descriptionlevel
-	all l: Level | some l.networkResource -- every level has networkResources
-	-- higher levels have more extended elements
-	all n: Network {
-		some extend[n.level & descriptionLevel.Macro] - extend[n.level & descriptionLevel.Micro] and
-		some extend[n.level & descriptionLevel.Macro] - extend[n.level & descriptionLevel.Meso] and
-		some extend[n.level & descriptionLevel.Meso] - extend[n.level & descriptionLevel.Micro]
+
+
+/**
+	Network Assumptions
+**/
+
+
+/*
+[10] Elements defined at the Micro level can't be extended by other elements, 
+		meaning that elementCollectionUnordered of these elements must be empty.
+*/
+pred rule10 {
+	all n: Network, elem: getElems[n,Micro] | no elem.elementCollectionUnordered
+}
+
+
+/*
+[11] Extending every element at the Meso level, they must represent a micro element. 
+		 Meaning that, Micro level must be the same as the extended Meso level.
+*/
+pred rule11 {
+	all n: Network | hasLevel[n,Meso] implies {
+		getElems[n,Micro] = extend[getLevel[n,Meso]]
+		hasLevel[n,Micro] implies no getElems[n,Meso] - getElems[n,Micro].~elementCollectionUnordered
 	}
-	no iden & elementA.~elementB -- no rackets
-	some elementCollectionUnordered
-} for exactly 5 NetElement, exactly 5 NetRelation, exactly 1 Network, exactly 3 Level
+}
 
 
+/*
+[12] Extending every element at the Macro level, 
+		 they either represent a meso element or a micro element. 
+		 Meaning that, the logic disjunction of both Micro and Meso level must be the same as the extended Macro level.
+*/
+pred rule12 {	
+	all n: Network | hasLevel[n,Macro] implies {
+		getElems[n,Micro] + getElems[n,Meso] = extend[getLevel[n,Macro]]
+		(hasLevel[n,Micro] or hasLevel[n,Meso]) implies{
+	 		no getElems[n,Macro] - (getElems[n,Micro].~elementCollectionUnordered + getElems[n,Meso].~elementCollectionUnordered)
+		}
+	}
+}
+
+
+// [13] Every relation defined at any level, their corresponding elements must be defined at the same level.
+pred rule13 {
+	all l: Level | all r: l.networkResource:>NetRelation | r.elementA + r.elementB  in l.networkResource:>NetElement
+}
+
+
+/*
+[14] Relations defined at the Micro level, must also be defined at both Meso and Macro levels. 
+		 Same for relations defined at the Meso level, which must be defined at the Macro level.
+*/
+pred rule14 {
+	all n: Network | hasLevel[n,Meso] implies {
+		relations[getLevel[n,Micro]] in extendRelations[getLevel[n,Meso]]
+		hasLevel[n,Micro] implies no relations[getLevel[n,Meso]] - parentRelations[n,Micro]
+	}
+	all n: Network | hasLevel[n,Macro] implies {
+		relations[getLevel[n,Micro]] + relations[getLevel[n,Meso]] in extendRelations[getLevel[n,Macro]]
+		(hasLevel[n,Micro] or hasLevel[n,Meso]) implies no relations[getLevel[n,Macro]] - (parentRelations[n,Micro] + parentRelations[n,Meso])
+	}
+}
+
+
+
+pred NetworkAssumptions {
+	rule10
+	rule11
+	rule12
+	rule13
+	rule14
+}
+
+
+
+/**
+	Needed facts for alloy
+**/
 
 fact networkFacts {
 	no Level - Network.level -- every level is associated to a network
 	no Network - Level.~level -- every network has at least one level associated
+	all l: Level | one l.descriptionLevel -- every level has a descriptionlevel
+	all l: Level | some l.networkResource -- every level has networkResources
+	no iden & elementA.~elementB -- no rackets (??????)
+	all n:Network, l: DescriptionLevel | lone n.level & descriptionLevel.l -- foreach network, we can have at most 1 micro, 1 meso and 1 macro level
 }
 
 
+
+run Correct{
+	NetElementAssumptions
+	NetRelationsAssumptions
+	NetworkAssumptions
+} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level
 
 
 
@@ -185,27 +304,21 @@ fun associated: NetRelation -> NetRelation {
 
 
 fun simpleIntersection: NetRelation -> NetRelation -> NetRelation {
-	{disj a,b,c: NetRelation | b in a.associated and c in a.associated and b in c.associated}
+	//{disj a,b,c: NetRelation | b in a.associated and c in a.associated and b in c.associated}
+	{disj a,b,c: NetRelation | a->b + a->c + b->c in associated}
 }
 
 
 fun doubleIntersection[a: NetRelation]: NetRelation -> NetRelation -> NetRelation -> NetRelation -> NetRelation {
 	{disj b,c,d,e,f: NetRelation {
-	 		b in a.associated
-			c in a.associated
-			d in a.associated
-			e in a.associated
-			f in a.associated
-			c in b.associated
-			d in b.associated
-			e in b.associated
-			f in b.associated
-			d in c.associated
-			e in c.associated
-			f in c.associated
-			e in d.associated
-			f in d.associated
+			a->b + a->c + a->d + a->e + a->f + b->c + b->d + b->e + b->f + c->d + c->e + c->f + d->e + d->f + e->f in associated
+	 		/*
+			b in a.associated and c in a.associated and d in a.associated and e in a.associated and f in a.associated
+			c in b.associated and d in b.associated and e in b.associated and f in b.associated
+			d in c.associated and e in c.associated and f in c.associated
+			e in d.associated and f in d.associated
 			f in e.associated
+		  */
 		}
 	}
 }
@@ -217,25 +330,41 @@ fun extend: Level -> NetElement {
 	{ l: Level, n: NetElement | n in l.networkResource.^elementCollectionUnordered }
 }
 
-pred inside[a: Level, b: Level]{
-	a.networkResource:>NetElement in b.networkResource.*elementCollectionUnordered
-}
 
 
 /*
-	Two elements are extended related iff:
+	Every pair of elements that are related in some level.
+	Two elements are related iff:
 		- they both have the same parent (considering elementCollectionUnordered)
-		- there is a relation between their parents (considering elementCollectionUnordered)
+		- there is a relation between them or between their parents (considering elementCollectionUnordered)
 */
-fun relatedOn[l:Level] : NetElement -> NetElement {
+fun extendRelations[l:Level] : NetElement -> NetElement {
 	{ disj a, b: NetElement {
 			some e: l.networkResource:>NetElement | a + b in e.^elementCollectionUnordered or
 			some r: l.networkResource:>NetRelation, disj e1, e2: l.networkResource:>NetElement {
 				r in e1.relation & e2.relation and
-				a in e1.*elementCollectionUnordered and
-				b in e2.*elementCollectionUnordered
+				a in e1.^elementCollectionUnordered and
+				b in e2.^elementCollectionUnordered
 			}
 		}
 	}
 }
 
+
+fun relations[l:Level]: NetElement -> NetElement {
+	{disj a,b: NetElement | some r: l.networkResource:>NetRelation | r in a.relation & b.relation}
+}
+
+
+fun getLevel[n:Network, d:DescriptionLevel] : Level{
+	n.level & descriptionLevel.d
+}
+
+fun getElems[n:Network, d:DescriptionLevel] : NetElement{
+	getLevel[n,d].networkResource:>NetElement
+}
+
+
+fun parentRelations[n:Network, d: DescriptionLevel] : NetElement -> NetElement {
+	{disj a,b: NetElement | some e: a.elementCollectionUnordered, f: b.elementCollectionUnordered | e->f in relations[getLevel[n,d]]}
+}

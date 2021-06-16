@@ -11,9 +11,11 @@ from verifier.topology_rules import assumptions_
 # Main function which is gonna call the Schema validator, the parser and then the validator.
 def main():
 
-  if len(sys.argv) == 2 and isfile('./examples/'+sys.argv[1]):
+  # if len(sys.argv) == 2 and isfile('./examples/'+sys.argv[1]):
+  if len(sys.argv) == 2 and isfile(sys.argv[1]):
 
-    f = './examples/' + sys.argv[1]
+    # f = './examples/' + sys.argv[1]
+    f = sys.argv[1]
     f = os.path.abspath(f)
 
     base, ext = os.path.splitext(f)
