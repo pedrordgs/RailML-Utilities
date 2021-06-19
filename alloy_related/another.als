@@ -256,16 +256,181 @@ fact networkFacts {
 	no Network - Level.~level -- every network has at least one level associated
 	all l: Level | one l.descriptionLevel -- every level has a descriptionlevel
 	all l: Level | some l.networkResource -- every level has networkResources
-	no iden & elementA.~elementB -- no rackets (??????)
 	all n:Network, l: DescriptionLevel | lone n.level & descriptionLevel.l -- foreach network, we can have at most 1 micro, 1 meso and 1 macro level
 }
-
 
 
 run Correct{
 	NetElementAssumptions
 	NetRelationsAssumptions
 	NetworkAssumptions
+} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level
+
+
+run negRule0{
+	not rule0
+	rule1
+	rule2
+	rule3
+	rule4
+	NetRelationsAssumptions
+	NetworkAssumptions
+} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level
+
+
+run negRule1{
+	rule0
+	not rule1
+	rule2
+	rule3
+	rule4
+	NetRelationsAssumptions
+	NetworkAssumptions
+} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level
+
+
+
+run negRule2{
+	rule0
+	rule1
+	not rule2
+	rule3
+	rule4
+	NetRelationsAssumptions
+	NetworkAssumptions
+} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level
+
+
+run negRule3{
+	rule0
+	rule1
+	rule2
+	not rule3
+	rule4
+	NetRelationsAssumptions
+	NetworkAssumptions
+} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level
+
+
+run negRule4{
+	rule0
+	rule1
+	rule2
+	rule3
+	not rule4
+	NetRelationsAssumptions
+	NetworkAssumptions
+} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level
+
+
+run negRule5{
+	NetElementAssumptions
+	not rule5
+	rule6
+	rule7
+	rule8
+	rule9
+	NetworkAssumptions
+} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level
+
+
+
+run negRule6{
+	NetElementAssumptions
+	rule5
+	not rule6
+	rule7
+	rule8
+	rule9
+	NetworkAssumptions
+} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level
+
+
+run negRule7{
+	NetElementAssumptions
+	rule5
+	rule6
+	not rule7
+	rule8
+	rule9
+	NetworkAssumptions
+} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level
+
+
+run negRule8{
+	NetElementAssumptions
+	rule5
+	rule6
+	rule7
+	not rule8
+	rule9
+	NetworkAssumptions
+} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level
+
+
+run negRule9{
+	NetElementAssumptions
+	rule5
+	rule6
+	rule7
+	rule8
+	not rule9
+	NetworkAssumptions
+} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level
+
+
+run negRule10{
+	NetElementAssumptions
+	NetRelationsAssumptions
+	not rule10
+	rule11
+	rule12
+	rule13
+	rule14
+} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level
+
+
+run negRule11{
+	NetElementAssumptions
+	NetRelationsAssumptions
+	rule10
+	not rule11
+	rule12
+	rule13
+	rule14
+} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level
+
+
+run negRule12{
+	NetElementAssumptions
+	NetRelationsAssumptions
+	rule10
+	rule11
+	not rule12
+	rule13
+	rule14
+} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level
+
+
+run negRule13{
+	NetElementAssumptions
+	NetRelationsAssumptions
+	rule10
+	rule11
+	rule12
+	not rule13
+	rule14
+} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level
+
+
+run negRule14{
+	NetElementAssumptions
+	NetRelationsAssumptions
+	rule10
+	rule11
+	rule12
+	rule13
+	not rule14
 } for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level
 
 
@@ -339,11 +504,11 @@ fun extend: Level -> NetElement {
 		- there is a relation between them or between their parents (considering elementCollectionUnordered)
 */
 fun extendRelations[l:Level] : NetElement -> NetElement {
-	{ disj a, b: NetElement {
+	{ a, b: NetElement {
 			some e: l.networkResource:>NetElement | a + b in e.^elementCollectionUnordered or
-			some r: l.networkResource:>NetRelation, disj e1, e2: l.networkResource:>NetElement {
-				r in e1.relation & e2.relation and
-				a in e1.^elementCollectionUnordered and
+			some r: l.networkResource:>NetRelation, e1, e2: l.networkResource:>NetElement {
+				(e1 = r.elementA and e2 = r.elementB) or (e1 = r.elementB and e2 = r.elementA)
+				a in e1.^elementCollectionUnordered
 				b in e2.^elementCollectionUnordered
 			}
 		}
@@ -352,7 +517,7 @@ fun extendRelations[l:Level] : NetElement -> NetElement {
 
 
 fun relations[l:Level]: NetElement -> NetElement {
-	{disj a,b: NetElement | some r: l.networkResource:>NetRelation | r in a.relation & b.relation}
+	{a,b: NetElement | some r: l.networkResource:>NetRelation | (a = r.elementA and b = r.elementB) or (a = r.elementB and b = r.elementA)}
 }
 
 
@@ -366,5 +531,5 @@ fun getElems[n:Network, d:DescriptionLevel] : NetElement{
 
 
 fun parentRelations[n:Network, d: DescriptionLevel] : NetElement -> NetElement {
-	{disj a,b: NetElement | some e: a.elementCollectionUnordered, f: b.elementCollectionUnordered | e->f in relations[getLevel[n,d]]}
+	{a,b: NetElement | some e: a.elementCollectionUnordered, f: b.elementCollectionUnordered | e->f in relations[getLevel[n,d]]}
 }

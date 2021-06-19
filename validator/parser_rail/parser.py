@@ -169,6 +169,7 @@ def parseNetElements(rail, nelems, path='{https://www.railml.org/schemas/3.1}'):
         if ident in elm_elm:
           for elm in elm_elm[ident]:
             elm.append_element(netelem)
+            netelem.append_parent(elm)
 
         # Instead of storing just the id of the relation, its stored the realtion itself -> For that we need a auxiliar dict
         relations = elem.findall(f'./{path}relation')
@@ -194,13 +195,9 @@ def parseNetElements(rail, nelems, path='{https://www.railml.org/schemas/3.1}'):
             else:
               if ref in elm_elm:
                 elm_elm[ref].append(netelem)
-                # add parent
-                netelem.append_parent(elm_elm[ref])
               else:
                 elm_elm[ref] = []
                 elm_elm[ref].append(netelem)
-                # add parent
-                netelem.append_parent(elm_elm[ref])
 
 
 def parseNetRelations(rail, nrels, path='{https://www.railml.org/schemas/3.1}'):

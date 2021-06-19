@@ -10,18 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4961d02f-6096-4960-b75b-0f4de1916f14" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/generator_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../alloy_related/another.als" beforeDir="false" afterPath="$PROJECT_DIR$/../../alloy_related/another.als" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/org_alloytools_alloy_dist.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generator.iml" beforeDir="false" afterPath="$PROJECT_DIR$/generator.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Generator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Generator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Generator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../org.alloytools.alloy.dist.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../validator/parser_rail/parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../validator/parser_rail/parser.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../validator/verifier/topology_rules.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../validator/verifier/topology_rules.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -58,15 +49,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -87,6 +76,7 @@
       <updated>1623869197439</updated>
       <workItem from="1623869204815" duration="1495000" />
       <workItem from="1623873406456" duration="2740000" />
+      <workItem from="1623944961979" duration="703000" />
     </task>
     <servers />
   </component>

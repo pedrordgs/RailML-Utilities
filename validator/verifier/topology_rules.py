@@ -519,8 +519,11 @@ def netElements_assumptions():
 
   list_relations = []
   for r in railw.netRelations:
-    list_relations.append((r.elementA, r))
-    list_relations.append((r.elementB, r))
+    if r.elementA == r.elementB:
+        list_relations.append((r.elementA, r))
+    else:
+        list_relations.append((r.elementA, r))
+        list_relations.append((r.elementB, r))
 
   # Counters for each
   c_elements  = Counter(list_elements)
@@ -588,7 +591,7 @@ def elementOn():
   # get all elements.
   for e in railw.netElements:
 
-    l_relations = getRelations(e.id)
+    l_relations = getRelations(e)
 
     # Now, I need to check whether the relation exits between the elements.
     for e_related in l_relations:
@@ -604,13 +607,13 @@ def elementOn():
       r_aux = [(ee[1],ee[2]) for ee in r_aux]
 
       # Check if the elements on l_relations are related.
-      r_removed = [(e_removed[1],e_removed[2]) for e_removed in l_relations if e_removed[1] != id_e and e_removed[5] == pos_outro]
+      r_removed = [(e_removed[1],e_removed[2]) for e_removed in l_relations if e_removed[1] != id_e and e_removed[5] == pos_readed]
       for e_r in l_relations:
 
-        if e_r[1] != id_e and e_r[5] == pos_outro:
+        if e_r[1] != id_e and e_r[5] == pos_readed:
           if (e_r[1],e_r[2]) not in r_aux:
             b    = False
-            err += f'\tElement {e_r[1].id}, declared at line {e_r[1].line}, must have a relation with the element {id_e.id}, since they both connect to {e.id} at the same endpoint {pos_outro}.\n'
+            err += f'\tLine {e_r[1].line}: Element {e_r[1].id} must have a relation with the element {id_e.id}, since they both connect to {e.id} at the same endpoint {pos_readed}.\n'
 
   if b == False:
     p_print('Element On property failed.', False, err)
