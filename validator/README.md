@@ -65,10 +65,6 @@ These properties related to the positioning systems were not specified in alloy 
 
 ## Demo
 
-[Correct RailML file](https://github.com/pedrordgs/RailML-Utilities/blob/master/examples/railml/correct.xml) | [Rule 14 negation RailML file](https://github.com/pedrordgs/RailML-Utilities/blob/master/examples/railml/negRule14.xml)
-- | -
-![Validator demo with correct railml file.](demo/correct.png "Validator demo with correct railml file.") | ![Validator demo with railml file that negates rule 14.](demo/negrule14.png "Validator demo with correct railml file.")
-
 | [Correct RailML file](https://github.com/pedrordgs/RailML-Utilities/blob/master/examples/railml/correct.xml) | [Rule 14 negation RailML file](https://github.com/pedrordgs/RailML-Utilities/blob/master/examples/railml/negRule14.xml) |
 | ------------- |:-------------:|
 | ![Validator demo with correct railml file.](demo/correct.png "Validator demo with correct railml file.")      | ![Validator demo with railml file that negates rule 14.](demo/negrule14.png "Validator demo with correct railml file.")     |
