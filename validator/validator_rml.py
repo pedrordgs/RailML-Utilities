@@ -8,6 +8,14 @@ from verifier.xml_checker import check_
 from verifier.topology_rules import assumptions_
 
 
+def verify(fp):
+    # Validate Schema xml
+    #check_(fp)
+    # Parse file
+    r = parseRailML(fp)
+    # Validate alloy rules
+    return assumptions_(r)
+
 # Main function which is gonna call the Schema validator, the parser and then the validator.
 def main():
 
@@ -23,17 +31,11 @@ def main():
       print("ERROR: File given isn't a xml file.")
       sys.exit()
 
-
-    # Validate Schema xml
-    #check_(f)
-    # Parse file
-    r = parseRailML(f)
-    # Validate alloy rules
-    assumptions_(r)
-
+    verify(f)
 
   else:
     print('Must give a file as input.')
     sys.exit()
 
-main()
+if __name__ == "__main__":
+    main()

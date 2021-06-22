@@ -11,8 +11,67 @@
   <component name="ChangeListManager">
     <list default="true" id="4961d02f-6096-4960-b75b-0f4de1916f14" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../../alloy_related/another.als" beforeDir="false" afterPath="$PROJECT_DIR$/../../alloy_related/another.als" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../examples/railml/negNetElemAssump.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../examples/railml/negNetworkAssump.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../examples/railml/negTopologyAssump.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance10.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance11.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance12.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance13.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance14.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance15.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance16.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance17.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance19.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance20.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance21.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance22.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance23.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance24.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance25.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance26.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance27.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance28.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance29.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance30.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance31.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance32.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance33.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance34.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance35.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance36.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance37.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance38.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance39.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance40.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance41.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance42.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance43.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance44.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance45.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance46.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance47.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance48.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance49.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance50.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance7.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance8.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../generated_models/instance9.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../validator/parser_rail/parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../validator/parser_rail/parser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/generator_jar/generator.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/generator_jar/generator.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Generator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Generator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Generator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../validator/examples/negNetElemAssump.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../validator/examples/negNetworkAssump.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../validator/examples/negTopologyAssump.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../validator/validator_rml.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../validator/validator_rml.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../validator/verifier/topology_rules.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../validator/verifier/topology_rules.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -49,17 +108,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Generator" />
@@ -77,6 +125,13 @@
       <workItem from="1623869204815" duration="1495000" />
       <workItem from="1623873406456" duration="2740000" />
       <workItem from="1623944961979" duration="703000" />
+      <workItem from="1624311644795" duration="727000" />
+      <workItem from="1624370872511" duration="10000" />
+      <workItem from="1624376652082" duration="964000" />
+      <workItem from="1624380791009" duration="66000" />
+      <workItem from="1624382041087" duration="49000" />
+      <workItem from="1624382502713" duration="10000" />
+      <workItem from="1624383586043" duration="26000" />
     </task>
     <servers />
   </component>

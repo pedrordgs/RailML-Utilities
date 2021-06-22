@@ -1,0 +1,166 @@
+<railML xmlns="https://www.railml.org/schemas/3.1" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.railml.org/schemas/3.1 https://www.railml.org/schemas/3.1/railml3.xsd" version="3.1">
+  <metadata>
+    <dc:format>3.1</dc:format>
+    <dc:identifier>3</dc:identifier>
+    <dc:source>railML.org</dc:source>
+    <dc:title xml:lang="en">Template railML 3.1</dc:title>
+    <dc:language>en</dc:language>
+    <dc:date>2021-04-15T14:13:00+01:00</dc:date>
+    <dc:creator xml:lang="pt">Universidade do Minho</dc:creator>
+    <dc:description>Template to convert alloy instances to railML</dc:description>
+    <dc:rights>Copyright (c) railML.org e.V. Braga/Portugal; All Rights Reserved.
+      This work is licensed under the restricted CreativeCommons Attribution-NonCommercial-NoDerivatives 4.0 International License with additional license conditions of railML.org.
+      For further information see: https://www.railml.org/licence
+      Content of this file: railML 3.1 Template</dc:rights>
+  </metadata>
+  <infrastructure>
+    <topology>
+      <netElements>
+        <netElement id="ne_0" length="0">
+          <associatedPositioningSystem id="aps_ne_0">
+            <intrinsicCoordinate id="ic_aps_ne_0" intrinsicCoord="0" />
+          </associatedPositioningSystem>
+        </netElement>
+        <netElement id="ne_1" length="0">
+          <associatedPositioningSystem id="aps_ne_1">
+            <intrinsicCoordinate id="ic_aps_ne_1" intrinsicCoord="0" />
+          </associatedPositioningSystem>
+        </netElement>
+        <netElement id="ne_2" length="0">
+          <associatedPositioningSystem id="aps_ne_2">
+            <intrinsicCoordinate id="ic_aps_ne_2" intrinsicCoord="0" />
+          </associatedPositioningSystem>
+        </netElement>
+        <netElement id="ne_3" length="0">
+          <relation ref="nr_3" />
+          <relation ref="nr_4" />
+          <associatedPositioningSystem id="aps_ne_3">
+            <intrinsicCoordinate id="ic_aps_ne_3" intrinsicCoord="0" />
+          </associatedPositioningSystem>
+        </netElement>
+        <netElement id="ne_4" length="0">
+          <relation ref="nr_2" />
+          <associatedPositioningSystem id="aps_ne_4">
+            <intrinsicCoordinate id="ic_aps_ne_4" intrinsicCoord="0" />
+          </associatedPositioningSystem>
+        </netElement>
+        <netElement id="ne_5" length="0">
+          <relation ref="nr_1" />
+          <associatedPositioningSystem id="aps_ne_5">
+            <intrinsicCoordinate id="ic_aps_ne_5" intrinsicCoord="0" />
+          </associatedPositioningSystem>
+        </netElement>
+        <netElement id="ne_6" length="0">
+          <relation ref="nr_0" />
+          <relation ref="nr_1" />
+          <relation ref="nr_4" />
+          <associatedPositioningSystem id="aps_ne_6">
+            <intrinsicCoordinate id="ic_aps_ne_6" intrinsicCoord="0" />
+          </associatedPositioningSystem>
+        </netElement>
+        <netElement id="ne_7" length="0">
+          <relation ref="nr_0" />
+          <relation ref="nr_2" />
+          <relation ref="nr_3" />
+          <associatedPositioningSystem id="aps_ne_7">
+            <intrinsicCoordinate id="ic_aps_ne_7" intrinsicCoord="0" />
+          </associatedPositioningSystem>
+        </netElement>
+        <netElement id="ne_8" length="0">
+          <relation ref="nr_5" />
+          <elementCollectionUnordered id="ecu_ne_8">
+            <elementPart ref="ne_3" />
+            <elementPart ref="ne_4" />
+            <elementPart ref="ne_5" />
+            <elementPart ref="ne_6" />
+            <elementPart ref="ne_7" />
+          </elementCollectionUnordered>
+          <associatedPositioningSystem id="aps_ne_8">
+            <intrinsicCoordinate id="ic_aps_ne_8" intrinsicCoord="0" />
+          </associatedPositioningSystem>
+        </netElement>
+        <netElement id="ne_9" length="0">
+          <elementCollectionUnordered id="ecu_ne_9">
+            <elementPart ref="ne_1" />
+            <elementPart ref="ne_2" />
+          </elementCollectionUnordered>
+          <associatedPositioningSystem id="aps_ne_9">
+            <intrinsicCoordinate id="ic_aps_ne_9" intrinsicCoord="0" />
+          </associatedPositioningSystem>
+        </netElement>
+        <netElement id="ne_10" length="0">
+          <elementCollectionUnordered id="ecu_ne_10">
+            <elementPart ref="ne_0" />
+          </elementCollectionUnordered>
+          <associatedPositioningSystem id="aps_ne_10">
+            <intrinsicCoordinate id="ic_aps_ne_10" intrinsicCoord="0" />
+          </associatedPositioningSystem>
+        </netElement>
+        <netElement id="ne_11" length="0">
+          <elementCollectionUnordered id="ecu_ne_11">
+            <elementPart ref="ne_8" />
+            <elementPart ref="ne_9" />
+            <elementPart ref="ne_10" />
+          </elementCollectionUnordered>
+          <associatedPositioningSystem id="aps_ne_11">
+            <intrinsicCoordinate id="ic_aps_ne_11" intrinsicCoord="0" />
+          </associatedPositioningSystem>
+        </netElement>
+      </netElements>
+      <netRelations>
+        <netRelation id="nr_0" positionOnA="0" positionOnB="0" navigability="AB">
+          <elementA ref="ne_7" />
+          <elementB ref="ne_6" />
+        </netRelation>
+        <netRelation id="nr_1" positionOnA="1" positionOnB="1" navigability="BA">
+          <elementA ref="ne_6" />
+          <elementB ref="ne_5" />
+        </netRelation>
+        <netRelation id="nr_2" positionOnA="1" positionOnB="1" navigability="BA">
+          <elementA ref="ne_4" />
+          <elementB ref="ne_7" />
+        </netRelation>
+        <netRelation id="nr_3" positionOnA="0" positionOnB="0" navigability="AB">
+          <elementA ref="ne_7" />
+          <elementB ref="ne_3" />
+        </netRelation>
+        <netRelation id="nr_4" positionOnA="0" positionOnB="0" navigability="BA">
+          <elementA ref="ne_3" />
+          <elementB ref="ne_6" />
+        </netRelation>
+        <netRelation id="nr_5" positionOnA="1" positionOnB="0" navigability="BA">
+          <elementA ref="ne_8" />
+          <elementB ref="ne_8" />
+        </netRelation>
+      </netRelations>
+      <networks>
+        <network id="net_0">
+          <level id="lvl_0" descriptionLevel="Macro">
+            <networkResource ref="ne_11" />
+          </level>
+          <level id="lvl_1" descriptionLevel="Meso">
+            <networkResource ref="ne_8" />
+            <networkResource ref="ne_9" />
+            <networkResource ref="ne_10" />
+            <networkResource ref="nr_5" />
+          </level>
+          <level id="lvl_2" descriptionLevel="Micro">
+            <networkResource ref="ne_0" />
+            <networkResource ref="ne_1" />
+            <networkResource ref="ne_2" />
+            <networkResource ref="ne_3" />
+            <networkResource ref="ne_4" />
+            <networkResource ref="ne_5" />
+            <networkResource ref="ne_6" />
+            <networkResource ref="ne_7" />
+            <networkResource ref="nr_0" />
+            <networkResource ref="nr_1" />
+            <networkResource ref="nr_2" />
+            <networkResource ref="nr_3" />
+            <networkResource ref="nr_4" />
+          </level>
+        </network>
+      </networks>
+    </topology>
+  </infrastructure>
+</railML>
