@@ -1,0 +1,278 @@
+<alloy builddate="2021-02-23T10:54:30.238Z">
+
+<instance bitwidth="4" maxseq="4" mintrace="-1" maxtrace="-1" command="Run Correct for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level" filename="/home/pbr/railML/alloy_related/topology.als" tracelength="1" backloop="0">
+
+<sig label="seq/Int" ID="0" parentID="1" builtin="yes">
+</sig>
+
+<sig label="Int" ID="1" parentID="2" builtin="yes">
+</sig>
+
+<sig label="String" ID="3" parentID="2" builtin="yes">
+</sig>
+
+<sig label="this/NetElement" ID="4" parentID="2" some="yes">
+   <atom label="NetElement$0"/>
+   <atom label="NetElement$1"/>
+   <atom label="NetElement$2"/>
+   <atom label="NetElement$3"/>
+   <atom label="NetElement$4"/>
+   <atom label="NetElement$5"/>
+   <atom label="NetElement$6"/>
+   <atom label="NetElement$7"/>
+   <atom label="NetElement$8"/>
+   <atom label="NetElement$9"/>
+   <atom label="NetElement$10"/>
+   <atom label="NetElement$11"/>
+</sig>
+
+<field label="relation" ID="5" parentID="4">
+   <tuple> <atom label="NetElement$0"/> <atom label="NetRelation$2"/> </tuple>
+   <tuple> <atom label="NetElement$0"/> <atom label="NetRelation$3"/> </tuple>
+   <tuple> <atom label="NetElement$1"/> <atom label="NetRelation$0"/> </tuple>
+   <tuple> <atom label="NetElement$1"/> <atom label="NetRelation$1"/> </tuple>
+   <tuple> <atom label="NetElement$1"/> <atom label="NetRelation$3"/> </tuple>
+   <tuple> <atom label="NetElement$3"/> <atom label="NetRelation$1"/> </tuple>
+   <tuple> <atom label="NetElement$3"/> <atom label="NetRelation$2"/> </tuple>
+   <tuple> <atom label="NetElement$6"/> <atom label="NetRelation$0"/> </tuple>
+   <tuple> <atom label="NetElement$7"/> <atom label="NetRelation$5"/> </tuple>
+   <tuple> <atom label="NetElement$9"/> <atom label="NetRelation$4"/> </tuple>
+   <tuple> <atom label="NetElement$10"/> <atom label="NetRelation$4"/> </tuple>
+   <tuple> <atom label="NetElement$10"/> <atom label="NetRelation$5"/> </tuple>
+   <types> <type ID="4"/> <type ID="6"/> </types>
+</field>
+
+<field label="elementCollectionUnordered" ID="7" parentID="4">
+   <tuple> <atom label="NetElement$7"/> <atom label="NetElement$6"/> </tuple>
+   <tuple> <atom label="NetElement$8"/> <atom label="NetElement$4"/> </tuple>
+   <tuple> <atom label="NetElement$8"/> <atom label="NetElement$5"/> </tuple>
+   <tuple> <atom label="NetElement$9"/> <atom label="NetElement$2"/> </tuple>
+   <tuple> <atom label="NetElement$9"/> <atom label="NetElement$3"/> </tuple>
+   <tuple> <atom label="NetElement$10"/> <atom label="NetElement$0"/> </tuple>
+   <tuple> <atom label="NetElement$10"/> <atom label="NetElement$1"/> </tuple>
+   <tuple> <atom label="NetElement$11"/> <atom label="NetElement$7"/> </tuple>
+   <tuple> <atom label="NetElement$11"/> <atom label="NetElement$8"/> </tuple>
+   <tuple> <atom label="NetElement$11"/> <atom label="NetElement$9"/> </tuple>
+   <tuple> <atom label="NetElement$11"/> <atom label="NetElement$10"/> </tuple>
+   <types> <type ID="4"/> <type ID="4"/> </types>
+</field>
+
+<sig label="this/None" ID="8" parentID="9" one="yes">
+   <atom label="None$0"/>
+</sig>
+
+<sig label="this/Both" ID="10" parentID="9" one="yes">
+   <atom label="Both$0"/>
+</sig>
+
+<sig label="this/AB" ID="11" parentID="9" one="yes">
+   <atom label="AB$0"/>
+</sig>
+
+<sig label="this/BA" ID="12" parentID="9" one="yes">
+   <atom label="BA$0"/>
+</sig>
+
+<sig label="this/Navigability" ID="9" parentID="2" abstract="yes">
+</sig>
+
+<sig label="this/Zero" ID="13" parentID="14" one="yes">
+   <atom label="Zero$0"/>
+</sig>
+
+<sig label="this/One" ID="15" parentID="14" one="yes">
+   <atom label="One$0"/>
+</sig>
+
+<sig label="this/Position" ID="14" parentID="2" abstract="yes">
+</sig>
+
+<sig label="this/NetRelation" ID="6" parentID="2">
+   <atom label="NetRelation$0"/>
+   <atom label="NetRelation$1"/>
+   <atom label="NetRelation$2"/>
+   <atom label="NetRelation$3"/>
+   <atom label="NetRelation$4"/>
+   <atom label="NetRelation$5"/>
+</sig>
+
+<field label="navigability" ID="16" parentID="6">
+   <tuple> <atom label="NetRelation$0"/> <atom label="None$0"/> </tuple>
+   <tuple> <atom label="NetRelation$1"/> <atom label="AB$0"/> </tuple>
+   <tuple> <atom label="NetRelation$2"/> <atom label="None$0"/> </tuple>
+   <tuple> <atom label="NetRelation$3"/> <atom label="Both$0"/> </tuple>
+   <tuple> <atom label="NetRelation$4"/> <atom label="None$0"/> </tuple>
+   <tuple> <atom label="NetRelation$5"/> <atom label="None$0"/> </tuple>
+   <types> <type ID="6"/> <type ID="9"/> </types>
+</field>
+
+<field label="positionOnA" ID="17" parentID="6">
+   <tuple> <atom label="NetRelation$0"/> <atom label="One$0"/> </tuple>
+   <tuple> <atom label="NetRelation$1"/> <atom label="One$0"/> </tuple>
+   <tuple> <atom label="NetRelation$2"/> <atom label="Zero$0"/> </tuple>
+   <tuple> <atom label="NetRelation$3"/> <atom label="Zero$0"/> </tuple>
+   <tuple> <atom label="NetRelation$4"/> <atom label="Zero$0"/> </tuple>
+   <tuple> <atom label="NetRelation$5"/> <atom label="Zero$0"/> </tuple>
+   <types> <type ID="6"/> <type ID="14"/> </types>
+</field>
+
+<field label="positionOnB" ID="18" parentID="6">
+   <tuple> <atom label="NetRelation$0"/> <atom label="Zero$0"/> </tuple>
+   <tuple> <atom label="NetRelation$1"/> <atom label="Zero$0"/> </tuple>
+   <tuple> <atom label="NetRelation$2"/> <atom label="One$0"/> </tuple>
+   <tuple> <atom label="NetRelation$3"/> <atom label="Zero$0"/> </tuple>
+   <tuple> <atom label="NetRelation$4"/> <atom label="One$0"/> </tuple>
+   <tuple> <atom label="NetRelation$5"/> <atom label="Zero$0"/> </tuple>
+   <types> <type ID="6"/> <type ID="14"/> </types>
+</field>
+
+<field label="elementA" ID="19" parentID="6">
+   <tuple> <atom label="NetRelation$0"/> <atom label="NetElement$1"/> </tuple>
+   <tuple> <atom label="NetRelation$1"/> <atom label="NetElement$3"/> </tuple>
+   <tuple> <atom label="NetRelation$2"/> <atom label="NetElement$0"/> </tuple>
+   <tuple> <atom label="NetRelation$3"/> <atom label="NetElement$0"/> </tuple>
+   <tuple> <atom label="NetRelation$4"/> <atom label="NetElement$9"/> </tuple>
+   <tuple> <atom label="NetRelation$5"/> <atom label="NetElement$7"/> </tuple>
+   <types> <type ID="6"/> <type ID="4"/> </types>
+</field>
+
+<field label="elementB" ID="20" parentID="6">
+   <tuple> <atom label="NetRelation$0"/> <atom label="NetElement$6"/> </tuple>
+   <tuple> <atom label="NetRelation$1"/> <atom label="NetElement$1"/> </tuple>
+   <tuple> <atom label="NetRelation$2"/> <atom label="NetElement$3"/> </tuple>
+   <tuple> <atom label="NetRelation$3"/> <atom label="NetElement$1"/> </tuple>
+   <tuple> <atom label="NetRelation$4"/> <atom label="NetElement$10"/> </tuple>
+   <tuple> <atom label="NetRelation$5"/> <atom label="NetElement$10"/> </tuple>
+   <types> <type ID="6"/> <type ID="4"/> </types>
+</field>
+
+<sig label="this/Network" ID="21" parentID="2" some="yes">
+   <atom label="Network$0"/>
+</sig>
+
+<field label="level" ID="22" parentID="21">
+   <tuple> <atom label="Network$0"/> <atom label="Level$0"/> </tuple>
+   <tuple> <atom label="Network$0"/> <atom label="Level$1"/> </tuple>
+   <tuple> <atom label="Network$0"/> <atom label="Level$2"/> </tuple>
+   <types> <type ID="21"/> <type ID="23"/> </types>
+</field>
+
+<sig label="this/Level" ID="23" parentID="2">
+   <atom label="Level$0"/>
+   <atom label="Level$1"/>
+   <atom label="Level$2"/>
+</sig>
+
+<field label="descriptionLevel" ID="24" parentID="23">
+   <tuple> <atom label="Level$0"/> <atom label="Macro$0"/> </tuple>
+   <tuple> <atom label="Level$1"/> <atom label="Meso$0"/> </tuple>
+   <tuple> <atom label="Level$2"/> <atom label="Micro$0"/> </tuple>
+   <types> <type ID="23"/> <type ID="25"/> </types>
+</field>
+
+<field label="networkResource" ID="26" parentID="23">
+   <tuple> <atom label="Level$0"/> <atom label="NetElement$11"/> </tuple>
+   <tuple> <atom label="Level$1"/> <atom label="NetElement$7"/> </tuple>
+   <tuple> <atom label="Level$1"/> <atom label="NetElement$8"/> </tuple>
+   <tuple> <atom label="Level$1"/> <atom label="NetElement$9"/> </tuple>
+   <tuple> <atom label="Level$1"/> <atom label="NetElement$10"/> </tuple>
+   <tuple> <atom label="Level$1"/> <atom label="NetRelation$4"/> </tuple>
+   <tuple> <atom label="Level$1"/> <atom label="NetRelation$5"/> </tuple>
+   <tuple> <atom label="Level$2"/> <atom label="NetElement$0"/> </tuple>
+   <tuple> <atom label="Level$2"/> <atom label="NetElement$1"/> </tuple>
+   <tuple> <atom label="Level$2"/> <atom label="NetElement$2"/> </tuple>
+   <tuple> <atom label="Level$2"/> <atom label="NetElement$3"/> </tuple>
+   <tuple> <atom label="Level$2"/> <atom label="NetElement$4"/> </tuple>
+   <tuple> <atom label="Level$2"/> <atom label="NetElement$5"/> </tuple>
+   <tuple> <atom label="Level$2"/> <atom label="NetElement$6"/> </tuple>
+   <tuple> <atom label="Level$2"/> <atom label="NetRelation$0"/> </tuple>
+   <tuple> <atom label="Level$2"/> <atom label="NetRelation$1"/> </tuple>
+   <tuple> <atom label="Level$2"/> <atom label="NetRelation$2"/> </tuple>
+   <tuple> <atom label="Level$2"/> <atom label="NetRelation$3"/> </tuple>
+   <types> <type ID="23"/> <type ID="4"/> </types>
+   <types> <type ID="23"/> <type ID="6"/> </types>
+</field>
+
+<sig label="this/Micro" ID="27" parentID="25" one="yes">
+   <atom label="Micro$0"/>
+</sig>
+
+<sig label="this/Meso" ID="28" parentID="25" one="yes">
+   <atom label="Meso$0"/>
+</sig>
+
+<sig label="this/Macro" ID="29" parentID="25" one="yes">
+   <atom label="Macro$0"/>
+</sig>
+
+<sig label="this/DescriptionLevel" ID="25" parentID="2" abstract="yes">
+</sig>
+
+<sig label="univ" ID="2" builtin="yes" var="yes">
+</sig>
+
+<skolem label="$this/elementOn" ID="m0">
+   <tuple> <atom label="NetElement$0"/> <atom label="Zero$0"/> <atom label="NetElement$1"/> <atom label="Zero$0"/> </tuple>
+   <tuple> <atom label="NetElement$0"/> <atom label="Zero$0"/> <atom label="NetElement$3"/> <atom label="One$0"/> </tuple>
+   <tuple> <atom label="NetElement$1"/> <atom label="Zero$0"/> <atom label="NetElement$0"/> <atom label="Zero$0"/> </tuple>
+   <tuple> <atom label="NetElement$1"/> <atom label="Zero$0"/> <atom label="NetElement$3"/> <atom label="One$0"/> </tuple>
+   <tuple> <atom label="NetElement$1"/> <atom label="One$0"/> <atom label="NetElement$6"/> <atom label="Zero$0"/> </tuple>
+   <tuple> <atom label="NetElement$3"/> <atom label="One$0"/> <atom label="NetElement$0"/> <atom label="Zero$0"/> </tuple>
+   <tuple> <atom label="NetElement$3"/> <atom label="One$0"/> <atom label="NetElement$1"/> <atom label="Zero$0"/> </tuple>
+   <tuple> <atom label="NetElement$6"/> <atom label="Zero$0"/> <atom label="NetElement$1"/> <atom label="One$0"/> </tuple>
+   <tuple> <atom label="NetElement$7"/> <atom label="Zero$0"/> <atom label="NetElement$10"/> <atom label="Zero$0"/> </tuple>
+   <tuple> <atom label="NetElement$9"/> <atom label="Zero$0"/> <atom label="NetElement$10"/> <atom label="One$0"/> </tuple>
+   <tuple> <atom label="NetElement$10"/> <atom label="Zero$0"/> <atom label="NetElement$7"/> <atom label="Zero$0"/> </tuple>
+   <tuple> <atom label="NetElement$10"/> <atom label="One$0"/> <atom label="NetElement$9"/> <atom label="Zero$0"/> </tuple>
+   <types> <type ID="4"/> <type ID="14"/> <type ID="4"/> <type ID="14"/> </types>
+</skolem>
+
+<skolem label="$this/associated" ID="m1">
+   <tuple> <atom label="NetRelation$1"/> <atom label="NetRelation$2"/> </tuple>
+   <tuple> <atom label="NetRelation$1"/> <atom label="NetRelation$3"/> </tuple>
+   <tuple> <atom label="NetRelation$2"/> <atom label="NetRelation$1"/> </tuple>
+   <tuple> <atom label="NetRelation$2"/> <atom label="NetRelation$3"/> </tuple>
+   <tuple> <atom label="NetRelation$3"/> <atom label="NetRelation$1"/> </tuple>
+   <tuple> <atom label="NetRelation$3"/> <atom label="NetRelation$2"/> </tuple>
+   <types> <type ID="6"/> <type ID="6"/> </types>
+</skolem>
+
+<skolem label="$this/simpleIntersection" ID="m2">
+   <tuple> <atom label="NetRelation$1"/> <atom label="NetRelation$2"/> <atom label="NetRelation$3"/> </tuple>
+   <tuple> <atom label="NetRelation$1"/> <atom label="NetRelation$3"/> <atom label="NetRelation$2"/> </tuple>
+   <tuple> <atom label="NetRelation$2"/> <atom label="NetRelation$1"/> <atom label="NetRelation$3"/> </tuple>
+   <tuple> <atom label="NetRelation$2"/> <atom label="NetRelation$3"/> <atom label="NetRelation$1"/> </tuple>
+   <tuple> <atom label="NetRelation$3"/> <atom label="NetRelation$1"/> <atom label="NetRelation$2"/> </tuple>
+   <tuple> <atom label="NetRelation$3"/> <atom label="NetRelation$2"/> <atom label="NetRelation$1"/> </tuple>
+   <types> <type ID="6"/> <type ID="6"/> <type ID="6"/> </types>
+</skolem>
+
+<skolem label="$this/extend" ID="m3">
+   <tuple> <atom label="Level$0"/> <atom label="NetElement$0"/> </tuple>
+   <tuple> <atom label="Level$0"/> <atom label="NetElement$1"/> </tuple>
+   <tuple> <atom label="Level$0"/> <atom label="NetElement$2"/> </tuple>
+   <tuple> <atom label="Level$0"/> <atom label="NetElement$3"/> </tuple>
+   <tuple> <atom label="Level$0"/> <atom label="NetElement$4"/> </tuple>
+   <tuple> <atom label="Level$0"/> <atom label="NetElement$5"/> </tuple>
+   <tuple> <atom label="Level$0"/> <atom label="NetElement$6"/> </tuple>
+   <tuple> <atom label="Level$0"/> <atom label="NetElement$7"/> </tuple>
+   <tuple> <atom label="Level$0"/> <atom label="NetElement$8"/> </tuple>
+   <tuple> <atom label="Level$0"/> <atom label="NetElement$9"/> </tuple>
+   <tuple> <atom label="Level$0"/> <atom label="NetElement$10"/> </tuple>
+   <tuple> <atom label="Level$1"/> <atom label="NetElement$0"/> </tuple>
+   <tuple> <atom label="Level$1"/> <atom label="NetElement$1"/> </tuple>
+   <tuple> <atom label="Level$1"/> <atom label="NetElement$2"/> </tuple>
+   <tuple> <atom label="Level$1"/> <atom label="NetElement$3"/> </tuple>
+   <tuple> <atom label="Level$1"/> <atom label="NetElement$4"/> </tuple>
+   <tuple> <atom label="Level$1"/> <atom label="NetElement$5"/> </tuple>
+   <tuple> <atom label="Level$1"/> <atom label="NetElement$6"/> </tuple>
+   <types> <type ID="23"/> <type ID="4"/> </types>
+</skolem>
+
+</instance>
+
+<source filename="/home/pbr/railML/alloy_related/topology.als" content="module topology&#x000a;&#x000a;/**&#x000a;&#x0009;RailML topology&#x000a;**/&#x000a;&#x000a;&#x000a;/* https://wiki3.railml.org/wiki/IS:netElement */&#x000a;some sig NetElement {&#x000a;&#x0009;// Atributes&#x000a;&#x0009;-- length: lone Natural, // in meters but can be decimal (?)&#x000a;&#x0009;-- id: one Id,&#x000a;&#x000a;&#x0009;// Children&#x000a;&#x0009;relation: set NetRelation,&#x000a;&#x0009;-- associatedPositionSystem: set AssociatedPositionSystem,&#x000a;&#x0009;-- elementCollectionOrdered: seq NetElement,&#x000a;&#x0009;elementCollectionUnordered: set NetElement&#x000a;&#x0009;-- isValid: set Validation,&#x000a;&#x0009;-- name: set Name,&#x000a;}&#x000a;&#x000a;&#x000a;// Possible navigability values&#x000a;abstract sig Navigability {}&#x000a;one sig None, Both, AB, BA extends Navigability {}&#x000a;&#x000a;// Possible positioning values&#x000a;abstract sig Position {}&#x000a;one sig Zero, One extends Position {}&#x000a;&#x000a;/* https://wiki3.railml.org/wiki/IS:netRelation */&#x000a;sig NetRelation {&#x000a;&#x0009;// Atributes&#x000a;&#x0009;navigability: one Navigability,&#x000a;&#x0009;positionOnA: one Position,&#x000a;&#x0009;positionOnB: one Position,&#x000a;&#x0009;-- id: one Id&#x000a;&#x000a;&#x0009;// Children&#x000a;&#x0009;elementA: one NetElement,&#x000a;&#x0009;elementB: one NetElement&#x000a;&#x0009;-- isValid: set Validation,&#x000a;&#x0009;-- name: set Name,&#x000a;}&#x000a;&#x000a;&#x000a;/* https://wiki3.railml.org/wiki/IS:network */&#x000a;some sig Network {&#x000a;&#x0009;level : some Level,&#x0009;&#x0009;&#x0009;&#x0009;&#x0009;&#x0009;&#x0009;&#x0009;// Network at different abstraction levels&#x000a;}&#x000a;&#x000a;/* https://wiki3.railml.org/wiki/RTM:level */&#x000a;sig Level {&#x000a;&#x0009;// Attributes&#x000a;&#x0009;descriptionLevel : lone DescriptionLevel,&#x0009;&#x0009;&#x0009;// level of the network&#x000a;&#x0009;// Children&#x000a;&#x0009;networkResource : set NetElement+NetRelation&#x0009;// resources at the level&#x000a;}&#x000a;&#x000a;/* Possible description levels */&#x000a;abstract sig DescriptionLevel {}&#x000a;one sig Micro, Meso, Macro extends DescriptionLevel {}&#x000a;&#x000a;&#x000a;&#x000a;&#x000a;/**&#x000a;&#x0009;NetElement Assumptions&#x000a;**/&#x000a;&#x000a;&#x000a;/*&#x000a;[0] Every element&apos;s relation must reference the latter, &#x000a;&#x0009;&#x0009;implying that relation must be redundant.&#x000a;*/&#x000a;pred rule0 {&#x000a;&#x0009;relation = ~(elementA+elementB)&#x0009;&#x000a;}&#x000a;&#x000a;&#x000a;// [1] An element can&apos;t ever be a recursively part of itself.&#x000a;pred rule1 {&#x000a;&#x0009;no iden &amp; ^elementCollectionUnordered&#x000a;}&#x000a;&#x000a;&#x000a;// [2] An element must have at most one parent&#x000a;pred rule2 {&#x000a;&#x0009;all elem: NetElement | lone elem.~elementCollectionUnordered&#x000a;}&#x000a;&#x000a;&#x000a;/*&#x000a;[3] If an element is connected to two different elements in the same endpoint, &#x000a;&#x0009;&#x0009;those must also be connected and their positions must be preserved.&#x000a;*/&#x000a;pred rule3 {&#x000a;&#x0009;all a,b,c : NetElement, x,y,z : Position | a-&gt;x-&gt;b-&gt;y in elementOn and a-&gt;x-&gt;c-&gt;z in elementOn and (b != c or y != z) implies b-&gt;y-&gt;c-&gt;z in elementOn&#x000a;}&#x000a;&#x000a;&#x000a;// [4] An element must be a networkResource of one and only one level&#x000a;pred rule4 {&#x000a;&#x0009;all elem: NetElement | one elem.~networkResource&#x000a;}&#x000a;&#x000a;&#x000a;pred NetElementAssumptions {&#x000a;&#x0009;rule0&#x000a;&#x0009;rule1&#x000a;&#x0009;rule2&#x000a;&#x0009;rule3&#x000a;&#x0009;rule4&#x000a;}&#x000a;&#x000a;&#x000a;&#x000a;&#x000a;/**&#x000a;&#x0009;NetRelation Assumptions&#x000a;**/&#x000a;&#x000a;&#x000a;// [5] A netRelation must be a networkResource of one and only one level&#x000a;pred rule5 {&#x000a;&#x0009;all rel: NetRelation | one rel.~networkResource&#x000a;}&#x000a;&#x000a;// [6] Must not exist different relations representing the same relation between elements.&#x000a;pred rule6 {&#x000a;&#x0009;(elementA.~elementA &amp; elementB.~elementB) + (elementA.~elementB &amp; elementB.~elementA) in iden&#x000a;}&#x000a;&#x000a;&#x000a;/*&#x000a;[7] An element can&apos;t relate to itself at the same position. &#x000a;&#x0009;&#x0009;So, can&apos;t exist a relation with elementA = elementB and positionA = positionB.&#x000a;*/&#x000a;pred rule7 {&#x000a;&#x0009;no (elementA.~elementB &amp; positionOnA.~positionOnB &amp; iden)&#x000a;}&#x000a;&#x000a;&#x000a;/*&#x000a;[8] Each relation has a set of associated relations, &#x000a;&#x0009;&#x0009;where they relate with each other by having one shared element at the same position. &#x000a;&#x0009;&#x0009;Each relation, on micro level, can either have 1, 2 (switch abstraction) or 5 (double-switch abstraction) associated relations.&#x000a;*/&#x000a;pred rule8 {&#x000a;&#x0009;all n : descriptionLevel.Micro.networkResource:&gt;NetRelation | #associated[n] &lt; 6 &amp;&amp; #associated[n] != 4 &amp;&amp; #associated[n] != 3&#x000a;}&#x000a;&#x000a;/*&#x000a;[9] Navigability Property: &#x000a;&#x0009;&#x0009;If 3 relations are associated, one of them must have its navigability to None. &#x000a;&#x0009;&#x0009;If 5 relations are associated, two of them must have its navigability to None&#x000a;*/&#x000a;pred rule9 {&#x000a;&#x0009;all disj a,b,c: NetRelation | a-&gt;b-&gt;c in simpleIntersection implies one navigability.None &amp; (a+b+c)&#x000a;&#x0009;all disj a,b,c,d,e,f: NetRelation | b-&gt;c-&gt;d-&gt;e-&gt;f in doubleIntersection[a] implies #(navigability.None &amp; (a+b+c+d+e+f)) = 2&#x0009;&#x000a;}&#x000a;&#x000a;pred NetRelationsAssumptions {&#x000a;&#x0009;rule5&#x000a;&#x0009;rule6&#x000a;&#x0009;rule7&#x000a;&#x0009;rule8&#x000a;&#x0009;rule9&#x000a;}&#x000a;&#x000a;&#x000a;&#x000a;&#x000a;&#x000a;/**&#x000a;&#x0009;Network Assumptions&#x000a;**/&#x000a;&#x000a;&#x000a;/*&#x000a;[10] Elements defined at the Micro level can&apos;t be extended by other elements, &#x000a;&#x0009;&#x0009;meaning that elementCollectionUnordered of these elements must be empty.&#x000a;*/&#x000a;pred rule10 {&#x000a;&#x0009;all n: Network, elem: getElems[n,Micro] | no elem.elementCollectionUnordered&#x000a;}&#x000a;&#x000a;&#x000a;/*&#x000a;[11] Extending every element at the Meso level, they must represent a micro element. &#x000a;&#x0009;&#x0009; Meaning that, Micro level must be the same as the extended Meso level.&#x000a;*/&#x000a;pred rule11 {&#x000a;&#x0009;all n: Network | hasLevel[n,Meso] implies {&#x000a;&#x0009;&#x0009;getElems[n,Micro] = extend[getLevel[n,Meso]]&#x000a;&#x0009;&#x0009;hasLevel[n,Micro] implies no getElems[n,Meso] - getElems[n,Micro].~elementCollectionUnordered&#x000a;&#x0009;}&#x000a;}&#x000a;&#x000a;&#x000a;/*&#x000a;[12] Extending every element at the Macro level, &#x000a;&#x0009;&#x0009; they either represent a meso element or a micro element. &#x000a;&#x0009;&#x0009; Meaning that, the logic disjunction of both Micro and Meso level must be the same as the extended Macro level.&#x000a;*/&#x000a;pred rule12 {&#x0009;&#x000a;&#x0009;all n: Network | hasLevel[n,Macro] implies {&#x000a;&#x0009;&#x0009;getElems[n,Micro] + getElems[n,Meso] = extend[getLevel[n,Macro]]&#x000a;&#x0009;&#x0009;(hasLevel[n,Micro] or hasLevel[n,Meso]) implies{&#x000a;&#x0009; &#x0009;&#x0009;no getElems[n,Macro] - (getElems[n,Micro].~elementCollectionUnordered + getElems[n,Meso].~elementCollectionUnordered)&#x000a;&#x0009;&#x0009;}&#x000a;&#x0009;}&#x000a;}&#x000a;&#x000a;&#x000a;// [13] Every relation defined at any level, their corresponding elements must be defined at the same level.&#x000a;pred rule13 {&#x000a;&#x0009;all l: Level | all r: l.networkResource:&gt;NetRelation | r.elementA + r.elementB  in l.networkResource:&gt;NetElement&#x000a;}&#x000a;&#x000a;&#x000a;/*&#x000a;[14] Relations defined at the Micro level, must also be defined at both Meso and Macro levels. &#x000a;&#x0009;&#x0009; Same for relations defined at the Meso level, which must be defined at the Macro level.&#x000a;*/&#x000a;pred rule14 {&#x000a;&#x0009;all n: Network | hasLevel[n,Meso] implies {&#x000a;&#x0009;&#x0009;relations[getLevel[n,Micro]] in extendRelations[getLevel[n,Meso]]&#x000a;&#x0009;&#x0009;hasLevel[n,Micro] implies no relations[getLevel[n,Meso]] - parentRelations[n,Micro]&#x000a;&#x0009;}&#x000a;&#x0009;all n: Network | hasLevel[n,Macro] implies {&#x000a;&#x0009;&#x0009;hasLevel[n,Meso] implies {&#x000a;&#x0009;&#x0009;&#x0009;relations[getLevel[n,Meso]] in extendRelations[getLevel[n,Macro]]&#x000a;&#x0009;&#x0009;&#x0009;no relations[getLevel[n,Macro]] - parentRelations[n,Meso]&#x000a;&#x0009;&#x0009;}&#x000a;&#x0009;&#x0009;(hasLevel[n,Micro] and not hasLevel[n,Meso]) implies {&#x000a;&#x0009;&#x0009;&#x0009;relations[getLevel[n,Micro]] in extendRelations[getLevel[n,Macro]]&#x000a;&#x0009;&#x0009;&#x0009;no relations[getLevel[n,Macro]] - parentRelations[n,Micro]&#x000a;&#x0009;&#x0009;}&#x000a;&#x0009;}&#x000a;}&#x000a;&#x000a;&#x000a;&#x000a;pred NetworkAssumptions {&#x000a;&#x0009;rule10&#x000a;&#x0009;rule11&#x000a;&#x0009;rule12&#x000a;&#x0009;rule13&#x000a;&#x0009;rule14&#x000a;}&#x000a;&#x000a;&#x000a;&#x000a;/**&#x000a;&#x0009;Needed facts for alloy&#x000a;**/&#x000a;&#x000a;fact networkFacts {&#x000a;&#x0009;no Level - Network.level -- every level is associated to a network&#x000a;&#x0009;no Network - Level.~level -- every network has at least one level associated&#x000a;&#x0009;all l: Level | one l.descriptionLevel -- every level has a descriptionlevel&#x000a;&#x0009;all l: Level | some l.networkResource -- every level has networkResources&#x000a;&#x0009;all n:Network, l: DescriptionLevel | lone n.level &amp; descriptionLevel.l -- foreach network, we can have at most 1 micro, 1 meso and 1 macro level&#x000a;}&#x000a;&#x000a;&#x000a;run Correct{&#x000a;&#x0009;NetElementAssumptions&#x000a;&#x0009;NetRelationsAssumptions&#x000a;&#x0009;NetworkAssumptions&#x000a;} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level&#x000a;&#x000a;&#x000a;run negRule0{&#x000a;&#x0009;not rule0&#x000a;&#x0009;rule1&#x000a;&#x0009;rule2&#x000a;&#x0009;rule3&#x000a;&#x0009;rule4&#x000a;&#x0009;NetRelationsAssumptions&#x000a;&#x0009;NetworkAssumptions&#x000a;} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level&#x000a;&#x000a;&#x000a;run negRule1{&#x000a;&#x0009;rule0&#x000a;&#x0009;not rule1&#x000a;&#x0009;rule2&#x000a;&#x0009;rule3&#x000a;&#x0009;rule4&#x000a;&#x0009;NetRelationsAssumptions&#x000a;&#x0009;NetworkAssumptions&#x000a;} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level&#x000a;&#x000a;&#x000a;&#x000a;run negRule2{&#x000a;&#x0009;rule0&#x000a;&#x0009;rule1&#x000a;&#x0009;not rule2&#x000a;&#x0009;rule3&#x000a;&#x0009;rule4&#x000a;&#x0009;NetRelationsAssumptions&#x000a;&#x0009;NetworkAssumptions&#x000a;} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level&#x000a;&#x000a;&#x000a;run negRule3{&#x000a;&#x0009;rule0&#x000a;&#x0009;rule1&#x000a;&#x0009;rule2&#x000a;&#x0009;not rule3&#x000a;&#x0009;rule4&#x000a;&#x0009;NetRelationsAssumptions&#x000a;&#x0009;NetworkAssumptions&#x000a;} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level&#x000a;&#x000a;&#x000a;run negRule4{&#x000a;&#x0009;rule0&#x000a;&#x0009;rule1&#x000a;&#x0009;rule2&#x000a;&#x0009;rule3&#x000a;&#x0009;not rule4&#x000a;&#x0009;NetRelationsAssumptions&#x000a;&#x0009;NetworkAssumptions&#x000a;} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level&#x000a;&#x000a;&#x000a;run negRule5{&#x000a;&#x0009;NetElementAssumptions&#x000a;&#x0009;not rule5&#x000a;&#x0009;rule6&#x000a;&#x0009;rule7&#x000a;&#x0009;rule8&#x000a;&#x0009;rule9&#x000a;&#x0009;NetworkAssumptions&#x000a;} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level&#x000a;&#x000a;&#x000a;&#x000a;run negRule6{&#x000a;&#x0009;NetElementAssumptions&#x000a;&#x0009;rule5&#x000a;&#x0009;not rule6&#x000a;&#x0009;rule7&#x000a;&#x0009;rule8&#x000a;&#x0009;rule9&#x000a;&#x0009;NetworkAssumptions&#x000a;} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level&#x000a;&#x000a;&#x000a;run negRule7{&#x000a;&#x0009;NetElementAssumptions&#x000a;&#x0009;rule5&#x000a;&#x0009;rule6&#x000a;&#x0009;not rule7&#x000a;&#x0009;rule8&#x000a;&#x0009;rule9&#x000a;&#x0009;NetworkAssumptions&#x000a;} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level&#x000a;&#x000a;&#x000a;run negRule8{&#x000a;&#x0009;NetElementAssumptions&#x000a;&#x0009;rule5&#x000a;&#x0009;rule6&#x000a;&#x0009;rule7&#x000a;&#x0009;not rule8&#x000a;&#x0009;rule9&#x000a;&#x0009;NetworkAssumptions&#x000a;} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level&#x000a;&#x000a;&#x000a;run negRule9{&#x000a;&#x0009;NetElementAssumptions&#x000a;&#x0009;rule5&#x000a;&#x0009;rule6&#x000a;&#x0009;rule7&#x000a;&#x0009;rule8&#x000a;&#x0009;not rule9&#x000a;&#x0009;NetworkAssumptions&#x000a;} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level&#x000a;&#x000a;&#x000a;run negRule10{&#x000a;&#x0009;NetElementAssumptions&#x000a;&#x0009;NetRelationsAssumptions&#x000a;&#x0009;not rule10&#x000a;&#x0009;rule11&#x000a;&#x0009;rule12&#x000a;&#x0009;rule13&#x000a;&#x0009;rule14&#x000a;} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level&#x000a;&#x000a;&#x000a;run negRule11{&#x000a;&#x0009;NetElementAssumptions&#x000a;&#x0009;NetRelationsAssumptions&#x000a;&#x0009;rule10&#x000a;&#x0009;not rule11&#x000a;&#x0009;rule12&#x000a;&#x0009;rule13&#x000a;&#x0009;rule14&#x000a;} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level&#x000a;&#x000a;&#x000a;run negRule12{&#x000a;&#x0009;NetElementAssumptions&#x000a;&#x0009;NetRelationsAssumptions&#x000a;&#x0009;rule10&#x000a;&#x0009;rule11&#x000a;&#x0009;not rule12&#x000a;&#x0009;rule13&#x000a;&#x0009;rule14&#x000a;} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level&#x000a;&#x000a;&#x000a;run negRule13{&#x000a;&#x0009;NetElementAssumptions&#x000a;&#x0009;NetRelationsAssumptions&#x000a;&#x0009;rule10&#x000a;&#x0009;rule11&#x000a;&#x0009;rule12&#x000a;&#x0009;not rule13&#x000a;&#x0009;rule14&#x000a;} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level&#x000a;&#x000a;&#x000a;run negRule14{&#x000a;&#x0009;NetElementAssumptions&#x000a;&#x0009;NetRelationsAssumptions&#x000a;&#x0009;rule10&#x000a;&#x0009;rule11&#x000a;&#x0009;rule12&#x000a;&#x0009;rule13&#x000a;&#x0009;not rule14&#x000a;} for exactly 12 NetElement, exactly 6 NetRelation, exactly 1 Network, exactly 3 Level&#x000a;&#x000a;&#x000a;&#x000a;pred hasLevel[n:Network, d: DescriptionLevel]{&#x000a;&#x0009;one n.level &amp; descriptionLevel.d&#x000a;}&#x000a;&#x000a;&#x000a;fun elementOn : NetElement -&gt; Position -&gt; NetElement -&gt; Position {&#x000a;&#x0009;{ a : NetElement, pa : Position, b : NetElement, pb : Position |&#x000a;&#x0009;&#x0009;some r : NetRelation {&#x000a;&#x0009;&#x0009;&#x0009;r.elementA = a and pa = r.positionOnA and r.elementB = b and pb = r.positionOnB or&#x000a;&#x0009;&#x0009;&#x0009;r.elementB = a and pa = r.positionOnB and r.elementA = b and pb = r.positionOnA&#x000a;&#x0009;&#x0009;}&#x000a;&#x0009;}&#x000a;}&#x000a;&#x000a;&#x000a;&#x000a;/* Create a set of NetRelations related to one NetRelation */&#x000a;fun associated: NetRelation -&gt; NetRelation {&#x000a;&#x0009;/* Associated on element A */&#x000a;&#x0009;((elementA.~elementA &amp; positionOnA.~positionOnA) - iden)&#x000a;&#x0009;+&#x000a;&#x0009;/* Associated on element B */&#x000a;&#x0009;((elementB.~elementB &amp; positionOnB.~positionOnB) - iden)&#x000a;&#x0009;+&#x000a;&#x0009;/* Element A on one, is the Element B on the other */&#x000a;&#x0009;((elementA.~elementB &amp; positionOnA.~positionOnB) - iden)&#x000a;&#x0009;+&#x000a;&#x0009;/* Element A on one, is the Element B on the other */&#x000a;&#x0009;((elementB.~elementA &amp; positionOnB.~positionOnA) - iden)&#x000a;}&#x000a;&#x000a;&#x000a;&#x000a;fun simpleIntersection: NetRelation -&gt; NetRelation -&gt; NetRelation {&#x000a;&#x0009;//{disj a,b,c: NetRelation | b in a.associated and c in a.associated and b in c.associated}&#x000a;&#x0009;{disj a,b,c: NetRelation | a-&gt;b + a-&gt;c in associated}&#x000a;}&#x000a;&#x000a;&#x000a;fun doubleIntersection[a: NetRelation]: NetRelation -&gt; NetRelation -&gt; NetRelation -&gt; NetRelation -&gt; NetRelation {&#x000a;&#x0009;{disj b,c,d,e,f: NetRelation {&#x000a;&#x0009;&#x0009;&#x0009;a-&gt;b + a-&gt;c + a-&gt;d + a-&gt;e + a-&gt;f in associated&#x000a;&#x0009; &#x0009;&#x0009;/*&#x000a;&#x0009;&#x0009;&#x0009;b in a.associated and c in a.associated and d in a.associated and e in a.associated and f in a.associated&#x000a;&#x0009;&#x0009;&#x0009;c in b.associated and d in b.associated and e in b.associated and f in b.associated&#x000a;&#x0009;&#x0009;&#x0009;d in c.associated and e in c.associated and f in c.associated&#x000a;&#x0009;&#x0009;&#x0009;e in d.associated and f in d.associated&#x000a;&#x0009;&#x0009;&#x0009;f in e.associated&#x000a;&#x0009;&#x0009;  */&#x000a;&#x0009;&#x0009;}&#x000a;&#x0009;}&#x000a;}&#x000a;&#x000a;&#x000a;&#x000a;// Extends a level relating it with every element they have, considering elementCollectionUnordered&#x000a;fun extend: Level -&gt; NetElement {&#x000a;&#x0009;{ l: Level, n: NetElement | n in l.networkResource.^elementCollectionUnordered }&#x000a;}&#x000a;&#x000a;&#x000a;&#x000a;/*&#x000a;&#x0009;Every pair of elements that are related in some level.&#x000a;&#x0009;Two elements are related iff:&#x000a;&#x0009;&#x0009;- they both have the same parent (considering elementCollectionUnordered)&#x000a;&#x0009;&#x0009;- there is a relation between them or between their parents (considering elementCollectionUnordered)&#x000a;*/&#x000a;fun extendRelations[l:Level] : NetElement -&gt; NetElement {&#x000a;&#x0009;{ a, b: NetElement {&#x000a;&#x0009;&#x0009;&#x0009;some e: l.networkResource:&gt;NetElement | a + b in e.elementCollectionUnordered or&#x000a;&#x0009;&#x0009;&#x0009;some r: l.networkResource:&gt;NetRelation, e1, e2: l.networkResource:&gt;NetElement {&#x000a;&#x0009;&#x0009;&#x0009;&#x0009;(e1 = r.elementA and e2 = r.elementB) or (e1 = r.elementB and e2 = r.elementA)&#x000a;&#x0009;&#x0009;&#x0009;&#x0009;a in e1.elementCollectionUnordered&#x000a;&#x0009;&#x0009;&#x0009;&#x0009;b in e2.elementCollectionUnordered&#x000a;&#x0009;&#x0009;&#x0009;}&#x000a;&#x0009;&#x0009;}&#x000a;&#x0009;}&#x000a;}&#x000a;&#x000a;&#x000a;fun relations[l:Level]: NetElement -&gt; NetElement {&#x000a;&#x0009;{a,b: NetElement | some r: l.networkResource:&gt;NetRelation | (a = r.elementA and b = r.elementB) or (a = r.elementB and b = r.elementA)}&#x000a;}&#x000a;&#x000a;&#x000a;fun getLevel[n:Network, d:DescriptionLevel] : Level{&#x000a;&#x0009;n.level &amp; descriptionLevel.d&#x000a;}&#x000a;&#x000a;fun getElems[n:Network, d:DescriptionLevel] : NetElement{&#x000a;&#x0009;getLevel[n,d].networkResource:&gt;NetElement&#x000a;}&#x000a;&#x000a;&#x000a;fun parentRelations[n:Network, d: DescriptionLevel] : NetElement -&gt; NetElement {&#x000a;&#x0009;{a,b: NetElement | some e: a.elementCollectionUnordered, f: b.elementCollectionUnordered | e-&gt;f in relations[getLevel[n,d]]}&#x000a;}&#x000a;"/>
+
+<source filename="/$alloy4$/models/util/integer.als" content="module util/integer&#x000a;&#x000a;/*&#x000a; * A collection of utility functions for using Integers in Alloy.&#x000a; * Note that integer overflows are silently truncated to the current bitwidth&#x000a; * using the 2&apos;s complement arithmetic, unless the &quot;forbid overfows&quot; option is&#x000a; * turned on, in which case only models that don&apos;t have any overflows are &#x000a; * analyzed. &#x000a; */&#x000a;&#x000a;fun add  [n1, n2: Int] : Int { this/plus[n1, n2] }&#x000a;fun plus [n1, n2: Int] : Int { n1 fun/add n2 }&#x000a;&#x000a;fun sub   [n1, n2: Int] : Int { this/minus[n1, n2] }&#x000a;fun minus [n1, n2: Int] : Int { n1 fun/sub n2 }&#x000a;&#x000a;fun mul [n1, n2: Int] : Int { n1 fun/mul n2 }&#x000a;&#x000a;/**&#x000a; * Performs the division with &quot;round to zero&quot; semantics, except the following 3 cases&#x000a; * 1) if a is 0, then it returns 0&#x000a; * 2) else if b is 0, then it returns 1 if a is negative and -1 if a is positive&#x000a; * 3) else if a is the smallest negative integer, and b is -1, then it returns a&#x000a; */&#x000a;fun div [n1, n2: Int] : Int { n1 fun/div n2 }&#x000a;&#x000a;/** answer is defined to be the unique integer that satisfies &quot;a = ((a/b)*b) + remainder&quot; */&#x000a;fun rem [n1, n2: Int] : Int { n1 fun/rem n2 }&#x000a;&#x000a;/** negate */&#x000a;fun negate [n: Int] : Int { 0 fun/sub n }&#x000a;&#x000a;/** equal to */&#x000a;pred eq [n1, n2: Int] { int[n1] = int[n2] }&#x000a;&#x000a;/** greater than */&#x000a;pred gt [n1, n2: Int] { n1 &gt; n2 }&#x000a;&#x000a;/** less then */&#x000a;pred lt [n1, n2: Int] { n1 &lt; n2 }&#x000a;&#x000a;/** greater than or equal */&#x000a;pred gte [n1, n2: Int] { n1 &gt;= n2 }&#x000a;&#x000a;/** less than or equal */&#x000a;pred lte [n1, n2: Int] { n1 &lt;= n2 }&#x000a;&#x000a;/** integer is zero */&#x000a;pred zero [n: Int] { n = 0 }&#x000a;&#x000a;/** positive */&#x000a;pred pos  [n: Int] { n &gt; 0 }&#x000a;&#x000a;/** negative */&#x000a;pred neg  [n: Int] { n &lt; 0 }&#x000a;&#x000a;/** non-positive */&#x000a;pred nonpos [n: Int] { n &lt;= 0 }&#x000a;&#x000a;/** non-negative */&#x000a;pred nonneg [n: Int] { n &gt;= 0 }&#x000a;&#x000a;/** signum (aka sign or sgn) */&#x000a;fun signum [n: Int] : Int { n&lt;0 =&gt; (0 fun/sub 1) else (n&gt;0 =&gt; 1 else 0) }&#x000a;&#x000a;/**&#x000a; * returns the ith element (zero-based) from the set s&#x000a; * in the ordering of &apos;next&apos;, which is a linear ordering&#x000a; * relation like that provided by util/ordering&#x000a; */&#x000a;fun int2elem[i: Int, next: univ-&gt;univ, s: set univ] : lone s {&#x000a;  {e: s | #^next.e = int i }&#x000a;}&#x000a;&#x000a;/**&#x000a; * returns the index of the element (zero-based) in the&#x000a; * ordering of next, which is a linear ordering relation&#x000a; * like that provided by util/ordering&#x000a; */&#x000a;fun elem2int[e: univ, next: univ-&gt;univ] : lone Int {&#x000a;  Int[#^next.e]&#x000a;}&#x000a;&#x000a;/** returns the largest integer in the current bitwidth */&#x000a;fun max:one Int { fun/max }&#x000a;&#x000a;/** returns the smallest integer in the current bitwidth */&#x000a;fun min:one Int { fun/min }&#x000a;&#x000a;/** maps each integer (except max) to the integer after it */&#x000a;fun next:Int-&gt;Int { fun/next }&#x000a;&#x000a;/** maps each integer (except min) to the integer before it */&#x000a;fun prev:Int-&gt;Int { ~next }&#x000a;&#x000a;/** given a set of integers, return the largest element */&#x000a;fun max [es: set Int]: lone Int { es - es.^prev }&#x000a;&#x000a;/** given a set of integers, return the smallest element */&#x000a;fun min [es: set Int]: lone Int { es - es.^next }&#x000a;&#x000a;/** given an integer, return all integers prior to it */&#x000a;fun prevs [e: Int]: set Int { e.^prev }&#x000a;&#x000a;/** given an integer, return all integers following it */&#x000a;fun nexts [e: Int]: set Int { e.^next }&#x000a;&#x000a;/** returns the larger of the two integers */&#x000a;fun larger [e1, e2: Int]: Int { let a=int[e1], b=int[e2] | (a&lt;b =&gt; b else a) }&#x000a;&#x000a;/** returns the smaller of the two integers */&#x000a;fun smaller [e1, e2: Int]: Int { let a=int[e1], b=int[e2] | (a&lt;b =&gt; a else b) }&#x000a;"/>
+
+</alloy>
