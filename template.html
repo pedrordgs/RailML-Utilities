@@ -54,41 +54,6 @@ body {font-size:16px;}
         </p>
       </div>
 
-      <!-- Rules -->
-      <div class="w3-container" id="rules" style="margin-top:75px">
-        <h1 class="w3-xxxlarge w3-text-red"><b>Rules.</b></h1>
-        <hr style="width:50px;border:5px solid red" class="w3-round">
-
-        <h2 class="w3-xlarge w3-text-red"><b>NetElements Assumptions.</b></h2>
-        <ol>
-          <li> Every element's relation must reference the latter, implying that relation must be redundant. </li>
-          <li> Elements can be referenced as part of others elements, abstracting some elements as one. However, an element can't ever be a recursively part of itself. </li>
-          <li> An element must have at most 1 parent (By parent, we mean that each element can only be an element part of at most 1 element). </li>
-          <li> Element On: If an element is connected to two different elements in the same endpoint, those must also be connected and their positions must be preserved. </li>
-          <li> Each element must have 1 associated network. An element must be a networkResource of 1 and on 1 level. </li>
-        </ol>
-
-        <h2 class="w3-xlarge w3-text-red"><b>NetRelations Assumptions.</b></h2>
-        <ol start="6">
-          <li> Each relation must have only 1 associated network. An relation must be a networkResource of 1 and only 1 level. </li>
-          <li> Must not exist different relations representing the same relation between elements. </li>
-          <li> An element can't relate to itself at the same position. So, can't exist a relation with elementA = elementB and positionA = positionB. </li>
-          <li> Each relation has a set of associated relations, where they relate with each other by having one shared element at the same position. Each relation can either have 1, 2 (switch abstraction) or 5 (double-switch abstraction) associated relations. </li>
-          <li> Navigability Property: If 3 relations are associated, one of them must have its navigability to None. If 5 relations are associated, two of them must have its navigability to None. </li>
-        </ol>
-
-        <h2 class="w3-xlarge w3-text-red"><b>Network Assumptions.</b></h2>
-        Note that networks can have different levels, those being Micro, Meso and Macro, hierarchically ordered.
-        <ol start="11">
-          <li> Elements defined at the Micro level can't be extended by other elements, meaning that elementCollectionUnordered of these elements must be empty. </li>
-          <li> Extending every element at the Meso level, they must represent a micro element. Meaning that, Micro level must be the same as the extended Meso level. </li>
-          <li> Extending every element at the Macro level, they either represent a meso element or a micro element. Meaning that, the logic disjunction of both Micro and Meso level must be the same as the extended Macro level. </li>
-          <li> Every relation defined at any level, their corresponding elements must be defined at the same level. </li>
-          <li> Every relation defined at any level, must be represented at the remaining levels. </li>
-        </ol>
-        <em>Micro level should exist in each defined network, but the user can opt for the non-declaration of this level and proceed to the verification of the remaining levels.</em>
-      </div>
-
       <!-- Alloy -->
       <div class="w3-container" id="alloy" style="margin-top:75px">
         <h1 class="w3-xxxlarge w3-text-red"><b>Alloy.</b></h1>
@@ -102,9 +67,82 @@ body {font-size:16px;}
       <div class="w3-container" id="validator" style="margin-top:75px">
         <h1 class="w3-xxxlarge w3-text-red"><b>Validator.</b></h1>
         <hr style="width:50px;border:5px solid red" class="w3-round">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus pharetra pharetra mi imperdiet sodales. Nulla et elementum tellus. Aenean ac sem semper, lacinia lectus sit amet, vehicula nibh. Curabitur felis libero, luctus ut orci in, sollicitudin consectetur elit. Sed ac tortor mauris. Proin et lectus eu leo dignissim tempor rhoncus nec justo. Donec blandit leo eget gravida sodales. Donec ultricies urna vel ex tempus imperdiet. In felis enim, vestibulum id arcu ut, maximus porta leo.
-        </p>
+        <p> The purpose of the validator is to extend the verification tool that railML provides (railVivid), and go beyond the XML schema checking by validating properties that should be valid in every railML file. As mentioned <a href="https://github.com/pedrordgs/RailML-Utilities/blob/master/alloy_related/README.md" title="here" target="_blank" class="w3-hover-opacity">here</a>, alloy was a great help in finding and validating properties that were later verified using this validator. </p>
+
+        <p> The <a href="https://www.railml.org/en/download/schemes.html" title="schemas" target="_blank" class="w3-hover-opacity">schemas</a> provided by railVivid were used for schema checking. </p>
+        <h2 class="w3-xlarge w3-text-red"><b>Usage.</b></h2>
+        <p> In order to use this validator, it must be given a railML file to the main program named <b>validator_rml.py</b>. </p>
+
+        <p> A railML instance can be found <a href="https://github.com/pedrordgs/RailML-Utilities/blob/master/validator/examples/tutorial.xml" title="schemas" target="_blank" class="w3-hover-opacity">here</a>. </p>
+
+        <p> The file must be downloaded and copied to the <a href="https://github.com/pedrordgs/RailML-Utilities/tree/master/validator/examples/" title="schemas" target="_blank" class="w3-hover-opacity">examples</a> folder.</p>
+
+        <h2 class="w3-xlarge w3-text-red"><b>Verifier.</b></h2>
+
+        <p>The folder <a href="https://github.com/pedrordgs/RailML-Utilities/tree/master/validator/verifier" title="schemas" target="_blank" class="w3-hover-opacity">verifier</a> contains every file used for validation purposes. Before verifying the rules explored using Alloy, schema must be valid. Therefore, this verification process was divided in different files.</p>
+
+        <h3 class="w3-large w3-text-red"><b>XML Schema checking.</b></h3>
+        <ul>
+          <li> The <a href="https://www.railml.org/en/download/schemes.html" title="schemas" target="_blank" class="w3-hover-opacity">schemas</a> provided by railVivid were used for schema checking. </li>
+          <li> Every attribute ref must be a valid attribute id. </li>
+          <li> For each network, we can have at most 1 Micro, 1 Meso and 1 Macro level. </li>
+        </ul>
+
+        <h3 class="w3-large w3-text-red"><b>Alloy rules verified.</b></h3>
+
+        <ul>
+          <li> <b> NetElements Assumptions </b> </li>
+          <ol>
+            <li> Every element's relation must reference the latter, implying that relation must be redundant. </li>
+            <li> Elements can be referenced as part of others elements, abstracting some elements as one. However, an element can't ever be a recursively part of itself. </li>
+            <li> An element must have at most 1 parent (By parent, we mean that each element can only be an element part of at most 1 element). </li>
+            <li> Element On: If an element is connected to two different elements in the same endpoint, those must also be connected and their positions must be preserved. </li>
+            <li> Each element must have 1 associated network. An element must be a networkResource of 1 and on 1 level. </li>
+          </ol>
+
+          <li> <b> NetRelations Assumptions. </b> </li>
+          <ol start="6">
+            <li> Each relation must have only 1 associated network. An relation must be a networkResource of 1 and only 1 level. </li>
+            <li> Must not exist different relations representing the same relation between elements. </li>
+            <li> An element can't relate to itself at the same position. So, can't exist a relation with elementA = elementB and positionA = positionB. </li>
+            <li> Each relation has a set of associated relations, where they relate with each other by having one shared element at the same position. Each relation can either have 1, 2 (switch abstraction) or 5 (double-switch abstraction) associated relations. </li>
+            <li> Navigability Property: If 3 relations are associated, one of them must have its navigability to None. If 5 relations are associated, two of them must have its navigability to None. </li>
+          </ol>
+
+          <li> <b> Network Assumptions. </b> </li>
+          Note that networks can have different levels, those being Micro, Meso and Macro, hierarchically ordered.
+          <ol start="11">
+            <li> Elements defined at the Micro level can't be extended by other elements, meaning that elementCollectionUnordered of these elements must be empty. </li>
+            <li> Extending every element at the Meso level, they must represent a micro element. Meaning that, Micro level must be the same as the extended Meso level. </li>
+            <li> Extending every element at the Macro level, they either represent a meso element or a micro element. Meaning that, the logic disjunction of both Micro and Meso level must be the same as the extended Macro level. </li>
+            <li> Every relation defined at any level, their corresponding elements must be defined at the same level. </li>
+            <li> Every relation defined at any level, must be represented at the remaining levels. </li>
+          </ol>
+          <em>Micro level should exist in each defined network, but the user can opt for the non-declaration of this level and proceed to the verification of the remaining levels.</em>
+        </ul>
+
+        <h3 class="w3-large w3-text-red"><b>Positioning Systems.</b></h3>
+
+        These properties related to the positioning systems were not specified in alloy because of their complex nature, where might be some missed properties.
+        <ul>
+          <li> Geometric Positioning System </li>
+          <ul>
+            <li> Every GPS must be time valid, meaning that their corresponding validation date can't be outdated. </li>
+            <li> If one of the declared GPS has no netElement associated, a warning will be displayed. </li>
+            <li> The difference between endpoints of one netElement, declared at the same GPS, must be lower than its length. </li>
+            <li> If a netElement has elementParts associated, their combining endpoints difference must be equal to the netElement endpoints difference, for each shared GPS. </li>
+            <li> If both elements of one relation are represented at the same GPS, they must be connected. </li>
+          </ul>
+          <li> Linear Positioning System </li>
+          <ul>
+            <li> Every LPS must be time valid, meaning that their corresponding validation date can't be outdated. </li>
+            <li> If one of the declared LPS has no netElement associated, a warning will be displayed. </li>
+            <li> The difference between endpoints of one netElement, declared at the same LPS, must be lower than its length. </li>
+            <li> If a netElement has elementParts associated, their combining endpoints difference must be equal to the netElement endpoints difference, for each shared LPS. </li>
+            <li> If both elements of one relation are represented at the same LPS, they must be connected. </li>
+          </ul>
+        </ul>
+
       </div>
 
       <!-- Visualizer -->
