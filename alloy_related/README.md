@@ -1,6 +1,6 @@
 # Using alloy
 
-In this project we used alloy to represent railML in a more simple and abstract way. With railML modeled in alloy, we were able to find properties that would later be used in the [validator](https://github.com/pedrordgs/RailML-Utilities/tree/master/xml_validator).
+In this project we used alloy to represent railML in a more simple and abstract way. With railML modeled in alloy, we were able to find properties that would later be used in the [validator](https://github.com/pedrordgs/RailML-Utilities/tree/master/validator).
 
 ## How to use alloy
 We recommend to read the [alloy](https://github.com/AlloyTools/org.alloytools.alloy) github page.
