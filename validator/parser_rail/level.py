@@ -7,5 +7,5 @@ class Level:
         self.networkResources = nresources
 
     def append_netRes(self, nr):
-      self.networkResources.append(nr)
+      self.networkResources.add(nr)
 

@@ -7,11 +7,6 @@ from parser_rail.linearPos import LinearPosition
 from parser_rail.level import Level
 from parser_rail.railway import Railway
 
-rel_elm = {}
-elm_elm = {}
-id_res  = {}
-id_pos  = {}
-id_rel  = {}
 
 def parsePosSystem(rail, pos_system, path='{https://www.railml.org/schemas/3.1}'):
 
@@ -271,14 +266,14 @@ def parseNetworks(rail, nets, path='{https://www.railml.org/schemas/3.1}'):
           descLevel = l.attrib['descriptionLevel']
 
           # Get the reference to its class element
-          net_resources = []
+          net_resources = set()
           for e in l:
             # network resource
             nr = id_res[e.attrib['ref']]
             nr.append_network(net)
             nr.append_level(descLevel)
 
-            net_resources.append(nr)
+            net_resources.add(nr)
 
           lvls_associated.append(Level(id_l, descLevel, line_l, net_resources))
         rail.addNetwork(Network(net, line, lvls_associated))
@@ -304,6 +299,15 @@ def parseTransitiveElements(rail):
 
 # Main function that calls every parser
 def parseRailML(filename, path='{https://www.railml.org/schemas/3.1}'):
+
+    global rel_elm, elm_elm, id_res, id_pos, id_rel
+    rel_elm = {}
+    elm_elm = {}
+    id_res  = {}
+    id_pos  = {}
+    id_rel  = {}
+
+    rail = {}
     rail = Railway()
 
     tree = etree.parse(filename)

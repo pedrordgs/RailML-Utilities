@@ -1069,7 +1069,6 @@ def extendNetwork_assumptions():
             correct += f'\tEvery relation defined in Meso is represented at Macro.\n'
 
       if micro:
-
         # Check if every micro is at the extended meso
         for e_micro in micro.networkResources:
           if e_micro.__class__.__name__ == "NetElement":
