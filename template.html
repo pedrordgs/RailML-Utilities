@@ -45,12 +45,12 @@ body {font-size:16px;}
         <h1 class="w3-jumbo"><b>RailML Utilities</b></h1>
         <h1 class="w3-xxxlarge w3-text-red"><b>Introduction.</b></h1>
         <hr style="width:50px;border:5px solid red" class="w3-round">
-        <p>This project started of as a school project. The main goal is to verify if the <a href="https://www.railml.org/en/home.html" title="railML" target="_blank" class="w3-hover-opacity">railML</a> format has no flaws and at the same time validate and visualize railML instances.</p>
-        <p>To do so, we used the <a href="https://alloytools.org/" title="alloy" target="_blank" class="w3-hover-opacity">Alloy</a> verification tool. Since railML is very extensive we started by verifying only the topology section. After some weekly reunions, alongside with our project manager, we decided that it would be nice to have a xml validator that validates references as well as a web visualizer to display a railway infrastructure. Both of these new features would still only focus on the topology. The main goal of this project after finishing the topology is to expand all the features to cover 100% of the railML format.
+        <p>This project started of as a school project. The main goal is to verify if the <a href="https://www.railml.org/en/home.html" title="railML" target="_blank" class="w3-hover-opacity">railML</a> format has no flaws.
+        <p>To do so, we used the <a href="https://alloytools.org/" title="alloy" target="_blank" class="w3-hover-opacity">Alloy</a> verification tool. Since railML is very extensive we started by only verifying the topology section. After some weekly reunions, alongside with our project manager, we decided that it would be nice to have a xml validator that validates references as well as a web visualizer to display a railway infrastructure. Both of these new features would still focus only on the topology. The main goal of this project after finishing the topology is to expand all the features to cover 100% of the railML format.
         </p>
-        <p>At an early stage, we started to check <a href="https://www.railml.org/en/user/railvivid.html" title="railvivid" target="_blank" class="w3-hover-opacity">RailVIVID</a> (official railML validator) flaws and we noticed that they only validate the railML schema. Our main goal was to extend this validation to include logical <a href="#rules" class="w3-hover-opacity">rules</a> that we discover using Alloy.
+        <p>At an early stage, we started by checking <a href="https://www.railml.org/en/user/railvivid.html" title="railvivid" target="_blank" class="w3-hover-opacity">RailVIVID</a> (official railML validator) flaws and we noticed that they only validate the railML schema. Considering this, our goal was to extend this validation to include logical <a href="#rules" class="w3-hover-opacity">rules</a> that we discover using Alloy.
         </p>
-        <p>After checking all the rules, we proceed to implement them in a validator using the python programming language while working on the implementation of our visualizer too. Afterwards, we decided that we needed some parsers to convert alloy instances to railML (<a href="https://github.com/pedrordgs/RailML-Utilities/tree/master/alloy_related/alloyToRailML" title="alloyToRailML" target="_blank" class="w3-hover-opacity">alloyToRailML</a>) and railML files to alloy instances (<a href="https://github.com/pedrordgs/RailML-Utilities/tree/master/alloy_related/railMLToAlloy" title="railMLToAlloy" target="_blank" class="w3-hover-opacity">railMLToAlloy</a>). This was useful for our model based testing implementation.
+        <p>After verifying all the rules, we proceeded to implement them in the validator using the python programming language while working on the implementation of our visualizer too. Afterwards, we decided that we needed some parsers to convert alloy instances to railML (<a href="https://github.com/pedrordgs/RailML-Utilities/tree/master/alloy_related/alloyToRailML" title="alloyToRailML" target="_blank" class="w3-hover-opacity">alloyToRailML</a>) and railML files to alloy instances (<a href="https://github.com/pedrordgs/RailML-Utilities/tree/master/alloy_related/railMLToAlloy" title="railMLToAlloy" target="_blank" class="w3-hover-opacity">railMLToAlloy</a>). This was useful for our model based testing implementation.
         </p>
       </div>
 
@@ -58,9 +58,35 @@ body {font-size:16px;}
       <div class="w3-container" id="rules" style="margin-top:75px">
         <h1 class="w3-xxxlarge w3-text-red"><b>Rules.</b></h1>
         <hr style="width:50px;border:5px solid red" class="w3-round">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vestibulum.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce aliquet, nisi ac sodales aliquam, eros nisi sodales felis, quis posuere felis urna vel lorem. Aliquam lacinia mi at felis vulputate venenatis. Donec ac dignissim sapien. Nulla facilisi. Pellentesque porta at lorem et porta. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse porttitor, quam quis laoreet porttitor, lorem lorem mollis massa, vitae convallis diam odio sed tellus. Integer interdum felis sed quam tempor tincidunt. Phasellus in erat et justo rutrum vehicula. Etiam vel erat nec sem sollicitudin gravida. Aliquam erat volutpat.
-        </p>
+
+        <h2 class="w3-xlarge w3-text-red"><b>NetElements Assumptions.</b></h2>
+        <ol>
+          <li> Every element's relation must reference the latter, implying that relation must be redundant. </li>
+          <li> Elements can be referenced as part of others elements, abstracting some elements as one. However, an element can't ever be a recursively part of itself. </li>
+          <li> An element must have at most 1 parent (By parent, we mean that each element can only be an element part of at most 1 element). </li>
+          <li> Element On: If an element is connected to two different elements in the same endpoint, those must also be connected and their positions must be preserved. </li>
+          <li> Each element must have 1 associated network. An element must be a networkResource of 1 and on 1 level. </li>
+        </ol>
+
+        <h2 class="w3-xlarge w3-text-red"><b>NetRelations Assumptions.</b></h2>
+        <ol start="6">
+          <li> Each relation must have only 1 associated network. An relation must be a networkResource of 1 and only 1 level. </li>
+          <li> Must not exist different relations representing the same relation between elements. </li>
+          <li> An element can't relate to itself at the same position. So, can't exist a relation with elementA = elementB and positionA = positionB. </li>
+          <li> Each relation has a set of associated relations, where they relate with each other by having one shared element at the same position. Each relation can either have 1, 2 (switch abstraction) or 5 (double-switch abstraction) associated relations. </li>
+          <li> Navigability Property: If 3 relations are associated, one of them must have its navigability to None. If 5 relations are associated, two of them must have its navigability to None. </li>
+        </ol>
+
+        <h2 class="w3-xlarge w3-text-red"><b>Network Assumptions.</b></h2>
+        Note that networks can have different levels, those being Micro, Meso and Macro, hierarchically ordered.
+        <ol start="11">
+          <li> Elements defined at the Micro level can't be extended by other elements, meaning that elementCollectionUnordered of these elements must be empty. </li>
+          <li> Extending every element at the Meso level, they must represent a micro element. Meaning that, Micro level must be the same as the extended Meso level. </li>
+          <li> Extending every element at the Macro level, they either represent a meso element or a micro element. Meaning that, the logic disjunction of both Micro and Meso level must be the same as the extended Macro level. </li>
+          <li> Every relation defined at any level, their corresponding elements must be defined at the same level. </li>
+          <li> Every relation defined at any level, must be represented at the remaining levels. </li>
+        </ol>
+        <em>Micro level should exist in each defined network, but the user can opt for the non-declaration of this level and proceed to the verification of the remaining levels.</em>
       </div>
 
       <!-- Alloy -->
@@ -85,9 +111,8 @@ body {font-size:16px;}
       <div class="w3-container" id="visualizer" style="margin-top:75px">
         <h1 class="w3-xxxlarge w3-text-red"><b>Visualizer.</b></h1>
         <hr style="width:50px;border:5px solid red" class="w3-round">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus pharetra pharetra mi imperdiet sodales. Nulla et elementum tellus. Aenean ac sem semper, lacinia lectus sit amet, vehicula nibh. Curabitur felis libero, luctus ut orci in, sollicitudin consectetur elit. Sed ac tortor mauris. Proin et lectus eu leo dignissim tempor rhoncus nec justo. Donec blandit leo eget gravida sodales. Donec ultricies urna vel ex tempus imperdiet. In felis enim, vestibulum id arcu ut, maximus porta leo.
-        </p>
+        <p>As the name suggests, the visualizer tool is used to visualize a railML network.</p>
+        <p><a href="https://github.com/pedrordgs/RailML-Utilities/blob/master/visualizer/afterLoading.png" title="This" target="_blank" class="w3-hover-opacity">This</a> example shows how the micro level of <a href="https://github.com/pedrordgs/RailML-Utilities/blob/master/examples/railml/tutorial.xml" title="this" target="_blank" class="w3-hover-opacity">this</a> railML file is depicted.</p>
       </div>
 
 
@@ -95,9 +120,7 @@ body {font-size:16px;}
       <div class="w3-container" id="aboutus" style="margin-top:75px">
         <h1 class="w3-xxxlarge w3-text-red"><b>About us.</b></h1>
         <hr style="width:50px;border:5px solid red" class="w3-round">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus pharetra pharetra mi imperdiet sodales. Nulla et elementum tellus. Aenean ac sem semper, lacinia lectus sit amet, vehicula nibh. Curabitur felis libero, luctus ut orci in, sollicitudin consectetur elit. Sed ac tortor mauris. Proin et lectus eu leo dignissim tempor rhoncus nec justo. Donec blandit leo eget gravida sodales. Donec ultricies urna vel ex tempus imperdiet. In felis enim, vestibulum id arcu ut, maximus porta leo.
-        </p>
+        <p>We are a group of students currently attending a Masters Degree at University of Minho. In the 2nd semester of the 1st year of the masters degree, we as a group had to choose and develop one of the projects provided by our professors. Since we are all enrolled in the Formal Methods degree, we decided to choose a project suggested by one of our professors, <a href="https://www.inesctec.pt/pt/pessoas/alcino-cunha#intro" title="Alcino" target="_blank" class="w3-hover-opacity">Alcino Cunha</a>.</p>
       </div>
 
 
@@ -105,7 +128,7 @@ body {font-size:16px;}
     </div>
 
     <!-- W3.CSS Container -->
-    <div class="w3-light-grey w3-container w3-padding-32" style="margin-top:75px;padding-right:58px"><p class="w3-right">Made by <a href="https://github.com/pedrordgs" title="me" target="_blank" class="w3-hover-opacity">me</a></p></div>
+    <div class="w3-light-grey w3-container w3-padding-32" style="margin-top:75px;padding-right:58px"><p class="w3-right">Made by <a href="https://github.com/PedroSilva9" title="me" target="_blank" class="w3-hover-opacity">jps</a> <a href="https://github.com/luis1ribeiro" title="me" target="_blank" class="w3-hover-opacity">lmr</a> <a href="https://github.com/pedrordgs" title="me" target="_blank" class="w3-hover-opacity">pbr</a></p></div>
 
     <script>
       // Script to open and close sidebar
