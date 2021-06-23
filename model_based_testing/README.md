@@ -1,7 +1,7 @@
 # Model Based Testing
 
 
-The main of this model is to test both of our [validator](https://github.com/pedrordgs/RailML-Utilities/tree/master/validator) and [alloy related tools](https://github.com/pedrordgs/RailML-Utilities/tree/master/alloy_related). We used this model to check the consistency between our alloy model and validator. This has proven to be very useful for error and inconsistency detection allowing us to refine our tools and ensure the consistency we want on both alloy model and validator.
+The main goal of this model is to test both of our [validator](https://github.com/pedrordgs/RailML-Utilities/tree/master/validator) and [alloy related tools](https://github.com/pedrordgs/RailML-Utilities/tree/master/alloy_related). We used this model to check the consistency between our alloy model and validator. This has proven to be very useful for error and inconsistency detection allowing us to refine our tools and ensure the consistency we want on both alloy model and validator.
 
 ## Usage
 
