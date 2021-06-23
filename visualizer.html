@@ -11,6 +11,7 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
       <a class="navbar-brand"><h2>railML visualizer</h1></a>
+      <!--
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link active" href="#home"><h4>Home</h4></a>
@@ -20,6 +21,7 @@
           <a class="nav-link active" href="#about"><h4>About</h4></a>
         </li>
       </ul>
+      !-->
 
     </div>
     </div>
@@ -33,28 +35,26 @@
           <!--  Não temos que por aqui nada o javascript trata da coisa -->
         </div>
 
-        <div>
-          <div id="bla">
-            <!-- <div> -->
-            <!--   <button type="button" class="btn btn-light" onclick="draw('Micro')">Micro</button> -->
-            <!-- </div> -->
-            <!-- <div > -->
-            <!--   <button type="button" class="btn btn-light" onclick="draw('Meso')">Meso</button> -->
-            <!-- </div> -->
-            <!-- <div > -->
-            <!--   <button type="button" class="btn btn-light" onclick="draw('Macro')">Macro</button> -->
-            <!-- </div> -->
-          </div>
+        <div style="text-align:center">
           <div class="upload-wrapper">
-            <header>
-              <input type="file" onchange="loadFile()">
-            </header>
-            <div id="show-text"></div>
+            <div id="bla" class="bla">
+              <h4 id="title"></h4>
+              <div id="Micro" style="display:inline">
+              </div>
+              <div id="Meso" style="display:inline">
+              </div>
+              <div id="Major" style="display:inline">
+              </div>
+            </div>
+            <input id="my_button" type="button"  style="text-align:center" value="Choose your file">
+            <input type="file" accept="text/xml" id="my_file" style="display:none" onchange="loadFile()">
+            <p id="filename" style="text-align:center"></p>
           </div>
         </div>
       </div>
 
 
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.18.2/cytoscape.min.js" integrity="sha512-CBGCXtszkG5rYlQSTNUzk54/731Kz28WPk2uT1GCPCqgfVRJ2v514vzzf16HuGX9WVtE7JLqRuAERNAzFZ9Hpw==" crossorigin="anonymous"></script>
       <script src="script.js"> </script>
     </section>
