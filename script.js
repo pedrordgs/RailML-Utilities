@@ -1,3 +1,7 @@
+document.getElementById('my_button').onclick = function() {
+    document.getElementById('my_file').click();
+};
+
 function netElementFunc(id, length) {
   this.id = id;
   this.length = length;
@@ -122,6 +126,8 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 
   function loadFile() {
     var file = document.querySelector('input[type=file]').files[0];
+    var name = document.querySelector('input[type=file]').files[0].name;
+    document.getElementById('filename').innerHTML = name
     var reader = new FileReader()
     var textFile = /text.xml/;
     var relations;
@@ -130,6 +136,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
       reader.onload = function (event) {
         let parser = new DOMParser();
         xmlDoc = parser.parseFromString(event.target.result, 'text/xml');
+        map = {}
         loadNetworks();
         spawnButtons();
       }
@@ -145,18 +152,34 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 }
 
 function spawnButtons(){
+  document.getElementById('Micro').innerHTML = ''
+  document.getElementById('Meso').innerHTML = ''
+  document.getElementById('Major').innerHTML = ''
+
+  document.getElementById('title').innerHTML = ''
   for (str in map){
-    console.log(str);
     spawnButton(str);
   }
 }
 
 function spawnButton(str){
+
   let btn = document.createElement("button");
   btn.innerHTML = str;
   btn.type = "button";
   btn.className = "btn btn-light";
-  document.getElementById('bla').appendChild(btn);
+
+  document.getElementById('title').innerHTML = 'Network levels'
+  if (str == "Micro") {
+    document.getElementById('Micro').appendChild(btn);
+  }
+  if (str == "Meso") {
+    document.getElementById('Meso').appendChild(btn);
+  }
+  if (str == "Macro") {
+    document.getElementById('Major').appendChild(btn);
+  }
+
   btn.addEventListener("click", function(){
     draw(str);
   }) ;
