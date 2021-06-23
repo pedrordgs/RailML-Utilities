@@ -1,69 +1,268 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+  <title>RailML Utilities</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+  <style>
+code {
+  font-family: Iosevka,"courier new";
+  color: crimson;
+  background-color: #eeee;
+  padding: 2px;
+  font-size: 100%;
+}
+* {
+  box-sizing: border-box;
+}
 
-  <head lang="en">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="stylesheet.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-  </head>
+.column {
+  float: left;
+  width: 50%;
+  padding: 5px;
+}
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand"><h2>railML visualizer</h1></a>
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" href="#home"><h4>Home</h4></a>
-        </li>
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+body {font-size:16px;}
+.w3-half img{margin-bottom:-6px;margin-top:16px;opacity:0.8;cursor:pointer}
+.w3-half img:hover{opacity:1}
+  </style>
+  <body>
 
-        <li class="nav-item">
-          <a class="nav-link active" href="#about"><h4>About</h4></a>
-        </li>
-      </ul>
+    <!-- Sidebar/menu -->
+    <nav class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
+      <!-- <div class="w3-container"> -->
+      <!--   <h3 class="w3-padding-64"><b>RailML<br>Utilities</b></h3> -->
+      <!-- </div> -->
+      <div class="w3-bar-block w3-padding-64">
+        <a href="#" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Introduction</a>
+        <a href="#alloy" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Alloy</a>
+        <a href="#validator" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Validator</a>
+        <a href="#modelbasedtesting" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Model Based Testing</a>
+        <a href="#visualizer" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Visualizer</a>
+        <a href="#aboutus" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">About us</a>
+      </div>
+    </nav>
 
+    <!-- Top menu on small screens -->
+    <header class="w3-container w3-top w3-hide-large w3-red w3-xlarge w3-padding">
+      <a href="javascript:void(0)" class="w3-button w3-red w3-margin-right" onclick="w3_open()">☰</a>
+      <span>RailML Utilities</span>
+    </header>
+
+    <!-- Overlay effect when opening sidebar on small screens -->
+    <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-main" style="margin-left:340px;margin-right:40px">
+
+      <!-- Introduction -->
+      <div class="w3-container" style="margin-top:80px" id="introduction">
+        <h1 class="w3-jumbo"><b>RailML Utilities</b></h1>
+        <h1 class="w3-xxxlarge w3-text-red"><b>Introduction.</b></h1>
+        <hr style="width:50px;border:5px solid red" class="w3-round">
+        <p>This project started of as a school project. The main goal is to verify if the <a href="https://www.railml.org/en/home.html" title="railML" target="_blank" class="w3-hover-opacity">railML</a> format has no flaws.
+        <p>To do so, we used the <a href="https://alloytools.org/" title="alloy" target="_blank" class="w3-hover-opacity">Alloy</a> verification tool. Since railML is very extensive we started by only verifying the topology section. After some weekly reunions, alongside with our project manager, we decided that it would be nice to have a xml validator that validates references as well as a web visualizer to display a railway infrastructure. Both of these new features would still focus only on the topology. The main goal of this project after finishing the topology is to expand all the features to cover 100% of the railML format.
+        </p>
+        <p>At an early stage, we started by checking <a href="https://www.railml.org/en/user/railvivid.html" title="railvivid" target="_blank" class="w3-hover-opacity">RailVIVID</a> (official railML validator) flaws and we noticed that they only validate the railML schema. Considering this, our goal was to extend this validation to include logical <a href="#rules" class="w3-hover-opacity">rules</a> that we discover using Alloy.
+        </p>
+        <p>After verifying all the rules, we proceeded to implement them in the validator using the python programming language while working on the implementation of our visualizer too. Afterwards, we decided that we needed some parsers to convert alloy instances to railML (<a href="https://github.com/pedrordgs/RailML-Utilities/tree/master/alloy_related/alloyToRailML" title="alloyToRailML" target="_blank" class="w3-hover-opacity">alloyToRailML</a>) and railML files to alloy instances (<a href="https://github.com/pedrordgs/RailML-Utilities/tree/master/alloy_related/railMLToAlloy" title="railMLToAlloy" target="_blank" class="w3-hover-opacity">railMLToAlloy</a>). This was useful for our model based testing implementation.
+        </p>
+      </div>
+
+      <!-- Alloy -->
+      <div class="w3-container" id="alloy" style="margin-top:75px">
+        <h1 class="w3-xxxlarge w3-text-red"><b>Alloy.</b></h1>
+        <hr style="width:50px;border:5px solid red" class="w3-round">
+        <p>In this project we used alloy to represent railML in a more simple and abstract way. With railML modeled in alloy, we were able to find properties that would later be used in the validator.</p>
+        <p>Our topology model can be found <a href="https://github.com/pedrordgs/RailML-Utilities/blob/master/alloy_related/topology.als" title="topology" target="_blank" class="w3-hover-opacity">here</a>. If you never heard of alloy, it is highly recommended that you check the <a href="https://github.com/AlloyTools/org.alloytools.alloy" title="alloygh" target="_blank" class="w3-hover-opacity">alloy github page</a> to see how to use it and the correct documentation for it. With this model we were able to discover a set of <a href="#rules" class="w3-hover-opacity">rules</a> that are needed to make a railML instance valid. For each rule, we also created a run that negates it. This showed to be pretty useful on our model based testing approach.</p>
+
+        <p>In order to be able to visualize and represent the alloy instances created by our model, we implemented two useful tools: <b>alloyToRailML</b> and <b>railMLToAlloy.</b></p>
+
+        <h2 class="w3-xlarge w3-text-red"><b>alloyToRailML.</b></h2>
+        <p>This model has the goal of transforming alloy instances in railML. The main goal here is to represent and visualize alloy instances for easier interpretation as well as create test cases for software that uses railML. The railML files generated by this model are based on a template file so it's important that the one doesn't delete or modify it.</p>
+        <h3 class="w3-large w3-text-red"><b>Usage.</b></h3>
+        <p> An implementation of this tool can be found <a href="https://github.com/pedrordgs/RailML-Utilities/tree/master/alloy_related/alloyToRailML" title="alloy2railml" target="_blank" class="w3-hover-opacity">here</a>. As we show on the documentation, this tools requires an input file:</p>
+        <code>python alloy2railml.py [input file]</code>
+        <p> Input examples can be found <a href="https://github.com/pedrordgs/RailML-Utilities/tree/master/examples/alloy/" title="alloyexamples" target="_blank" class="w3-hover-opacity">here</a>.
+
+
+        <h2 class="w3-xlarge w3-text-red"><b>railMLToAlloy.</b></h2>
+        <p>This model converts railML into alloy instances that can be imported on <a href="https://alloytools.org/" title="alloysite" target="_blank" class="w3-hover-opacity">AlloyAnalyzer</a>. The main goal for this model is to get a railML example into alloy to check desired properties with alloy evaluator. More information on how to use the alloy evaluator can be found <a href="https://alloy.readthedocs.io/en/latest/tooling/visualizer.html#evaluator" title="evaluator" target="_blank" class="w3-hover-opacity">here</a>.</p>
+        <h3 class="w3-large w3-text-red"><b>Usage.</b></h3>
+        <p> An implementation of this tool can be found <a href="https://github.com/pedrordgs/RailML-Utilities/tree/master/alloy_related/railMLToAlloy" title="railml2alloy" target="_blank" class="w3-hover-opacity">here</a>. As we show on the documentation, this tools requires the path of the alloy mode and an input file:</p>
+        <code>python railml2alloy.py [alloy file path] [input file]</code>
+        <p> Input examples can be found <a href="https://github.com/pedrordgs/RailML-Utilities/tree/master/examples/railml/" title="alloyexamples" target="_blank" class="w3-hover-opacity">here</a>. In order to take full advantage of evaluator, we recommended you to use our <a href="https://github.com/pedrordgs/RailML-Utilities/blob/master/alloy_related/topology.als" title="topology" target="_blank" class="w3-hover-opacity">topology</a> model.
     </div>
-    </div>
-  </nav>
 
-  <body class="body">
-    <section id="visualizer">
+      <!-- Validator -->
+      <div class="w3-container" id="validator" style="margin-top:75px">
+        <h1 class="w3-xxxlarge w3-text-red"><b>Validator.</b></h1>
+        <hr style="width:50px;border:5px solid red" class="w3-round">
+        <p> The purpose of the validator is to extend the verification tool that railML provides (railVivid), and go beyond the XML schema checking by validating properties that should be valid in every railML file. As mentioned <a href="https://github.com/pedrordgs/RailML-Utilities/blob/master/alloy_related/README.md" title="here" target="_blank" class="w3-hover-opacity">here</a>, alloy was a great help in finding and validating properties that were later verified using this validator. </p>
 
-      <div class="bigdiv">
-        <div id="cy">
-          <!--  Não temos que por aqui nada o javascript trata da coisa -->
-        </div>
+        <p> The <a href="https://www.railml.org/en/download/schemes.html" title="schemas" target="_blank" class="w3-hover-opacity">schemas</a> provided by railVivid were used for schema checking. </p>
+        <h2 class="w3-xlarge w3-text-red"><b>Usage.</b></h2>
+        <p> In order to use this validator, it must be given a railML file to the main program named <b>validator_rml.py</b>, that can be found <a href="https://github.com/pedrordgs/RailML-Utilities/tree/master/validator" title="here" target="_blank" class="w3-hover-opacity">here</a>: </p>
 
-        <div>
-          <div id="bla">
-            <!-- <div> -->
-            <!--   <button type="button" class="btn btn-light" onclick="draw('Micro')">Micro</button> -->
-            <!-- </div> -->
-            <!-- <div > -->
-            <!--   <button type="button" class="btn btn-light" onclick="draw('Meso')">Meso</button> -->
-            <!-- </div> -->
-            <!-- <div > -->
-            <!--   <button type="button" class="btn btn-light" onclick="draw('Macro')">Macro</button> -->
-            <!-- </div> -->
+        <code>python validator_rml.py [input file]</code>
+
+        <p> A set of railML examples, valid and invalid, can be found <a href="https://github.com/pedrordgs/RailML-Utilities/tree/master/examples/railml" title="schemas" target="_blank" class="w3-hover-opacity">here</a>. </p>
+
+
+        <h2 class="w3-xlarge w3-text-red"><b>Verifier.</b></h2>
+
+        <p>The folder <a href="https://github.com/pedrordgs/RailML-Utilities/tree/master/validator/verifier" title="schemas" target="_blank" class="w3-hover-opacity">verifier</a> contains every file used for validation purposes. Before verifying the rules explored using Alloy, schema must be valid. Therefore, this verification process was divided in different files.</p>
+
+        <h3 class="w3-large w3-text-red"><b>XML Schema checking.</b></h3>
+        <ul>
+          <li> The <a href="https://www.railml.org/en/download/schemes.html" title="schemas" target="_blank" class="w3-hover-opacity">schemas</a> provided by railVivid were used for schema checking. </li>
+          <li> Every attribute ref must be a valid attribute id. </li>
+          <li> For each network, we can have at most 1 Micro, 1 Meso and 1 Macro level. </li>
+        </ul>
+
+        <h3 class="w3-large w3-text-red" id="rules"><b>Alloy rules verified.</b></h3>
+
+        <ul>
+          <li> <b> NetElements Assumptions </b> </li>
+          <ol>
+            <li> Every element's relation must reference the latter, implying that relation must be redundant. </li>
+            <li> Elements can be referenced as part of others elements, abstracting some elements as one. However, an element can't ever be a recursively part of itself. </li>
+            <li> An element must have at most 1 parent (By parent, we mean that each element can only be an element part of at most 1 element). </li>
+            <li> Element On: If an element is connected to two different elements in the same endpoint, those must also be connected and their positions must be preserved. </li>
+            <li> Each element must have 1 associated network. An element must be a networkResource of 1 and on 1 level. </li>
+          </ol>
+
+          <li> <b> NetRelations Assumptions. </b> </li>
+          <ol start="6">
+            <li> Each relation must have only 1 associated network. An relation must be a networkResource of 1 and only 1 level. </li>
+            <li> Must not exist different relations representing the same relation between elements. </li>
+            <li> An element can't relate to itself at the same position. So, can't exist a relation with elementA = elementB and positionA = positionB. </li>
+            <li> Each relation has a set of associated relations, where they relate with each other by having one shared element at the same position. Each relation can either have 1, 2 (switch abstraction) or 5 (double-switch abstraction) associated relations. </li>
+            <li> Navigability Property: If 3 relations are associated, one of them must have its navigability to None. If 5 relations are associated, two of them must have its navigability to None. </li>
+          </ol>
+
+          <li> <b> Network Assumptions. </b> </li>
+          Note that networks can have different levels, those being Micro, Meso and Macro, hierarchically ordered.
+          <ol start="11">
+            <li> Elements defined at the Micro level can't be extended by other elements, meaning that elementCollectionUnordered of these elements must be empty. </li>
+            <li> Extending every element at the Meso level, they must represent a micro element. Meaning that, Micro level must be the same as the extended Meso level. </li>
+            <li> Extending every element at the Macro level, they either represent a meso element or a micro element. Meaning that, the logic disjunction of both Micro and Meso level must be the same as the extended Macro level. </li>
+            <li> Every relation defined at any level, their corresponding elements must be defined at the same level. </li>
+            <li> Every relation defined at any level, must be represented at the remaining levels. </li>
+          </ol>
+          <em>Micro level should exist in each defined network, but the user can opt for the non-declaration of this level and proceed to the verification of the remaining levels.</em>
+        </ul>
+
+        <p>More detailed information about this rules can be found <a href="https://github.com/pedrordgs/RailML-Utilities/blob/master/validator/README.md#alloy-rules-verified" class="w3-hover-opacity">here</a>, as well as where they are defined at our alloy model and an invalid railML example that negates each rule</p>
+
+        <h3 class="w3-large w3-text-red"><b>Positioning Systems.</b></h3>
+
+        These properties related to the positioning systems were not specified in alloy because of their complex nature, where might be some missed properties.
+        <ul>
+          <li> Geometric Positioning System </li>
+          <ul>
+            <li> Every GPS must be time valid, meaning that their corresponding validation date can't be outdated. </li>
+            <li> If one of the declared GPS has no netElement associated, a warning will be displayed. </li>
+            <li> The difference between endpoints of one netElement, declared at the same GPS, must be lower than its length. </li>
+            <li> If a netElement has elementParts associated, their combining endpoints difference must be equal to the netElement endpoints difference, for each shared GPS. </li>
+            <li> If both elements of one relation are represented at the same GPS, they must be connected. </li>
+          </ul>
+          <li> Linear Positioning System </li>
+          <ul>
+            <li> Every LPS must be time valid, meaning that their corresponding validation date can't be outdated. </li>
+            <li> If one of the declared LPS has no netElement associated, a warning will be displayed. </li>
+            <li> The difference between endpoints of one netElement, declared at the same LPS, must be lower than its length. </li>
+            <li> If a netElement has elementParts associated, their combining endpoints difference must be equal to the netElement endpoints difference, for each shared LPS. </li>
+            <li> If both elements of one relation are represented at the same LPS, they must be connected. </li>
+          </ul>
+        </ul>
+
+
+        <h2 class="w3-xlarge w3-text-red"><b>Demo.</b></h2>
+        <div class="row">
+          <div class="column">
+            <img src="validator1.png" alt="Correct" style="width:100%">
+            <p>Correct railML instance</p>
           </div>
-          <div class="upload-wrapper">
-            <header>
-              <input type="file" onchange="loadFile()">
-            </header>
-            <div id="show-text"></div>
+          <div class="column">
+            <img src="validator2.png" alt="NegRule 14" style="width:86%">
+            <p>RailML instance created by negRule 14 run</p>
           </div>
         </div>
       </div>
 
+      <!-- Model Based Testing -->
+      <div class="w3-container" id="modelbasedtesting" style="margin-top:75px">
+        <h1 class="w3-xxxlarge w3-text-red"><b>Model Based Testing.</b></h1>
+        <hr style="width:50px;border:5px solid red" class="w3-round">
+        <p>The main goal of this model is to test both of our validator and the alloy related tools. We used this model to check the consistency between our alloy model and the validator. This has proven to be very useful for error and inconsistency detection allowing us to refine our tools and ensure the consistency we wanted on both the alloy model and validator.</p>
+        <p> Like the name suggests, we compute tests on our application based on an alloy model. In order to accomplish this, we use the alloy API, that can be found <a href="https://alloytools.org/documentation/alloy-api/index.html" class="w3-hover-opacity">here</a>. It allow us to automate the process of generating <i>N</i> instances of some <i>run</i> from some <i>alloy_path</i> file. After that, we use our tool <b>alloy2raiml</b> in order to translate every alloy instance created to railML instances. To complete the process, we proceed to execute our tool <b>test_validator</b> in order to run the tests on every instance and check whether the failed properties are the same as the given set of expected failed properties.</p>
+        <p>More information about this model can be found <a href="https://github.com/pedrordgs/RailML-Utilities/blob/master/model_based_testing/README.md" class="w3-hover-opacity">here</a>.</p>
 
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.18.2/cytoscape.min.js" integrity="sha512-CBGCXtszkG5rYlQSTNUzk54/731Kz28WPk2uT1GCPCqgfVRJ2v514vzzf16HuGX9WVtE7JLqRuAERNAzFZ9Hpw==" crossorigin="anonymous"></script>
-      <script src="script.js"> </script>
-    </section>
+        <h2 class="w3-xlarge w3-text-red"><b>Usage.</b></h2>
+        <p>The main file is <i>modelbased_test.py</i> and it requires the path of the alloy model (we recommended you to use our alloy model), the name of the run to execute, the number of instances to test and a set of expected to failed rules:</p>
+        <code>python modelbased_test.py [alloy_path] [run] [N] [failed]</code>
 
-    <section id="about">
-      <div id="nodiv">
-        <h2>About</h2>
-        <p> RailML visualizer is a tool that allows you to visualize a railway defined in railML. We assume that the xml file provided is valid.</p>
+        <h2 class="w3-xlarge w3-text-red"><b>Demo.</b></h2>
+        <div class="row">
+          <div class="column">
+            <img src="passed.png" alt="Correct" style="width:100%">
+            <p><code>python modelbased_test.py ../alloy_related/topology.als negRule4 3 4</code></p>
+          </div>
+          <div class="column">
+            <img src="failed.png" alt="NegRule 14" style="width:92.7%">
+            <p><code>python modelbased_test.py ../alloy_related/topology.als negRule4 3 10</code></p>
+          </div>
+        </div>
+
       </div>
-    </section>
+
+      <!-- Visualizer -->
+      <div class="w3-container" id="visualizer" style="margin-top:75px">
+        <h1 class="w3-xxxlarge w3-text-red"><b>Visualizer.</b></h1>
+        <hr style="width:50px;border:5px solid red" class="w3-round">
+        <p>As the name suggests, the <a href="https://pedrordgs.github.io/RailML-Utilities/visualizer.html" title="viz" target="_blank" class="w3-hover-opacity">visualizer</a> tool is used to visualize a railML network. In order to depict the data in the xml file, we first parse the latter and then, using <a href="https://js.cytoscape.org/" title="cyto" target="_blank" class="w3-hover-opacity">cytoscape</a>, we translate the lists and sets to picture the network. </p>
+        <p>In order to visualize a railML instance, you need to upload a valid railML file and, after that, you can choose which level you want to visualize.</p>
+        <p><a href="https://pedrordgs.github.io/RailML-Utilities/afterLoading.png" title="This" target="_blank" class="w3-hover-opacity">This</a> example shows how the micro level of <a href="https://github.com/pedrordgs/RailML-Utilities/blob/master/examples/railml/tutorial.xml" title="this" target="_blank" class="w3-hover-opacity">this</a> railML file is depicted.</p>
+
+      </div>
+
+      <!-- About us -->
+      <div class="w3-container" id="aboutus" style="margin-top:75px">
+        <h1 class="w3-xxxlarge w3-text-red"><b>About us.</b></h1>
+        <hr style="width:50px;border:5px solid red" class="w3-round">
+        <p>We are a group of students currently attending a Masters Degree at University of Minho. In the 2nd semester of the 1st year of the masters degree, we as a group had to choose and develop one of the projects provided by our professors. Since we are all enrolled in the Formal Methods degree, we decided to choose a project suggested by one of our professors, <a href="https://www.inesctec.pt/pt/pessoas/alcino-cunha#intro" title="Alcino" target="_blank" class="w3-hover-opacity">Alcino Cunha</a>.</p>
+      </div>
+
+
+      <!-- End page content -->
+    </div>
+
+    <!-- W3.CSS Container -->
+    <div class="w3-light-grey w3-container w3-padding-32" style="margin-top:75px;padding-right:58px"><p class="w3-right">Made by <a href="https://github.com/PedroSilva9" title="me" target="_blank" class="w3-hover-opacity">jps</a> <a href="https://github.com/luis1ribeiro" title="me" target="_blank" class="w3-hover-opacity">lmr</a> <a href="https://github.com/pedrordgs" title="me" target="_blank" class="w3-hover-opacity">pbr</a></p></div>
+
+    <script>
+      // Script to open and close sidebar
+      function w3_open() {
+        document.getElementById("mySidebar").style.display = "block";
+        document.getElementById("myOverlay").style.display = "block";
+      }
+
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("myOverlay").style.display = "none";
+}
+
+    </script>
+
   </body>
 </html>
+
