@@ -14,7 +14,7 @@ n = sys.argv[3]
 tmp = "/tmp/generated_models"
 tmprail = "/tmp/generated_models/railml"
 
-expected_fail = set(sys.argv[3:])
+expected_fail = set(sys.argv[4:])
 
 if os.path.isdir(tmp):
     shutil.rmtree(tmp)
@@ -32,7 +32,6 @@ print("Generating instances...")
 javacmd = "java -jar generator/out/artifacts/generator_jar/generator.jar " + alloyp + " " + run + " " + n
 os.system(javacmd)
 
-print(os.getcwd())
 
 print()
 print("=== AlloyToRailML ===")
