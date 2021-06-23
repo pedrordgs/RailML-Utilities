@@ -57,9 +57,9 @@ def test_dir(fp, expected_fail):
             print("\t" + failed)
 
 
+
 fp = sys.argv[1]
 expected_fail = set(map(int,sys.argv[2:]))
-
 
 if os.path.isdir(fp):
     test_dir(fp,expected_fail)
